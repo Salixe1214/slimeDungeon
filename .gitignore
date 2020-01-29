@@ -9,6 +9,11 @@
 !IFT3100H20_TP.pdf
 !README.md
 
+SlimeDungeon.vcxproj.filters
+SlimeDungeon.vcxproj
+SlimeDungeon.sln
+
+
 # User-specific files
 *.rsuser
 *.suo
