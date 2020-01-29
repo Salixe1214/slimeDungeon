@@ -16,7 +16,7 @@ void SlimeDungeonUI::setup(){
 	gui.add(color.set("Couleur",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
 	gui.add(twoCircles.set("Deux cercles", false));
-	gui.add(ringButton.setup("Anneau"));
+	gui.add(ringButton.setup("Cloche"));
 	gui.add(screenSize.set("Taille d'ecran", ""));
 	
 	bHide = false;
