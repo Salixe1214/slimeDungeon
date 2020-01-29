@@ -10,9 +10,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ofApp.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\UI\slimeDungeonUI.cpp">
       <Filter>src\UI</Filter>
     </ClCompile>
@@ -109,9 +106,6 @@
   <ItemGroup>
     <ClInclude Include="src\Domain\Renderer.h">
       <Filter>src\Domain</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ofApp.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\UI\slimeDungeonUI.h">
       <Filter>src\UI</Filter>
