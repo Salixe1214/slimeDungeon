@@ -49,7 +49,7 @@
     <ClCompile Include="src\Domain\Renderer.cpp">
       <Filter>src\Domain</Filter>
     </ClCompile>
-    <ClCompile Include="src\UI\slimeDungeonUI.cpp">
+    <ClCompile Include="src\UI\SlimeDungeonUI.cpp">
       <Filter>src\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -278,7 +278,7 @@
     <ClInclude Include="src\Domain\Renderer.h">
       <Filter>src\Domain</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\slimeDungeonUI.h">
+    <ClInclude Include="src\UI\SlimeDungeonUI.h">
       <Filter>src\UI</Filter>
     </ClInclude>
   </ItemGroup>
