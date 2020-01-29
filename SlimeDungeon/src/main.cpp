@@ -11,6 +11,5 @@ int main( ){
 	// pass in width and height too:
 	ofRunApp(new SlimeDungeonUI());
 
-	//fuck me
 
 }
