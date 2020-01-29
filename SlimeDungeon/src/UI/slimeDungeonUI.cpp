@@ -9,15 +9,15 @@ void SlimeDungeonUI::setup(){
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 
-	gui.setup("panel"); // most of the time you don't need a name but don't forget to call setup
-	gui.add(filled.set("bFill", true));
-	gui.add(radius.set( "radius", 140, 10, 300 ));
-	gui.add(center.set("center",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
-	gui.add(color.set("color",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
-	gui.add(circleResolution.set("circleRes", 5, 3, 90));
-	gui.add(twoCircles.setup("twoCircles"));
-	gui.add(ringButton.setup("ring"));
-	gui.add(screenSize.set("screenSize", ""));
+	gui.setup("Dongeon Visqueux"); // most of the time you don't need a name but don't forget to call setup
+	gui.add(filled.set("Remplir", true));
+	gui.add(radius.set("Rayon", 140, 10, 300 ));
+	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
+	gui.add(color.set("Couleur",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
+	gui.add(twoCircles.set("Deux cercles", false));
+	gui.add(ringButton.setup("Anneau"));
+	gui.add(screenSize.set("Taille d'ecran", ""));
 	
 	bHide = false;
 
@@ -45,7 +45,7 @@ void SlimeDungeonUI::update(){
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
-    ofBackgroundGradient(ofColor::white, ofColor::gray);
+    ofBackgroundGradient(ofColor::black, ofColor::red);
     
 	if( filled ){
 		ofFill();

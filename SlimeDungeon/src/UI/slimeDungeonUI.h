@@ -34,7 +34,7 @@ public:
 	ofParameter<glm::vec2> center;
 	ofParameter<int> circleResolution;
 	ofParameter<bool> filled;
-	ofxButton twoCircles;
+	ofParameter<bool> twoCircles;
 	ofxButton ringButton;
 	ofParameter<string> screenSize;
 
