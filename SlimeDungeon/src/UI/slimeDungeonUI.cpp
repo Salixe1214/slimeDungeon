@@ -17,7 +17,7 @@ void SlimeDungeonUI::setup(){
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
-	gui.add(screenSize.set("Taille d'ecran", ""));
+	gui.add(screenSize.set("Taille ecran", ""));
 	
 	bHide = false;
 
