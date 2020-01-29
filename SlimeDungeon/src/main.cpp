@@ -1,6 +1,7 @@
 #include "ofMain.h"
 #include "UI/SlimeDungeonUI.h"
 
+
 //========================================================================
 int main( ){
 	ofSetupOpenGL(1024,768,OF_WINDOW);			// <-------- setup the GL context
@@ -9,5 +10,7 @@ int main( ){
 	// can be OF_WINDOW or OF_FULLSCREEN
 	// pass in width and height too:
 	ofRunApp(new SlimeDungeonUI());
+
+	//fuck me
 
 }
