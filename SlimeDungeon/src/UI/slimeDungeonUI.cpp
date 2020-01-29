@@ -9,7 +9,7 @@ void SlimeDungeonUI::setup(){
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 
-	gui.setup("Dongeonsqueux"); // most of the time you don't need a name but don't forget to call setup
+	gui.setup("Dongeon Slimy slime"); // most of the time you don't need a name but don't forget to call setup
 	gui.add(filled.set("Remplir", true));
 	gui.add(radius.set("Rayon", 140, 10, 300 ));
 	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
