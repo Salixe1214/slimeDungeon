@@ -15,7 +15,7 @@ void SlimeDungeonUI::setup(){
 	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
 	gui.add(color.set("Couleur",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
-	gui.add(twoCircles.set("Deux cercles", false));
+	gui.add(twoCircles.set("Deux cercles", true));
 	gui.add(ringButton.setup("Cloche"));
 	gui.add(screenSize.set("Tailcran", ""));
 	
