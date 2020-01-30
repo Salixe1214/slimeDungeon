@@ -5,7 +5,7 @@
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
 	
-	// we add this listener before setting up so the initial circle resolution is correct
+	//Listeners
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
@@ -18,9 +18,11 @@ void SlimeDungeonUI::setup(){
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
-	gui.add(screenSize.set("Tailcran", ""));
-
+	gui.add(screenSize.set("Screen size", ""));
+	
+	
 	gui.add(screenshotBtn.setup("Screenshot"));
+	gui.add(partialScreenshot.set("Partial Screenshot", false));
 	
 	bHide = false;
 
@@ -30,6 +32,7 @@ void SlimeDungeonUI::setup(){
 //--------------------------------------------------------------
 void SlimeDungeonUI::exit(){
 	ringButton.removeListener(this,&SlimeDungeonUI::ringButtonPressed);
+	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 }
 
 //--------------------------------------------------------------
@@ -45,10 +48,42 @@ void SlimeDungeonUI::ringButtonPressed(){
 void SlimeDungeonUI::screenshotBtnPressed()
 {
 	ofImage imgToExport;
-	string imgFilename;
-	std::cout << "Je veux export" << std::endl;
-	//sdCtrl.exportImg(imgToExport, imgFilename);
+	if (partialScreenshot) {
+		try {
+			int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
+			int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
+			if (screenshotWidth > 0 && screenshotWidth <= screenWidth &&
+				screenshotHeight > 0 && screenshotHeight <= screenHeight)
+			{
+				imgToExport.grabScreen(0, 0, screenshotWidth, screenshotHeight);
+			}
+			else {
+				ofSystemAlertDialog("Error : The integer must be within the windows size ( Width 0 - "
+					+ ofToString(screenWidth) + " Height 0 - " + ofToString(screenHeight));
+				return;
+			}
+		}
+		catch (...) {
+			ofSystemAlertDialog("Error : You must enter an integer");
+			return;
+		}
+
+	}
+	else imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
+
+	ofFileDialogResult saveFileResult = ofSystemSaveDialog(ofGetTimestampString(), "Save your file");
+	ofFile file = saveFileResult.getPath();
+
+	if (hasImgExtension(file)) {
+		if (saveFileResult.bSuccess) {
+			sdCtrl.exportImg(imgToExport, saveFileResult.filePath);
+		}
+	}
+	else {
+		ofSystemAlertDialog("Error: The file extension is incorrect");
+	}
 }
+
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::update(){
@@ -109,7 +144,6 @@ void SlimeDungeonUI::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::mousePressed(int x, int y, int button){
-	
 }
 
 //--------------------------------------------------------------
@@ -129,6 +163,8 @@ void SlimeDungeonUI::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::windowResized(int w, int h){
+	screenWidth = w;
+	screenHeight = h;
     screenSize = ofToString(w) + "x" + ofToString(h);
 }
 
@@ -140,4 +176,10 @@ void SlimeDungeonUI::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void SlimeDungeonUI::dragEvent(ofDragInfo dragInfo){ 
 	
+}
+
+
+bool SlimeDungeonUI::hasImgExtension(ofFile file) {
+	string fileExt = ofToLower(file.getExtension());
+	return (fileExt == "png");//|| fileExt == "jpg");
 }

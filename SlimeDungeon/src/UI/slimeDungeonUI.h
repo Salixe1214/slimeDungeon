@@ -28,10 +28,6 @@ public:
 
 	void circleResolutionChanged(int & circleResolution);
 
-	//Pressed
-	void ringButtonPressed();
-	void screenshotBtnPressed();
-
 	bool bHide;
 
 	//Parameters
@@ -42,6 +38,8 @@ public:
 	ofParameter<bool> filled;
 	ofParameter<bool> twoCircles;
 	ofParameter<string> screenSize;
+	ofParameter<bool> partialScreenshot;
+	int screenWidth, screenHeight;
 
 
 	//Buttons
@@ -54,5 +52,10 @@ public:
 
 private:
 	SlimeDungeonController sdCtrl;
+	bool hasImgExtension(ofFile file);
+
+	//Pressed
+	void ringButtonPressed();
+	void screenshotBtnPressed();
 };
 

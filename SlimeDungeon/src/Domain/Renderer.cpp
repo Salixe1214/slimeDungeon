@@ -19,5 +19,5 @@ ofImage Renderer::imageImport(const string filename) {
 */
 void Renderer::exportImg(ofImage imgToExport, string filename) const
 {
-	toExportImg.save(filename);
+	imgToExport.save(filename);
 }
