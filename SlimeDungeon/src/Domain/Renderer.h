@@ -8,7 +8,10 @@
 
 class Renderer
 {
+public:
+	Renderer();
 	ofImage imageImport(const string filename);
-	void imageExport(ofImage toExportImg, string filename) const;
+	void exportImg(ofImage imgToExport, string filename) const;
+
 };
 

@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
+#include "Domain/SlimeDungeonController.h"
+#include "Domain/Renderer.h"
 
 class SlimeDungeonUI : public ofBaseApp{
 	
@@ -25,21 +27,32 @@ public:
 	void gotMessage(ofMessage msg);		
 
 	void circleResolutionChanged(int & circleResolution);
+
+	//Pressed
 	void ringButtonPressed();
+	void screenshotBtnPressed();
 
 	bool bHide;
 
+	//Parameters
 	ofParameter<float> radius;
 	ofParameter<ofColor> color;
 	ofParameter<glm::vec2> center;
 	ofParameter<int> circleResolution;
 	ofParameter<bool> filled;
 	ofParameter<bool> twoCircles;
-	ofxButton ringButton;
 	ofParameter<string> screenSize;
+
+
+	//Buttons
+	ofxButton screenshotBtn;
+	ofxButton ringButton;
 
 	ofxPanel gui;
 
 	ofSoundPlayer ring;
+
+private:
+	SlimeDungeonController sdCtrl;
 };
 

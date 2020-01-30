@@ -1,6 +1,5 @@
 #include "SlimeDungeonUI.h"
 
-
 	
 //--------------------------------------------------------------
 void SlimeDungeonUI::setup(){
@@ -9,8 +8,9 @@ void SlimeDungeonUI::setup(){
 	// we add this listener before setting up so the initial circle resolution is correct
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
+	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 
-	gui.setup("Don"); // most of the time you don't need a name but don't forget to call setup
+	gui.setup("Toolbox"); // most of the time you don't need a name but don't forget to call setup
 	gui.add(filled.set("Remplir", true));
 	gui.add(radius.set("Rayon", 140, 10, 300 ));
 	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
@@ -19,6 +19,8 @@ void SlimeDungeonUI::setup(){
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
 	gui.add(screenSize.set("Tailcran", ""));
+
+	gui.add(screenshotBtn.setup("Screenshot"));
 	
 	bHide = false;
 
@@ -38,6 +40,14 @@ void SlimeDungeonUI::circleResolutionChanged(int & circleResolution){
 //--------------------------------------------------------------
 void SlimeDungeonUI::ringButtonPressed(){
 	ring.play();
+}
+
+void SlimeDungeonUI::screenshotBtnPressed()
+{
+	ofImage imgToExport;
+	string imgFilename;
+	std::cout << "Je veux export" << std::endl;
+	//sdCtrl.exportImg(imgToExport, imgFilename);
 }
 
 //--------------------------------------------------------------
