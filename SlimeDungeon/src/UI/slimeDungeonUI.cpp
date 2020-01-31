@@ -105,7 +105,8 @@ void SlimeDungeonUI::update(){
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
-    ofBackgroundGradient(ofColor::black, ofColor::red);
+    ofBackgroundGradient(ofColor::black, ofColor::green);
+	sdCtrl.rendererDraw();
     
 	if( filled ){
 		ofFill();

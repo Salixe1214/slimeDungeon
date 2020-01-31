@@ -6,7 +6,10 @@ SlimeDungeonController::SlimeDungeonController()
 
 }
 
-
+void SlimeDungeonController::rendererDraw()
+{
+	ctrlRenderer.draw();
+}
 
 void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) const 
 {
@@ -17,6 +20,7 @@ void SlimeDungeonController::publishEnterRecordModeEvent()
 {
 	ctrlRenderer.recordMode = true;
 }
+
 
 void SlimeDungeonController::publishExitRecordModeEvent()
 {

@@ -11,6 +11,7 @@ public:
 	void exportImg(ofImage imgToExport, string filename) const;
 	void publishExitRecordModeEvent();
 	void publishEnterRecordModeEvent();
+	void rendererDraw();
 
 
 private:
