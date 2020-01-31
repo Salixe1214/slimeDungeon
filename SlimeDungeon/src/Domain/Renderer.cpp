@@ -6,6 +6,22 @@ Renderer::Renderer()
 
 }
 
+
+void Renderer::setup()
+{
+	//CaptureTool
+	recordMode = false;
+}
+
+void Renderer::update()
+{
+}
+
+void Renderer::draw()
+{
+}
+
+
 /*
 * @brief Importe l'image sous le nom de fichier passé en argument.
 */
@@ -21,3 +37,9 @@ void Renderer::exportImg(ofImage imgToExport, string filename) const
 {
 	imgToExport.save(filename);
 }
+
+void Renderer::videoExport() {
+	//TODO
+}
+
+

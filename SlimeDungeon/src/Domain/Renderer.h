@@ -13,5 +13,14 @@ public:
 	ofImage imageImport(const string filename);
 	void exportImg(ofImage imgToExport, string filename) const;
 
+	void setup();
+	void update();
+	void draw();
+
+	//RecordMode
+	bool recordMode;
+
+	void videoExport();
+
 };
 

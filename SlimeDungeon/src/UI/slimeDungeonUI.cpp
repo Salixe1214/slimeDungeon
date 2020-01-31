@@ -20,10 +20,15 @@ void SlimeDungeonUI::setup(){
 	gui.add(ringButton.setup("Cloche"));
 	gui.add(screenSize.set("Screen size", ""));
 	
+	//Capture Tool
+	captureToolsGroup.setup("Capture tools");
+	captureToolsGroup.add(screenshotBtn.setup("Screenshot"));
+	captureToolsGroup.add(partialScreenshot.set("Partial Screenshot", false));
+
+	//RecordMode
+	recordModeTimeLimit = 10; //Time in seconds limit before forced exit of recordMode
 	
-	gui.add(screenshotBtn.setup("Screenshot"));
-	gui.add(partialScreenshot.set("Partial Screenshot", false));
-	
+	gui.add(&captureToolsGroup);
 	bHide = false;
 
 	ring.load("ring.wav");
@@ -48,6 +53,7 @@ void SlimeDungeonUI::ringButtonPressed(){
 void SlimeDungeonUI::screenshotBtnPressed()
 {
 	ofImage imgToExport;
+	//TODO upgrade the selection to take a mouse selected portion of the screen
 	if (partialScreenshot) {
 		try {
 			int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
@@ -87,6 +93,14 @@ void SlimeDungeonUI::screenshotBtnPressed()
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::update(){
+
+	if (recordMode) { //Timer to force exit of recordMode
+		if (recordModeEntryTime + recordModeTimeLimit <= ofGetSeconds()) {
+			sdCtrl.publishExitRecordModeEvent();
+			cout << "Exiting Record mode" << endl;
+			recordMode = false;
+		}
+	}
 }
 
 //--------------------------------------------------------------
@@ -126,11 +140,24 @@ void SlimeDungeonUI::keyPressed(int key){
 	if(key == ' '){
 		color = ofColor(255);
 	}
+
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::keyReleased(int key){
-	
+	if (key == 'r') {
+		if (recordMode) {
+			cout << "Exiting Record mode" << endl;
+			recordMode = false;
+			sdCtrl.publishExitRecordModeEvent();
+		}
+		else {
+			cout << "Entering Record mode" << endl;
+			recordMode = true;
+			recordModeEntryTime = ofGetSeconds();
+			sdCtrl.publishEnterRecordModeEvent();
+		}
+	}
 }
 
 //--------------------------------------------------------------

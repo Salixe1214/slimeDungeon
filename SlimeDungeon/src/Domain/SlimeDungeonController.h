@@ -9,6 +9,8 @@ class SlimeDungeonController
 public:
 	SlimeDungeonController();
 	void exportImg(ofImage imgToExport, string filename) const;
+	void publishExitRecordModeEvent();
+	void publishEnterRecordModeEvent();
 
 
 private:

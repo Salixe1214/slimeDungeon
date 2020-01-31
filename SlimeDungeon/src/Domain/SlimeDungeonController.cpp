@@ -12,3 +12,13 @@ void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) con
 {
 	ctrlRenderer.exportImg(imgToExport, filename);
 }
+
+void SlimeDungeonController::publishEnterRecordModeEvent()
+{
+	ctrlRenderer.recordMode = true;
+}
+
+void SlimeDungeonController::publishExitRecordModeEvent()
+{
+	ctrlRenderer.recordMode = false;
+}

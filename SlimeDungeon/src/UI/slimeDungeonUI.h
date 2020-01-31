@@ -30,6 +30,20 @@ public:
 
 	bool bHide;
 
+	
+	//CaptureTool ------------------------------------------
+	ofxGuiGroup captureToolsGroup;
+
+	ofxButton screenshotBtn;
+	ofParameter<bool> partialScreenshot;
+	bool recordMode = false;
+	size_t recordModeEntryTime;
+	size_t recordModeTimeLimit;
+
+
+	//-----------------------------------------------
+
+
 	//Parameters
 	ofParameter<float> radius;
 	ofParameter<ofColor> color;
@@ -38,12 +52,12 @@ public:
 	ofParameter<bool> filled;
 	ofParameter<bool> twoCircles;
 	ofParameter<string> screenSize;
-	ofParameter<bool> partialScreenshot;
+
 	int screenWidth, screenHeight;
 
 
 	//Buttons
-	ofxButton screenshotBtn;
+	
 	ofxButton ringButton;
 
 	ofxPanel gui;
