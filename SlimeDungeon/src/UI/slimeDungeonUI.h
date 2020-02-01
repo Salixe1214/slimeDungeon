@@ -23,12 +23,19 @@ public:
 	void mouseEntered(int x, int y);
 	void mouseExited(int x, int y);
 	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
+	void dragEvent(ofDragInfo info);
 	void gotMessage(ofMessage msg);		
 
 	void circleResolutionChanged(int & circleResolution);
 
 	bool bHide;
+
+	//ImportTool--------------------------------------------
+
+	vector <ofImage> draggedImages;
+	glm::vec2 dragPt;
+	ofPoint positionImg;
+	ofPoint distance;
 
 	
 	//CaptureTool ------------------------------------------
@@ -67,6 +74,7 @@ public:
 private:
 	SlimeDungeonController sdCtrl;
 	bool hasImgExtension(ofFile file);
+	
 
 	//Pressed
 	void ringButtonPressed();

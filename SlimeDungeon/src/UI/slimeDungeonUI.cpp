@@ -1,6 +1,6 @@
 #include "SlimeDungeonUI.h"
 
-	
+
 //--------------------------------------------------------------
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
@@ -19,6 +19,9 @@ void SlimeDungeonUI::setup(){
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
 	gui.add(screenSize.set("Screen size", ""));
+
+	//Import Tool
+	
 	
 	//Capture Tool
 	captureToolsGroup.setup("Capture tools");
@@ -92,7 +95,7 @@ void SlimeDungeonUI::screenshotBtnPressed()
 
 
 //--------------------------------------------------------------
-void SlimeDungeonUI::update(){
+void SlimeDungeonUI::update() {
 
 	if (recordMode) { //Timer to force exit of recordMode
 		if (recordModeEntryTime + recordModeTimeLimit <= ofGetSeconds()) {
@@ -101,12 +104,32 @@ void SlimeDungeonUI::update(){
 			recordMode = false;
 		}
 	}
+	//Drag les images a l'interieure de la window
+	//Check width
+	
+
 }
+
+	
+	
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
     ofBackgroundGradient(ofColor::black, ofColor::green);
 	sdCtrl.rendererDraw();
+	
+
+	//draw l'image qui a ete drag dans la window
+	float dx = dragPt.x;
+	float dy = dragPt.y;
+
+	for (unsigned int k = 0; k < draggedImages.size(); k++) {
+		draggedImages[k].draw(dx, dy);
+		dy += draggedImages[k].getHeight() + 10;
+	}
+
+	ofSetColor(0);
+	ofDrawBitmapString("drag image files into this window", 10, 20);
     
 	if( filled ){
 		ofFill();
@@ -168,10 +191,17 @@ void SlimeDungeonUI::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::mouseDragged(int x, int y, int button){
+	positionImg.x = mouseX - distance.x;
+	positionImg.y = mouseX - distance.y;
+
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::mousePressed(int x, int y, int button){
+	float dx = dragPt.x;
+	float dy = dragPt.y;
+	distance.x = mouseX - dragPt.x;
+	distance.y = mouseY - dragPt.y;
 }
 
 //--------------------------------------------------------------
@@ -202,12 +232,21 @@ void SlimeDungeonUI::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void SlimeDungeonUI::dragEvent(ofDragInfo dragInfo){ 
-	
+void SlimeDungeonUI::dragEvent(ofDragInfo info) {
+	if (info.files.size() > 0) {
+		dragPt = info.position;
+
+		draggedImages.assign(info.files.size(), ofImage());
+		for (unsigned int k = 0; k < info.files.size(); k++) {
+			draggedImages[k].load(info.files[k]);
+		}
+
+	}
 }
 
+	//--------------------------------------------------------------
+	bool SlimeDungeonUI::hasImgExtension(ofFile file) {
+		string fileExt = ofToLower(file.getExtension());
+		return (fileExt == "png");//|| fileExt == "jpg");
+	}
 
-bool SlimeDungeonUI::hasImgExtension(ofFile file) {
-	string fileExt = ofToLower(file.getExtension());
-	return (fileExt == "png");//|| fileExt == "jpg");
-}
