@@ -21,8 +21,8 @@ void SlimeDungeonUI::setup(){
 	gui.add(screenSize.set("Screen size", ""));
 
 	//Import Tool
-	
-	
+	importToolsGroup.setup("Import tools");
+	importToolsGroup.add(importImageBtn.setup("Import images"));
 	//Capture Tool
 	captureToolsGroup.setup("Capture tools");
 	captureToolsGroup.add(screenshotBtn.setup("Screenshot"));
@@ -32,6 +32,7 @@ void SlimeDungeonUI::setup(){
 	recordModeTimeLimit = 10; //Time in seconds limit before forced exit of recordMode
 	
 	gui.add(&captureToolsGroup);
+	gui.add(&importToolsGroup);
 	bHide = false;
 
 	ring.load("ring.wav");
@@ -51,6 +52,11 @@ void SlimeDungeonUI::circleResolutionChanged(int & circleResolution){
 //--------------------------------------------------------------
 void SlimeDungeonUI::ringButtonPressed(){
 	ring.play();
+}
+
+//--------------------------------------------------------------
+void SlimeDungeonUI::importImageBtnPressed() {
+
 }
 
 void SlimeDungeonUI::screenshotBtnPressed()

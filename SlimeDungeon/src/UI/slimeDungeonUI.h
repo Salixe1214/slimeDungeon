@@ -31,6 +31,8 @@ public:
 	bool bHide;
 
 	//ImportTool--------------------------------------------
+	ofxGuiGroup importToolsGroup;
+	ofxButton importImageBtn;
 
 	vector <ofImage> draggedImages;
 	glm::vec2 dragPt;
@@ -79,5 +81,6 @@ private:
 	//Pressed
 	void ringButtonPressed();
 	void screenshotBtnPressed();
+	void importImageBtnPressed();
 };
 
