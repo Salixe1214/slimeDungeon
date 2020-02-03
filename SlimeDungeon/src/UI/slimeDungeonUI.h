@@ -30,7 +30,15 @@ public:
 
 	bool bHide;
 
-	//ImportTool--------------------------------------------
+	//DrawTools------------------------------------------
+	ofxGuiGroup drawToolsGroup;
+	ofxToggle drawMode;
+	ofxTextField currentShapeType;
+	ofxTextField shapeKeyLegend;
+	
+	std::vector<ofParameter<bool>> drawOptionVec;
+
+	//ImportTools--------------------------------------------
 	ofxGuiGroup importToolsGroup;
 	ofxButton importImageBtn;
 
@@ -40,7 +48,7 @@ public:
 	ofPoint distance;
 
 	
-	//CaptureTool ------------------------------------------
+	//CaptureTools ------------------------------------------
 	ofxGuiGroup captureToolsGroup;
 
 	ofxButton screenshotBtn;
@@ -82,5 +90,12 @@ private:
 	void ringButtonPressed();
 	void screenshotBtnPressed();
 	void importImageBtnPressed();
+
+	void drawPtOptionPressed();
+	//void drawLineOptionPressed(); TODO maybe useless pcq impossible d'ajouter listener...
+	//void drawEllipseOptionPressed();
+	//void drawCircleOptionPressed();
+	//void drawRectangleOptionPressed();
+	//void drawSquareOptionPressed();
 };
 

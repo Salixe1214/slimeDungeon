@@ -5,10 +5,13 @@
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
 	
+	sdCtrl.publishSetupEvent();
 	//Listeners
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+
+
 
 	gui.setup("Toolbox"); // most of the time you don't need a name but don't forget to call setup
 	gui.add(filled.set("Remplir", true));
@@ -19,6 +22,17 @@ void SlimeDungeonUI::setup(){
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
 	gui.add(screenSize.set("Screen size", ""));
+
+
+	//Draw tools
+	drawToolsGroup.setup("Draw tools");	
+	drawToolsGroup.add(drawMode.setup("Draw mode", true));
+	drawToolsGroup.add(currentShapeType.setup("Draw : ", "pixel"));
+
+	//int tmpHeight = drawToolsGroup.getHeight(); TODO permettre à la légende de s'afficher dans une seule boîte
+	//shapeKeyLegend.setDefaultHeight(100);
+	//drawToolsGroup.add(shapeKeyLegend.setup("Legend : \n", "1 : pixel \n 2 : line \n 3 : Rectangle \n 4 : Square \n 5 : Ellipse \n 6 : Circle"));
+	//drawToolsGroup.setDefaultHeight(tmpHeight);
 
 	//Import Tool
 	importToolsGroup.setup("Import tools");
@@ -31,6 +45,7 @@ void SlimeDungeonUI::setup(){
 	//RecordMode
 	recordModeTimeLimit = 10; //Time in seconds limit before forced exit of recordMode
 	
+	gui.add(&drawToolsGroup);
 	gui.add(&captureToolsGroup);
 	gui.add(&importToolsGroup);
 	bHide = false;
@@ -104,7 +119,7 @@ void SlimeDungeonUI::screenshotBtnPressed()
 void SlimeDungeonUI::update() {
 
 	if (recordMode) { //Timer to force exit of recordMode
-		if (recordModeEntryTime + recordModeTimeLimit <= ofGetSeconds()) {
+		if (recordModeEntryTime + recordModeTimeLimit <= (size_t) ofGetSeconds()) {
 			sdCtrl.publishExitRecordModeEvent();
 			cout << "Exiting Record mode" << endl;
 			recordMode = false;
@@ -188,18 +203,68 @@ void SlimeDungeonUI::keyReleased(int key){
 			sdCtrl.publishEnterRecordModeEvent();
 		}
 	}
+	switch (key)
+	{
+	case 49:  // key 1
+		currentShapeType = "pixel";
+		sdCtrl.setDrawType(1);
+		break;
+
+	case 50:  // key 2
+		currentShapeType = "line";
+		sdCtrl.setDrawType(2);
+		break;
+
+	case 51:  // key 3
+		currentShapeType = "rectangle";
+		sdCtrl.setDrawType(3);
+		break;
+
+	case 52:  // key 4
+		currentShapeType = "square";
+		sdCtrl.setDrawType(4);
+		break;
+
+	case 53:  // key 5
+		currentShapeType = "ellipse";
+		sdCtrl.setDrawType(5);
+		break;
+
+	case 54:  // key 6
+		currentShapeType = "circle";
+		sdCtrl.setDrawType(6);
+		break;
+
+	//case 102: // key f
+	//	renderer.random_color_fill();
+	//	break;
+
+	//case 114: // key r
+	//	renderer.reset();
+	//	break;
+
+	//case 115: // key s
+	//	renderer.random_color_stroke();
+	//	break;
+
+	default:
+		break;
+	}
+
+
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::mouseMoved(int x, int y ){
-	
+	sdCtrl.setCurMouse(ofPoint(x,y));
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::mouseDragged(int x, int y, int button){
 	positionImg.x = mouseX - distance.x;
-	positionImg.y = mouseX - distance.y;
+	positionImg.y = mouseX - distance.y; //ne devrait pas être mouseY plutôt ici? A.B.
 
+	sdCtrl.setCurMouse(ofPoint(x,y));
 }
 
 //--------------------------------------------------------------
@@ -208,10 +273,21 @@ void SlimeDungeonUI::mousePressed(int x, int y, int button){
 	float dy = dragPt.y;
 	distance.x = mouseX - dragPt.x;
 	distance.y = mouseY - dragPt.y;
+
+	sdCtrl.setRendererIsMousePressed(true);
+	sdCtrl.setCurMouse(ofPoint(x, y));
+	sdCtrl.setMousePress(ofPoint(x, y));
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::mouseReleased(int x, int y, int button){
+	
+	sdCtrl.setRendererIsMousePressed(false);
+	sdCtrl.setCurMouse(ofPoint(x, y));
+	
+	if (drawMode) {
+		sdCtrl.addShape();
+	}
 	
 }
 
