@@ -29,6 +29,8 @@ public:
 	void circleResolutionChanged(int & circleResolution);
 
 	bool bHide;
+	ofPoint mousePress, screenshotPtUpperRight;
+	ofPoint curMouse, screenshotPtDownLeft;
 
 	//DrawTools------------------------------------------
 	ofxGuiGroup drawToolsGroup;
@@ -50,13 +52,13 @@ public:
 	
 	//CaptureTools ------------------------------------------
 	ofxGuiGroup captureToolsGroup;
-
+	ofImage imgToExport;
 	ofxButton screenshotBtn;
 	ofParameter<bool> partialScreenshot;
-	bool recordMode = false;
+	bool recordMode = false, isWaitingForScreenSelection = false;
 	size_t recordModeEntryTime;
 	size_t recordModeTimeLimit;
-
+	void exportScreenshot();
 
 	//-----------------------------------------------
 

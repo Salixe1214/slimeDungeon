@@ -49,7 +49,7 @@ public:
 	//drawTool -----------------
 	ofPoint curMouse;
 	ofPoint mousePress;
-	bool mouseIsPressed, isDrawing;
+	bool mouseIsPressed, isDrawing; //TODO isDrawing n'est peut-être pas requis
 
 	void setShapeType(VectorPrimitiveType newShapeType);
 

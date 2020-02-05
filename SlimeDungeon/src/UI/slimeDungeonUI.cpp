@@ -76,44 +76,49 @@ void SlimeDungeonUI::importImageBtnPressed() {
 
 void SlimeDungeonUI::screenshotBtnPressed()
 {
-	ofImage imgToExport;
-	//TODO upgrade the selection to take a mouse selected portion of the screen
 	if (partialScreenshot) {
-		try {
-			int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
-			int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
-			if (screenshotWidth > 0 && screenshotWidth <= screenWidth &&
-				screenshotHeight > 0 && screenshotHeight <= screenHeight)
-			{
-				imgToExport.grabScreen(0, 0, screenshotWidth, screenshotHeight);
-			}
-			else {
-				ofSystemAlertDialog("Error : The integer must be within the windows size ( Width 0 - "
-					+ ofToString(screenWidth) + " Height 0 - " + ofToString(screenHeight));
-				return;
-			}
-		}
-		catch (...) {
-			ofSystemAlertDialog("Error : You must enter an integer");
-			return;
-		}
-
-	}
-	else imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
-
-	ofFileDialogResult saveFileResult = ofSystemSaveDialog(ofGetTimestampString(), "Save your file");
-	ofFile file = saveFileResult.getPath();
-
-	if (hasImgExtension(file)) {
-		if (saveFileResult.bSuccess) {
-			sdCtrl.exportImg(imgToExport, saveFileResult.filePath);
-		}
+		//try {
+		//	int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
+		//	int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
+		//	if (screenshotWidth > 0 && screenshotWidth <= screenWidth &&
+		//		screenshotHeight > 0 && screenshotHeight <= screenHeight)
+		//	{
+		//		imgToExport.grabScreen(0, 0, screenshotWidth, screenshotHeight);
+		//	}
+		//	else {
+		//		ofSystemAlertDialog("Error : The integer must be within the windows size ( Width 0 - "
+		//			+ ofToString(screenWidth) + " Height 0 - " + ofToString(screenHeight));
+		//		return;
+		//	}
+		//}
+		//catch (...) {
+		//	ofSystemAlertDialog("Error : You must enter an integer");
+		//	return;
+		//}
+		ofSystemAlertDialog("Select the portion of the screen you want to export");
+		isWaitingForScreenSelection = true;
 	}
 	else {
-		ofSystemAlertDialog("Error: The file extension is incorrect");
+		imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
+		exportScreenshot();
 	}
 }
 
+//Export the imgToExport
+void SlimeDungeonUI::exportScreenshot() {
+	if (imgToExport.isAllocated()) {
+		ofFileDialogResult saveFileResult = ofSystemSaveDialog(ofGetTimestampString(), "Save your file");
+		ofFile file = saveFileResult.getPath();
+		if (hasImgExtension(file)) {
+			if (saveFileResult.bSuccess) {
+				sdCtrl.exportImg(imgToExport, saveFileResult.filePath);
+			}
+		}
+		else {
+			ofSystemAlertDialog("Error: The file extension is incorrect");
+		}
+	}
+}
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::update() {
@@ -274,19 +279,31 @@ void SlimeDungeonUI::mousePressed(int x, int y, int button){
 	distance.x = mouseX - dragPt.x;
 	distance.y = mouseY - dragPt.y;
 
+	curMouse = ofPoint(x, y);
+	mousePress = ofPoint(x, y);
 	sdCtrl.setRendererIsMousePressed(true);
-	sdCtrl.setCurMouse(ofPoint(x, y));
-	sdCtrl.setMousePress(ofPoint(x, y));
+	sdCtrl.setCurMouse(curMouse);
+	sdCtrl.setMousePress(mousePress);
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 	
 	sdCtrl.setRendererIsMousePressed(false);
-	sdCtrl.setCurMouse(ofPoint(x, y));
-	
-	if (drawMode) {
-		sdCtrl.addShape();
+	curMouse = ofPoint(x, y);
+	sdCtrl.setCurMouse(curMouse);
+	if (isWaitingForScreenSelection) {
+		screenshotPtUpperRight = mousePress;
+		screenshotPtDownLeft = curMouse;
+		
+		imgToExport.grabScreen(screenshotPtUpperRight.x, screenshotPtUpperRight.y, screenshotPtDownLeft.x - screenshotPtUpperRight.x, screenshotPtDownLeft.y - screenshotPtUpperRight.y);
+		isWaitingForScreenSelection = false;
+		if (! recordMode) exportScreenshot();
+	}
+	else{
+		if (drawMode) {
+			sdCtrl.addShape();
+		}
 	}
 	
 }

@@ -50,7 +50,7 @@ void Renderer::draw()
 	{
 		drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 	}
-	if (isDrawing) drawShapes();
+	drawShapes();
 
 
 }
