@@ -44,7 +44,7 @@ public:
 	void update();
 
 
-	void draw();
+	void draw(ofColor, ofColor);
 
 	//drawTool -----------------
 	ofPoint curMouse;
@@ -85,6 +85,6 @@ public:
 	void videoExport();
 
 private:
-	void drawShapes();
+	void drawShapes(ofColor, ofColor);
 };
 

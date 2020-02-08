@@ -11,9 +11,9 @@ void SlimeDungeonController::publishSetupEvent()
 	ctrlRenderer.setup();
 }
 
-void SlimeDungeonController::rendererDraw()
+void SlimeDungeonController::rendererDraw(ofColor p_colorationInterne, ofColor p_colorationExterne)
 {
-	ctrlRenderer.draw();
+	ctrlRenderer.draw(p_colorationInterne, p_colorationExterne);
 }
 
 void SlimeDungeonController::setDrawType(int drawType)

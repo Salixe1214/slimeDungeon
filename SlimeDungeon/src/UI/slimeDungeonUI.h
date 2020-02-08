@@ -65,7 +65,10 @@ public:
 
 	//Parameters
 	ofParameter<float> radius;
-	ofParameter<ofColor> color;
+	ofParameter<ofColor> backColor1;
+    ofParameter<ofColor> backColor2;
+    ofParameter<ofColor> shapeColor1;
+    ofParameter<ofColor> shapeColor2;
 	ofParameter<glm::vec2> center;
 	ofParameter<int> circleResolution;
 	ofParameter<bool> filled;

@@ -40,7 +40,7 @@ void Renderer::update()
 {
 }
 
-void Renderer::draw()
+void Renderer::draw(ofColor p_intColo, ofColor p_extColo)
 {
 	
 	if(recordMode) drawRecordModeBorder();
@@ -59,12 +59,12 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
-	drawShapes();
+	drawShapes(p_intColo, p_extColo);
 
 
 }
 
-void Renderer::drawShapes() {
+void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 	for (index = 0; index < count; ++index)
 	{
 		switch (shapes[index].type)
@@ -73,10 +73,10 @@ void Renderer::drawShapes() {
 
 			ofFill();
 			ofSetLineWidth(0);
-			ofSetColor(
+			/*ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+				shapes[index].strokeColor[2]);*/
 			drawPixel(
 				shapes[index].position2[0],
 				shapes[index].position2[1]);
@@ -86,10 +86,10 @@ void Renderer::drawShapes() {
 
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(
+			/*ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+				shapes[index].strokeColor[2]);*/
 			drawLine(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -100,10 +100,11 @@ void Renderer::drawShapes() {
 		case VectorPrimitiveType::rectangle:
 			ofFill();
 			ofSetLineWidth(0);
-			ofSetColor(
+            ofSetColor(p_int);
+			/*ofSetColor(
 				shapes[index].fillColor[0],
 				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);
+				shapes[index].fillColor[2]);*/
 			drawRectangle(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -111,10 +112,11 @@ void Renderer::drawShapes() {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(
+            ofSetColor(p_ext);
+			/*ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+				shapes[index].strokeColor[2]);*/
 			drawRectangle(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -125,10 +127,10 @@ void Renderer::drawShapes() {
 		case VectorPrimitiveType::square:
 			ofFill();
 			ofSetLineWidth(0);
-			ofSetColor(
+			/*ofSetColor(
 				shapes[index].fillColor[0],
 				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);
+				shapes[index].fillColor[2]);*/
 			drawSquare(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -136,10 +138,10 @@ void Renderer::drawShapes() {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(
+			/*ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+				shapes[index].strokeColor[2]);*/
 			drawSquare(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -152,10 +154,10 @@ void Renderer::drawShapes() {
 			ofFill();
 			ofSetLineWidth(0);
 			ofSetCircleResolution(48);
-			ofSetColor(
+			/*ofSetColor(
 				shapes[index].fillColor[0],
 				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);
+				shapes[index].fillColor[2]);*/
 			drawEllipse(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -163,10 +165,10 @@ void Renderer::drawShapes() {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(
+			/*ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+				shapes[index].strokeColor[2]);*/
 			drawEllipse(
 				shapes[index].position1[0],
 				shapes[index].position1[1],

@@ -1,4 +1,4 @@
-#include "SlimeDungeonUI.h"
+#include "slimeDungeonUI.h"
 
 
 //--------------------------------------------------------------
@@ -17,7 +17,10 @@ void SlimeDungeonUI::setup(){
 	gui.add(filled.set("Remplir", true));
 	gui.add(radius.set("Rayon", 140, 10, 300 ));
 	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
-	gui.add(color.set("Couleur",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+	gui.add(backColor1.set("Fond exterieur",ofColor::green,ofColor(0,0),ofColor(255,255)));
+    gui.add(backColor2.set("Fond interieur",ofColor::black,ofColor(0,0),ofColor(255,255)));
+    gui.add(shapeColor1.set("Shape interne",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+    gui.add(shapeColor2.set("Shape externe",ofColor(110,100,140),ofColor(0,0),ofColor(255,255)));
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
@@ -95,7 +98,7 @@ void SlimeDungeonUI::screenshotBtnPressed()
 void SlimeDungeonUI::exportScreenshot() {
 	if (imgToExport.isAllocated()) {
 		ofFileDialogResult saveFileResult = ofSystemSaveDialog(ofGetTimestampString(), "Save your file");
-		ofFile file = saveFileResult.getPath();
+		/*ofFile file = saveFileResult.getPath();
 		if (hasImgExtension(file)) {
 			if (saveFileResult.bSuccess) {
 				sdCtrl.exportImg(imgToExport, saveFileResult.filePath);
@@ -103,7 +106,7 @@ void SlimeDungeonUI::exportScreenshot() {
 		}
 		else {
 			ofSystemAlertDialog("Error: The file extension is incorrect");
-		}
+		}*/
 	}
 }
 
@@ -128,8 +131,8 @@ void SlimeDungeonUI::update() {
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
-    ofBackgroundGradient(ofColor::black, ofColor::green);
-	sdCtrl.rendererDraw();
+    ofBackgroundGradient(backColor2, backColor1);
+	sdCtrl.rendererDraw(ofColor(shapeColor1), ofColor(shapeColor2));
 	
 
 	//draw l'image qui a ete drag dans la window
@@ -150,7 +153,7 @@ void SlimeDungeonUI::draw(){
 		ofNoFill();
 	}
 
-	ofSetColor(color);
+	ofSetColor(shapeColor1);
 	if(twoCircles){
 		ofDrawCircle(center->x-radius*.5, center->y, radius );
 		ofDrawCircle(center->x+radius*.5, center->y, radius );
@@ -175,7 +178,7 @@ void SlimeDungeonUI::keyPressed(int key){
 		gui.loadFromFile("settings.xml");
 	}
 	if(key == ' '){
-		color = ofColor(255);
+		shapeColor1 = ofColor(255);
 	}
 
 }
