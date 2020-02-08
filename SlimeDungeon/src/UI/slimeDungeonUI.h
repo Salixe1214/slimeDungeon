@@ -93,11 +93,5 @@ private:
 	void screenshotBtnPressed();
 	void importImageBtnPressed();
 
-	void drawPtOptionPressed();
-	//void drawLineOptionPressed(); TODO maybe useless pcq impossible d'ajouter listener...
-	//void drawEllipseOptionPressed();
-	//void drawCircleOptionPressed();
-	//void drawRectangleOptionPressed();
-	//void drawSquareOptionPressed();
 };
 

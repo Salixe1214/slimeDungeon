@@ -48,7 +48,16 @@ void Renderer::draw()
 
 	if (mouseIsPressed)
 	{
-		drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
+		saveStrokeState();
+		strokeColorA = 100;
+		if (shapeType == VectorPrimitiveType::circle || shapeType == VectorPrimitiveType::square) {
+			if (curMouse.y - mousePress.y < 0)
+				drawZone(mousePress.x, mousePress.y, curMouse.x, mousePress.y - fabs(curMouse.x - mousePress.x));
+			else drawZone(mousePress.x, mousePress.y, curMouse.x, mousePress.y + fabs(curMouse.x - mousePress.x));
+			
+		}
+		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
+		restorePrevStrokeState();
 	}
 	drawShapes();
 
@@ -89,7 +98,6 @@ void Renderer::drawShapes() {
 			break;
 
 		case VectorPrimitiveType::rectangle:
-
 			ofFill();
 			ofSetLineWidth(0);
 			ofSetColor(
@@ -115,7 +123,28 @@ void Renderer::drawShapes() {
 			break;
 		
 		case VectorPrimitiveType::square:
-			//TODO
+			ofFill();
+			ofSetLineWidth(0);
+			ofSetColor(
+				shapes[index].fillColor[0],
+				shapes[index].fillColor[1],
+				shapes[index].fillColor[2]);
+			drawSquare(
+				shapes[index].position1[0],
+				shapes[index].position1[1],
+				shapes[index].position2[0],
+				shapes[index].position2[1]);
+			ofNoFill();
+			ofSetLineWidth(shapes[index].strokeWidth);
+			ofSetColor(
+				shapes[index].strokeColor[0],
+				shapes[index].strokeColor[1],
+				shapes[index].strokeColor[2]);
+			drawSquare(
+				shapes[index].position1[0],
+				shapes[index].position1[1],
+				shapes[index].position2[0],
+				shapes[index].position2[1]);
 			break;
 
 		case VectorPrimitiveType::ellipse:
@@ -145,7 +174,27 @@ void Renderer::drawShapes() {
 				shapes[index].position2[1]);
 			break;
 		case VectorPrimitiveType::circle:
-			//TODO
+			ofFill();
+			ofSetColor(
+				shapes[index].fillColor[0],
+				shapes[index].fillColor[1],
+				shapes[index].fillColor[2]);
+			drawCircle(
+				shapes[index].position1[0],
+				shapes[index].position1[1],
+				shapes[index].position2[0],
+				shapes[index].position2[1]);
+			ofNoFill();
+			ofSetLineWidth(shapes[index].strokeWidth);
+			ofSetColor(
+				shapes[index].strokeColor[0],
+				shapes[index].strokeColor[1],
+				shapes[index].strokeColor[2]);
+			drawCircle(
+				shapes[index].position1[0],
+				shapes[index].position1[1],
+				shapes[index].position2[0],
+				shapes[index].position2[1]);
 			break;
 		default:
 			break;
@@ -235,12 +284,6 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 {
 	shapes[head].type = type;
 
-	shapes[head].position1[0] = mousePress.x;
-	shapes[head].position1[1] = mousePress.y;
-
-	shapes[head].position2[0] = curMouse.x;
-	shapes[head].position2[1] = curMouse.y;
-
 	shapes[head].strokeColor[0] = strokeColorR;
 	shapes[head].strokeColor[1] = strokeColorG;
 	shapes[head].strokeColor[2] = strokeColorB;
@@ -250,23 +293,44 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 	shapes[head].fillColor[1] = fillColorG;
 	shapes[head].fillColor[2] = fillColorB;
 	shapes[head].fillColor[3] = fillColorA;
+	if (type == VectorPrimitiveType::square || type == VectorPrimitiveType::circle) {
+		float sideLength = abs(mousePress.x - curMouse.x);
+		shapes[head].position1[0] = mousePress.x;
+		shapes[head].position1[1] = mousePress.y;
+		if (curMouse.x - mousePress.x < 0) shapes[head].position2[0] = mousePress.x - sideLength;
+		else  shapes[head].position2[0] = mousePress.x + sideLength;
+		if (curMouse.y - mousePress.y < 0) shapes[head].position2[1] = mousePress.y - sideLength;
+		else shapes[head].position2[1] = mousePress.y + sideLength;
+	}
+	else {
+		shapes[head].position1[0] = mousePress.x;
+		shapes[head].position1[1] = mousePress.y;
+
+		shapes[head].position2[0] = curMouse.x;
+		shapes[head].position2[1] = curMouse.y;
+	}
 
 	switch (shapes[head].type)
 	{
 	case VectorPrimitiveType::pixel:
-		shapes[head].strokeWidth = ofRandom(1, 64);
+		shapes[head].strokeWidth = ofRandom(1);
 		break;
 
 	case VectorPrimitiveType::line:
-		shapes[head].strokeWidth = ofRandom(1, 16);
+		shapes[head].strokeWidth = strokeWidth;
 		break;
 
 	case VectorPrimitiveType::rectangle:
-		shapes[head].strokeWidth = strokeWidthDefault;
+		shapes[head].strokeWidth = strokeWidth;
 		break;
-
+	case VectorPrimitiveType::square:
+		shapes[head].strokeWidth = strokeWidth;
+		break;
 	case VectorPrimitiveType::ellipse:
-		shapes[head].strokeWidth = strokeWidthDefault;
+		shapes[head].strokeWidth = strokeWidth;
+		break;
+	case VectorPrimitiveType::circle:
+		shapes[head].strokeWidth = strokeWidth;
 		break;
 
 	default:
@@ -299,7 +363,7 @@ void Renderer::drawRectangle(float x1, float y1, float x2, float y2) const
 
 void Renderer::drawSquare(float x1, float y1, float x2, float y2) const
 {
-	ofDrawRectangle(x1, y1, x2 - x1, y2 - y1); //TODO
+	ofDrawRectangle(x1, y1, x2 - x1, y2 - y1);
 }
 
 // fonction qui dessine une ellipse
@@ -312,9 +376,10 @@ void Renderer::drawEllipse(float x1, float y1, float x2, float y2) const
 }
 
 // fonction qui dessine un point
-void Renderer::drawCircle(float centerX, float centerY, float radius) const
+void Renderer::drawCircle(float  x1, float y1, float x2, float y2) const
 {
-	ofDrawEllipse(centerX, centerY, radius, radius);
+	float diameter = x2 - x1;
+	ofDrawEllipse(x1 + diameter / 2.0f, y1 + diameter / 2.0f, diameter, diameter);
 }
 
 

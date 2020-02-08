@@ -59,9 +59,9 @@ public:
 	void drawPixel(float x, float y) const;
 	void drawLine(float x1, float y1, float x2, float y2) const;
 	void drawRectangle(float x1, float y1, float x2, float y2) const;
-	void drawSquare(float x1, float y1, float x2, float y2) const; //TODO
+	void drawSquare(float x1, float y1, float x2, float y2) const;
 	void drawEllipse(float x1, float y1, float x2, float y2) const;
-	void drawCircle(float centerX, float centerY, float radius) const; //TODO
+	void drawCircle(float  x1, float y1, float x2, float y2) const;
 
 	void drawZone(float x1, float y1, float x2, float y2) const;
 	void drawCursor(float x, float y) const;

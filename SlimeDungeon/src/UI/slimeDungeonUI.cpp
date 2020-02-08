@@ -76,31 +76,18 @@ void SlimeDungeonUI::importImageBtnPressed() {
 
 void SlimeDungeonUI::screenshotBtnPressed()
 {
-	if (partialScreenshot) {
-		//try {
-		//	int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
-		//	int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
-		//	if (screenshotWidth > 0 && screenshotWidth <= screenWidth &&
-		//		screenshotHeight > 0 && screenshotHeight <= screenHeight)
-		//	{
-		//		imgToExport.grabScreen(0, 0, screenshotWidth, screenshotHeight);
-		//	}
-		//	else {
-		//		ofSystemAlertDialog("Error : The integer must be within the windows size ( Width 0 - "
-		//			+ ofToString(screenWidth) + " Height 0 - " + ofToString(screenHeight));
-		//		return;
-		//	}
-		//}
-		//catch (...) {
-		//	ofSystemAlertDialog("Error : You must enter an integer");
-		//	return;
-		//}
-		ofSystemAlertDialog("Select the portion of the screen you want to export");
-		isWaitingForScreenSelection = true;
-	}
-	else {
-		imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
-		exportScreenshot();
+	if (!isWaitingForScreenSelection) {
+		if (partialScreenshot) {
+			//try {
+			//	int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
+			//	int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
+			ofSystemAlertDialog("Select the portion of the screen you want to export");
+			isWaitingForScreenSelection = true;
+		}
+		else {
+			imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
+			exportScreenshot();
+		}
 	}
 }
 
