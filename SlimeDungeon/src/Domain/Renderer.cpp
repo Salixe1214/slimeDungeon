@@ -7,9 +7,9 @@ Renderer::Renderer()
 }
 
 
-void Renderer::setup(ofParameter<ofColor> *p_userColor)
+void Renderer::setup()
 {
-	color = p_userColor;
+	//color = p_userColor;
 	mouseIsPressed = false;
 	isDrawing = true; //TODO changer ceci pour s'adapter avec le UI
 	count = 100;

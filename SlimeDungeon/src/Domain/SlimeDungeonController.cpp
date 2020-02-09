@@ -6,9 +6,9 @@ SlimeDungeonController::SlimeDungeonController()
 
 }
 
-void SlimeDungeonController::publishSetupEvent(ofParameter<ofColor> *color)
+void SlimeDungeonController::publishSetupEvent()
 {
-	ctrlRenderer.setup(color);
+	ctrlRenderer.setup();
 }
 
 void SlimeDungeonController::rendererDraw(ofColor p_colorationInterne, ofColor p_colorationExterne)

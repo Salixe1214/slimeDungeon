@@ -1,4 +1,4 @@
-#include "slimeDungeonUI.h"
+#include "SlimeDungeonUI.h"
 
 
 //--------------------------------------------------------------

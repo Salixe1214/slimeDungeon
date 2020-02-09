@@ -40,7 +40,7 @@ public:
 	ofImage imageImport(const string filename);
 	void exportImg(ofImage imgToExport, string filename) const;
 	
-	void setup(ofParameter<ofColor>*);
+	void setup();
 	void update();
 
 

@@ -10,7 +10,7 @@ class SlimeDungeonController
 
 public:
 	SlimeDungeonController();
-	void publishSetupEvent(ofParameter<ofColor>*);
+	void publishSetupEvent();
 
 	//Draw ---------------
 	void rendererDraw(ofColor, ofColor);
