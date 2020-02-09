@@ -1,16 +1,15 @@
-#include "SlimeDungeonUI.h"
+#include "slimeDungeonUI.h"
 
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
 	
-	sdCtrl.publishSetupEvent(&color);
+	sdCtrl.publishSetupEvent();
 	//Listeners
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
-	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
 
 
 
@@ -18,7 +17,10 @@ void SlimeDungeonUI::setup(){
 	gui.add(filled.set("Remplir", true));
 	gui.add(radius.set("Rayon", 140, 10, 300 ));
 	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
-	gui.add(color.set("Couleur",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+	gui.add(backColor1.set("Fond exterieur",ofColor::green,ofColor(0,0),ofColor(255,255)));
+    gui.add(backColor2.set("Fond interieur",ofColor::black,ofColor(0,0),ofColor(255,255)));
+    gui.add(shapeColor1.set("Shape interne",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+    gui.add(shapeColor2.set("Shape externe",ofColor(110,100,140),ofColor(0,0),ofColor(255,255)));
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
@@ -58,7 +60,6 @@ void SlimeDungeonUI::setup(){
 void SlimeDungeonUI::exit(){
 	ringButton.removeListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
-	importImageBtn.removeListener(this, &SlimeDungeonUI::importImageBtnPressed);
 }
 
 //--------------------------------------------------------------
@@ -73,40 +74,23 @@ void SlimeDungeonUI::ringButtonPressed(){
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::importImageBtnPressed() {
-	ofFileDialogResult loadFileResult = ofSystemLoadDialog("Load your file");
-	if (loadFileResult.bSuccess) {
-		path = loadFileResult.getPath();
-		importButtonYes = true;
-	}
+
 }
 
 void SlimeDungeonUI::screenshotBtnPressed()
 {
-	if (partialScreenshot) {
-		//try {
-		//	int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
-		//	int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
-		//	if (screenshotWidth > 0 && screenshotWidth <= screenWidth &&
-		//		screenshotHeight > 0 && screenshotHeight <= screenHeight)
-		//	{
-		//		imgToExport.grabScreen(0, 0, screenshotWidth, screenshotHeight);
-		//	}
-		//	else {
-		//		ofSystemAlertDialog("Error : The integer must be within the windows size ( Width 0 - "
-		//			+ ofToString(screenWidth) + " Height 0 - " + ofToString(screenHeight));
-		//		return;
-		//	}
-		//}
-		//catch (...) {
-		//	ofSystemAlertDialog("Error : You must enter an integer");
-		//	return;
-		//}
-		ofSystemAlertDialog("Select the portion of the screen you want to export");
-		isWaitingForScreenSelection = true;
-	}
-	else {
-		imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
-		exportScreenshot();
+	if (!isWaitingForScreenSelection) {
+		if (partialScreenshot) {
+			//try {
+			//	int screenshotWidth = stoi(ofSystemTextBoxDialog("Size of screenshot", "Width"));
+			//	int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
+			ofSystemAlertDialog("Select the portion of the screen you want to export");
+			isWaitingForScreenSelection = true;
+		}
+		else {
+			imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
+			exportScreenshot();
+		}
 	}
 }
 
@@ -114,7 +98,7 @@ void SlimeDungeonUI::screenshotBtnPressed()
 void SlimeDungeonUI::exportScreenshot() {
 	if (imgToExport.isAllocated()) {
 		ofFileDialogResult saveFileResult = ofSystemSaveDialog(ofGetTimestampString(), "Save your file");
-		ofFile file = saveFileResult.getPath();
+		/*ofFile file = saveFileResult.getPath();
 		if (hasImgExtension(file)) {
 			if (saveFileResult.bSuccess) {
 				sdCtrl.exportImg(imgToExport, saveFileResult.filePath);
@@ -122,7 +106,7 @@ void SlimeDungeonUI::exportScreenshot() {
 		}
 		else {
 			ofSystemAlertDialog("Error: The file extension is incorrect");
-		}
+		}*/
 	}
 }
 
@@ -147,20 +131,17 @@ void SlimeDungeonUI::update() {
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
-    ofBackgroundGradient(ofColor::black, ofColor::green);
-	sdCtrl.rendererDraw();
+    ofBackgroundGradient(backColor2, backColor1);
+	sdCtrl.rendererDraw(ofColor(shapeColor1), ofColor(shapeColor2));
 	
 
 	//draw l'image qui a ete drag dans la window
 	float dx = dragPt.x;
 	float dy = dragPt.y;
 
-	/*for (unsigned int k = 0; k < draggedImages.size(); k++) {
+	for (unsigned int k = 0; k < draggedImages.size(); k++) {
 		draggedImages[k].draw(dx, dy);
 		dy += draggedImages[k].getHeight() + 10;
-	}*/
-	for (unsigned int k = 0; k < draggedImages.size(); k++) {
-		draggedImages.at(k).first.draw(draggedImages.at(k).second.x, draggedImages.at(k).second.y);
 	}
 
 	ofSetColor(0);
@@ -172,7 +153,7 @@ void SlimeDungeonUI::draw(){
 		ofNoFill();
 	}
 
-	ofSetColor(color);
+	ofSetColor(shapeColor1);
 	if(twoCircles){
 		ofDrawCircle(center->x-radius*.5, center->y, radius );
 		ofDrawCircle(center->x+radius*.5, center->y, radius );
@@ -183,12 +164,6 @@ void SlimeDungeonUI::draw(){
 	if( !bHide ){
 		gui.draw();
 	}
-	
-		ofImage importedImage;
-		importedImage.load(path);
-		importedImage.draw(250, 250);
-		
-	
 }
 
 //--------------------------------------------------------------
@@ -203,10 +178,7 @@ void SlimeDungeonUI::keyPressed(int key){
 		gui.loadFromFile("settings.xml");
 	}
 	if(key == ' '){
-		if (ofColor(color) != ofColor(255))
-			color = ofColor(255);
-		else
-			color = ofColor(0);
+		shapeColor1 = ofColor(255);
 	}
 
 }
@@ -352,9 +324,12 @@ void SlimeDungeonUI::gotMessage(ofMessage msg){
 void SlimeDungeonUI::dragEvent(ofDragInfo info) {
 	if (info.files.size() > 0) {
 		dragPt = info.position;
-		//draggedImages.assign(info.files.size(), ofImage());
-		draggedImages.push_back(std::make_pair(ofImage(info.files.at(0)), dragPt));
-		
+
+		draggedImages.assign(info.files.size(), ofImage());
+		for (unsigned int k = 0; k < info.files.size(); k++) {
+			draggedImages[k].load(info.files[k]);
+		}
+
 	}
 }
 
