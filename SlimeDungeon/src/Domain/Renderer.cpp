@@ -73,6 +73,7 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 
 			ofFill();
 			ofSetLineWidth(0);
+			ofSetColor(p_int);
 			/*ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
@@ -86,6 +87,7 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
+			ofSetColor(p_ext);
 			/*ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],

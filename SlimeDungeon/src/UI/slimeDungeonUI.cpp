@@ -19,8 +19,6 @@ void SlimeDungeonUI::setup(){
 	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
 	gui.add(backColor1.set("Fond exterieur",ofColor::green,ofColor(0,0),ofColor(255,255)));
     gui.add(backColor2.set("Fond interieur",ofColor::black,ofColor(0,0),ofColor(255,255)));
-    //gui.add(shapeColor1.set("Shape interne",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
-    //gui.add(shapeColor2.set("Shape externe",ofColor(110,100,140),ofColor(0,0),ofColor(255,255)));
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
@@ -134,7 +132,7 @@ void SlimeDungeonUI::update() {
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
     ofBackgroundGradient(backColor2, backColor1);
-	sdCtrl.rendererDraw(ofColor(shapeColor1), ofColor(shapeColor2));
+	sdCtrl.rendererDraw(ofColor(shapeColor1), ofColor(shapeColor2)); // TODO Il ne faut pas passer les colors des shapes ici, parce que ça change la couleur des shapes précédentes
 	
 
 	//draw l'image qui a ete drag dans la window
@@ -142,8 +140,7 @@ void SlimeDungeonUI::draw(){
 	float dy = dragPt.y;
 
 	for (unsigned int k = 0; k < draggedImages.size(); k++) {
-		draggedImages[k].draw(dx, dy);
-		dy += draggedImages[k].getHeight() + 10;
+		draggedImages.at(k).first.draw(draggedImages.at(k).second.x, draggedImages.at(k).second.y);
 	}
 
 	ofSetColor(0);
@@ -294,7 +291,7 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 	}
 	else{
 		if (drawMode) {
-			sdCtrl.addShape();
+			sdCtrl.addShape(); //TODO faut passer les colors des shapes ici
 		}
 	}
 	
@@ -326,12 +323,11 @@ void SlimeDungeonUI::gotMessage(ofMessage msg){
 void SlimeDungeonUI::dragEvent(ofDragInfo info) {
 	if (info.files.size() > 0) {
 		dragPt = info.position;
-
-		draggedImages.assign(info.files.size(), ofImage());
-		for (unsigned int k = 0; k < info.files.size(); k++) {
-			draggedImages[k].load(info.files[k]);
+		//draggedImages.assign(info.files.size(), ofImage());
+		draggedImages.push_back(std::make_pair(ofImage(info.files.at(0)), dragPt));
+		for (unsigned int k = 0; k < draggedImages.size(); k++) {
+			draggedImages.at(k).first.draw(dragPt.x, dragPt.y);
 		}
-
 	}
 }
 
