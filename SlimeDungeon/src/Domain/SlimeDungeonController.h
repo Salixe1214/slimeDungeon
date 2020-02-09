@@ -13,9 +13,9 @@ public:
 	void publishSetupEvent();
 
 	//Draw ---------------
-	void rendererDraw(ofColor, ofColor);
+	void rendererDraw();
 	void setDrawType(int drawType);
-	void addShape();
+	void addShape(ofParameter<ofColor>, ofParameter<ofColor>);
 
 	void exportImg(ofImage imgToExport, string filename) const;
 

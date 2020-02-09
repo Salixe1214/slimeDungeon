@@ -16,9 +16,14 @@ struct VectorPrimitive
 	float                  position1[2];    // 2 * 4 = 8  octets
 	float                  position2[2];    // 2 * 4 = 8  octets
 	float                  strokeWidth;    // 1 * 4 = 4  octets
-	unsigned char          strokeColor[4]; // 4 * 1 = 4  octets
-	unsigned char          fillColor[4];   // 4 * 1 = 4  octets
+	// unsigned char       strokeColor[4]; // 4 * 1 = 4  octets
+	// unsigned char       fillColor[4];   // 4 * 1 = 4  octets
+
+	// Utilisation de ofColor pour la couleur (facilite le colorPicker)
+	ofColor                fillColor;
+	ofColor                strokeColor;
 };                                        //       = 32 octets
+
 
 
 
@@ -44,7 +49,7 @@ public:
 	void update();
 
 
-	void draw(ofColor, ofColor);
+	void draw();
 
 	//drawTool -----------------
 	ofPoint curMouse;
@@ -54,7 +59,7 @@ public:
 	void setShapeType(VectorPrimitiveType newShapeType);
 
 	// Fonctions inspirées des exemples du cours (Module 2/Ex04)
-	void addVectorShape(VectorPrimitiveType type);
+	void addVectorShape(VectorPrimitiveType type, ofParameter<ofColor>, ofParameter<ofColor>);
 	
 	void drawPixel(float x, float y) const;
 	void drawLine(float x1, float y1, float x2, float y2) const;
@@ -88,6 +93,6 @@ public:
 	ofParameter<ofColor> *color;
 
 private:
-	void drawShapes(ofColor, ofColor);
+	void drawShapes();
 };
 

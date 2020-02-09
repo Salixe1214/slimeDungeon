@@ -6,6 +6,7 @@ void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
 	
 	sdCtrl.publishSetupEvent();
+
 	//Listeners
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
@@ -132,7 +133,7 @@ void SlimeDungeonUI::update() {
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
     ofBackgroundGradient(backColor2, backColor1);
-	sdCtrl.rendererDraw(ofColor(shapeColor1), ofColor(shapeColor2)); // TODO Il ne faut pas passer les colors des shapes ici, parce que ça change la couleur des shapes précédentes
+	sdCtrl.rendererDraw();
 	
 
 	//draw l'image qui a ete drag dans la window
@@ -178,6 +179,9 @@ void SlimeDungeonUI::keyPressed(int key){
 	}
 	if(key == ' '){
 		shapeColor1 = ofColor(255);
+	}
+	if (key == 'o') {
+		shapeColor2 = shapeColor1;
 	}
 
 }
@@ -291,7 +295,7 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 	}
 	else{
 		if (drawMode) {
-			sdCtrl.addShape(); //TODO faut passer les colors des shapes ici
+			sdCtrl.addShape(shapeColor1, shapeColor2); //TODO faut passer les colors des shapes ici
 		}
 	}
 	

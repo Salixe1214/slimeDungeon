@@ -41,7 +41,7 @@ void Renderer::update()
 {
 }
 
-void Renderer::draw(ofColor p_intColo, ofColor p_extColo)
+void Renderer::draw()
 {
 	
 	if(recordMode) drawRecordModeBorder();
@@ -60,12 +60,12 @@ void Renderer::draw(ofColor p_intColo, ofColor p_extColo)
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
-	drawShapes(p_intColo, p_extColo);
+	drawShapes();
 
 
 }
 
-void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
+void Renderer::drawShapes() {
 	for (index = 0; index < count; ++index)
 	{
 		switch (shapes[index].type)
@@ -74,11 +74,7 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 
 			ofFill();
 			ofSetLineWidth(0);
-			ofSetColor(p_int);
-			/*ofSetColor(
-				shapes[index].strokeColor[0],
-				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);*/
+			ofSetColor(shapes[index].strokeColor);
 			drawPixel(
 				shapes[index].position2[0],
 				shapes[index].position2[1]);
@@ -88,11 +84,7 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(p_ext);
-			/*ofSetColor(
-				shapes[index].strokeColor[0],
-				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);*/
+			ofSetColor(shapes[index].strokeColor);
 			drawLine(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -103,11 +95,7 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 		case VectorPrimitiveType::rectangle:
 			ofFill();
 			ofSetLineWidth(0);
-            ofSetColor(p_int);
-			/*ofSetColor(
-				shapes[index].fillColor[0],
-				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);*/
+            ofSetColor(shapes[index].fillColor);
 			drawRectangle(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -115,11 +103,7 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-            ofSetColor(p_ext);
-			/*ofSetColor(
-				shapes[index].strokeColor[0],
-				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);*/
+            ofSetColor(shapes[index].strokeColor);
 			drawRectangle(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -130,10 +114,7 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 		case VectorPrimitiveType::square:
 			ofFill();
 			ofSetLineWidth(0);
-			/*ofSetColor(
-				shapes[index].fillColor[0],
-				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);*/
+			ofSetColor(shapes[index].fillColor);
 			drawSquare(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -141,10 +122,10 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			/*ofSetColor(
+			ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);*/
+				shapes[index].strokeColor[2]);
 			drawSquare(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -157,10 +138,10 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 			ofFill();
 			ofSetLineWidth(0);
 			ofSetCircleResolution(48);
-			/*ofSetColor(
+			ofSetColor(
 				shapes[index].fillColor[0],
 				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);*/
+				shapes[index].fillColor[2]);
 			drawEllipse(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -168,10 +149,10 @@ void Renderer::drawShapes(ofColor p_int, ofColor p_ext) {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			/*ofSetColor(
+			ofSetColor(
 				shapes[index].strokeColor[0],
 				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);*/
+				shapes[index].strokeColor[2]);
 			drawEllipse(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -285,19 +266,23 @@ void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 }
 
 // fonction qui ajoute une primitive vectorielle au tableau
-void Renderer::addVectorShape(VectorPrimitiveType type)
+void Renderer::addVectorShape(VectorPrimitiveType type, ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
 {
 	shapes[head].type = type;
 
+	shapes[head].strokeColor = ofColor(strokeColor);
+	/*
 	shapes[head].strokeColor[0] = strokeColorR;
 	shapes[head].strokeColor[1] = strokeColorG;
 	shapes[head].strokeColor[2] = strokeColorB;
-	shapes[head].strokeColor[3] = strokeColorA;
+	shapes[head].strokeColor[3] = strokeColorA;*/
 
+	shapes[head].fillColor = ofColor(fillColor);
+	/*
 	shapes[head].fillColor[0] = fillColorR;
 	shapes[head].fillColor[1] = fillColorG;
 	shapes[head].fillColor[2] = fillColorB;
-	shapes[head].fillColor[3] = fillColorA;
+	shapes[head].fillColor[3] = fillColorA;*/
 	if (type == VectorPrimitiveType::square || type == VectorPrimitiveType::circle) {
 		float sideLength = abs(mousePress.x - curMouse.x);
 		shapes[head].position1[0] = mousePress.x;
