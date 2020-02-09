@@ -13,7 +13,7 @@ public:
 	void publishSetupEvent(ofParameter<ofColor>*);
 
 	//Draw ---------------
-	void rendererDraw();
+	void rendererDraw(ofColor, ofColor);
 	void setDrawType(int drawType);
 	void addShape();
 

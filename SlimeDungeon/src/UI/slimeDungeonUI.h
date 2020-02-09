@@ -37,6 +37,9 @@ public:
 	ofxToggle drawMode;
 	ofxTextField currentShapeType;
 	ofxTextField shapeKeyLegend;
+
+	ofParameter<ofColor> shapeColor1;
+	ofParameter<ofColor> shapeColor2;
 	
 	std::vector<ofParameter<bool>> drawOptionVec;
 
@@ -65,7 +68,9 @@ public:
 
 	//Parameters
 	ofParameter<float> radius;
-	ofParameter<ofColor> color;
+	ofParameter<ofColor> backColor1;
+    ofParameter<ofColor> backColor2;
+
 	ofParameter<glm::vec2> center;
 	ofParameter<int> circleResolution;
 	ofParameter<bool> filled;
@@ -93,11 +98,5 @@ private:
 	void screenshotBtnPressed();
 	void importImageBtnPressed();
 
-	void drawPtOptionPressed();
-	//void drawLineOptionPressed(); TODO maybe useless pcq impossible d'ajouter listener...
-	//void drawEllipseOptionPressed();
-	//void drawCircleOptionPressed();
-	//void drawRectangleOptionPressed();
-	//void drawSquareOptionPressed();
 };
 
