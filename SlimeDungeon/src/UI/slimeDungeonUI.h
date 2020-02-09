@@ -38,6 +38,9 @@ public:
 	ofxToggle drawMode;
 	ofxTextField currentShapeType;
 	ofxTextField shapeKeyLegend;
+
+	ofParameter<ofColor> shapeColor1;
+	ofParameter<ofColor> shapeColor2;
 	
 	std::vector<ofParameter<bool>> drawOptionVec;
 
@@ -70,8 +73,7 @@ public:
 	ofParameter<float> radius;
 	ofParameter<ofColor> backColor1;
     ofParameter<ofColor> backColor2;
-    ofParameter<ofColor> shapeColor1;
-    ofParameter<ofColor> shapeColor2;
+
 	ofParameter<glm::vec2> center;
 	ofParameter<int> circleResolution;
 	ofParameter<bool> filled;
