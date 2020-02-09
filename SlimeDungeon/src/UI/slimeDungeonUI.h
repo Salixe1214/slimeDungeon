@@ -4,6 +4,7 @@
 #include "ofxGui.h"
 #include "Domain/SlimeDungeonController.h"
 #include "Domain/Renderer.h"
+#include <utility>
 
 class SlimeDungeonUI : public ofBaseApp{
 	
@@ -43,9 +44,11 @@ public:
 	//ImportTools--------------------------------------------
 	ofxGuiGroup importToolsGroup;
 	ofxButton importImageBtn;
+	bool importButtonYes;
+	string path;
 
-	vector <ofImage> draggedImages;
-	glm::vec2 dragPt;
+	vector <std::pair<ofImage, ofPoint>> draggedImages;
+	ofPoint dragPt;
 	ofPoint positionImg;
 	ofPoint distance;
 

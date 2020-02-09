@@ -10,6 +10,7 @@ void SlimeDungeonUI::setup(){
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
 
 
 
@@ -60,6 +61,7 @@ void SlimeDungeonUI::setup(){
 void SlimeDungeonUI::exit(){
 	ringButton.removeListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+	importImageBtn.removeListener(this, &SlimeDungeonUI::importImageBtnPressed);
 }
 
 //--------------------------------------------------------------
@@ -74,7 +76,11 @@ void SlimeDungeonUI::ringButtonPressed(){
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::importImageBtnPressed() {
-
+	ofFileDialogResult loadFileResult = ofSystemLoadDialog("Load your file");
+	if (loadFileResult.bSuccess) {
+		path = loadFileResult.getPath();
+		importButtonYes = true;
+	}
 }
 
 void SlimeDungeonUI::screenshotBtnPressed()
@@ -139,9 +145,12 @@ void SlimeDungeonUI::draw(){
 	float dx = dragPt.x;
 	float dy = dragPt.y;
 
-	for (unsigned int k = 0; k < draggedImages.size(); k++) {
+	/*for (unsigned int k = 0; k < draggedImages.size(); k++) {
 		draggedImages[k].draw(dx, dy);
 		dy += draggedImages[k].getHeight() + 10;
+	}*/
+	for (unsigned int k = 0; k < draggedImages.size(); k++) {
+		draggedImages.at(k).first.draw(draggedImages.at(k).second.x, draggedImages.at(k).second.y);
 	}
 
 	ofSetColor(0);
@@ -164,6 +173,12 @@ void SlimeDungeonUI::draw(){
 	if( !bHide ){
 		gui.draw();
 	}
+	
+		ofImage importedImage;
+		importedImage.load(path);
+		importedImage.draw(250, 250);
+		
+	
 }
 
 //--------------------------------------------------------------
@@ -324,12 +339,9 @@ void SlimeDungeonUI::gotMessage(ofMessage msg){
 void SlimeDungeonUI::dragEvent(ofDragInfo info) {
 	if (info.files.size() > 0) {
 		dragPt = info.position;
-
-		draggedImages.assign(info.files.size(), ofImage());
-		for (unsigned int k = 0; k < info.files.size(); k++) {
-			draggedImages[k].load(info.files[k]);
-		}
-
+		//draggedImages.assign(info.files.size(), ofImage());
+		draggedImages.push_back(std::make_pair(ofImage(info.files.at(0)), dragPt));
+		
 	}
 }
 
