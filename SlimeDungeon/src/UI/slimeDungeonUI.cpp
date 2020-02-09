@@ -19,8 +19,8 @@ void SlimeDungeonUI::setup(){
 	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
 	gui.add(backColor1.set("Fond exterieur",ofColor::green,ofColor(0,0),ofColor(255,255)));
     gui.add(backColor2.set("Fond interieur",ofColor::black,ofColor(0,0),ofColor(255,255)));
-    gui.add(shapeColor1.set("Shape interne",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
-    gui.add(shapeColor2.set("Shape externe",ofColor(110,100,140),ofColor(0,0),ofColor(255,255)));
+    //gui.add(shapeColor1.set("Shape interne",ofColor(100,100,140),ofColor(0,0),ofColor(255,255)));
+    //gui.add(shapeColor2.set("Shape externe",ofColor(110,100,140),ofColor(0,0),ofColor(255,255)));
 	gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
 	gui.add(twoCircles.set("Deux cercles", false));
 	gui.add(ringButton.setup("Cloche"));
@@ -31,6 +31,8 @@ void SlimeDungeonUI::setup(){
 	drawToolsGroup.setup("Draw tools");	
 	drawToolsGroup.add(drawMode.setup("Draw mode", true));
 	drawToolsGroup.add(currentShapeType.setup("Draw : ", "pixel"));
+	drawToolsGroup.add(shapeColor1.set("Fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
+	drawToolsGroup.add(shapeColor2.set("Stroke color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 
 	//int tmpHeight = drawToolsGroup.getHeight(); TODO permettre à la légende de s'afficher dans une seule boîte
 	//shapeKeyLegend.setDefaultHeight(100);
