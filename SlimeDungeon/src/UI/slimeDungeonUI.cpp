@@ -5,7 +5,7 @@
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
 	
-	sdCtrl.publishSetupEvent();
+	sdCtrl.publishSetupEvent(&color);
 	//Listeners
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
@@ -188,7 +188,10 @@ void SlimeDungeonUI::keyPressed(int key){
 		gui.loadFromFile("settings.xml");
 	}
 	if(key == ' '){
-		color = ofColor(255);
+		if (ofColor(color) != ofColor(255))
+			color = ofColor(255);
+		else
+			color = ofColor(0);
 	}
 
 }

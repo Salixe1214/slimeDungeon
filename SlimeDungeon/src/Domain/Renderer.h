@@ -40,7 +40,7 @@ public:
 	ofImage imageImport(const string filename);
 	void exportImg(ofImage imgToExport, string filename) const;
 	
-	void setup();
+	void setup(ofParameter<ofColor>*);
 	void update();
 
 
@@ -83,6 +83,9 @@ public:
 
 	void drawRecordModeBorder();
 	void videoExport();
+
+	// Color Picker
+	ofParameter<ofColor> *color;
 
 private:
 	void drawShapes();

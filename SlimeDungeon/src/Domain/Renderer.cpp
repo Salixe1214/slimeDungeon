@@ -1,14 +1,15 @@
 #include "Renderer.h"
 
 
-Renderer::Renderer() 
+Renderer::Renderer()
 {
 
 }
 
 
-void Renderer::setup()
+void Renderer::setup(ofParameter<ofColor> *p_userColor)
 {
+	color = p_userColor;
 	mouseIsPressed = false;
 	isDrawing = true; //TODO changer ceci pour s'adapter avec le UI
 	count = 100;
@@ -20,11 +21,11 @@ void Renderer::setup()
 
 	//TODO TEMPORARY ---
 	strokeColorR = 148;
-	strokeColorG = 0;
+	strokeColorG = 100;
 	strokeColorB = 211;
 	strokeColorA = 255;
 	fillColorR = 148;
-	fillColorG = 0;
+	fillColorG = 255;
 	fillColorB = 211;
 	fillColorA = 255; 
 	strokeWidthDefault = 4;
