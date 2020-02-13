@@ -241,23 +241,12 @@ void Renderer::drawSample()
 	case VectorPrimitiveType::square:
 		ofFill();
 		ofSetLineWidth(0);
-		ofSetColor(shapes[index].fillColor);
-		drawSquare(
-			shapes[index].position1[0],
-			shapes[index].position1[1],
-			shapes[index].position2[0],
-			shapes[index].position2[1]);
+		ofSetColor(fillColor);
+		drawSquare(origineX, origineY, origineX + deltaX, origineY + deltaX);
 		ofNoFill();
-		ofSetLineWidth(shapes[index].strokeWidth);
-		ofSetColor(
-			shapes[index].strokeColor[0],
-			shapes[index].strokeColor[1],
-			shapes[index].strokeColor[2]);
-		drawSquare(
-			shapes[index].position1[0],
-			shapes[index].position1[1],
-			shapes[index].position2[0],
-			shapes[index].position2[1]);
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawSquare(origineX, origineY, origineX + deltaX, origineY + deltaX);
 		break;
 
 	case VectorPrimitiveType::ellipse:
@@ -265,49 +254,21 @@ void Renderer::drawSample()
 		ofFill();
 		ofSetLineWidth(0);
 		ofSetCircleResolution(48);
-		ofSetColor(
-			shapes[index].fillColor[0],
-			shapes[index].fillColor[1],
-			shapes[index].fillColor[2]);
-		drawEllipse(
-			shapes[index].position1[0],
-			shapes[index].position1[1],
-			shapes[index].position2[0],
-			shapes[index].position2[1]);
+		ofSetColor(fillColor);
+		drawEllipse(origineX, origineY, origineX + deltaX, origineY + deltaY);
 		ofNoFill();
-		ofSetLineWidth(shapes[index].strokeWidth);
-		ofSetColor(
-			shapes[index].strokeColor[0],
-			shapes[index].strokeColor[1],
-			shapes[index].strokeColor[2]);
-		drawEllipse(
-			shapes[index].position1[0],
-			shapes[index].position1[1],
-			shapes[index].position2[0],
-			shapes[index].position2[1]);
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawEllipse(origineX, origineY, origineX + deltaX, origineY + deltaY);
 		break;
 	case VectorPrimitiveType::circle:
 		ofFill();
-		ofSetColor(
-			shapes[index].fillColor[0],
-			shapes[index].fillColor[1],
-			shapes[index].fillColor[2]);
-		drawCircle(
-			shapes[index].position1[0],
-			shapes[index].position1[1],
-			shapes[index].position2[0],
-			shapes[index].position2[1]);
+		ofSetColor(fillColor);
+		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
 		ofNoFill();
-		ofSetLineWidth(shapes[index].strokeWidth);
-		ofSetColor(
-			shapes[index].strokeColor[0],
-			shapes[index].strokeColor[1],
-			shapes[index].strokeColor[2]);
-		drawCircle(
-			shapes[index].position1[0],
-			shapes[index].position1[1],
-			shapes[index].position2[0],
-			shapes[index].position2[1]);
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
 		break;
 	default:
 		break;
@@ -392,7 +353,7 @@ void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 }
 
 // fonction qui ajoute une primitive vectorielle au tableau
-void Renderer::addVectorShape(VectorPrimitiveType p_type)
+void Renderer::addVectorShape(VectorPrimitiveType type)
 {
 	shapes[head].type = type;
 

@@ -83,7 +83,6 @@ public:
 
 	// Parametres des formes (pour le sample entre autre) A.S.
 	ofParameter<float> strokeWidth;
-	VectorPrimitiveType type;
 
 	
 	void saveStrokeState();
