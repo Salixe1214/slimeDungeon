@@ -409,7 +409,6 @@ void Renderer::drawCursor(float x, float y) const
 {
 	float length = 10.0f;
 	float offset = 5.0f;
-
 	ofSetLineWidth(2);
 	ofSetColor(31);
 	ofDrawLine(x + offset, y, x + offset + length, y);

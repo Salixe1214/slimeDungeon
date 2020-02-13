@@ -59,7 +59,15 @@ public:
 	bool recordMode = false, isWaitingForScreenSelection = false;
 	size_t recordModeEntryTime;
 	size_t recordModeTimeLimit;
+	int videoSampleRate;
+	int videoChannels;
+	string videoFileName;
+	string videoTimeStamp;
+	string videoFileExt;
 	void exportScreenshot();
+	void setupRecorder();
+	void enterRecordMode();
+	void exitRecordMode();
 
 	//-----------------------------------------------
 
