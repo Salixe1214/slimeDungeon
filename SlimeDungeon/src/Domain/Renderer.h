@@ -5,6 +5,7 @@
 
 #pragma once
 #include "ofMain.h"
+#include "ofxGui.h"
 
 // énumération des différents types de primitives vectorielles
 enum class VectorPrimitiveType { none, pixel, line, rectangle, square, ellipse, circle };
@@ -45,8 +46,8 @@ public:
 	ofImage imageImport(const string filename);
 	void exportImg(ofImage imgToExport, string filename) const;
 	
-	void setup();
-	void update();
+	void setup(ofxPanel*);
+	void update(ofParameter<ofColor>, ofParameter<ofColor>);
 
 
 	void draw();
@@ -54,12 +55,13 @@ public:
 	//drawTool -----------------
 	ofPoint curMouse;
 	ofPoint mousePress;
+	ofParameter<ofColor> fillColor, strokeColor;
 	bool mouseIsPressed, isDrawing; //TODO isDrawing n'est peut-être pas requis
 
 	void setShapeType(VectorPrimitiveType newShapeType);
 
 	// Fonctions inspirées des exemples du cours (Module 2/Ex04)
-	void addVectorShape(VectorPrimitiveType type, ofParameter<ofColor>, ofParameter<ofColor>);
+	void addVectorShape(VectorPrimitiveType);
 	
 	void drawPixel(float x, float y) const;
 	void drawLine(float x1, float y1, float x2, float y2) const;
@@ -77,7 +79,12 @@ public:
 	unsigned char strokeColorR, strokeColorG, strokeColorB, strokeColorA;
 	unsigned char fillColorR, fillColorG, fillColorB, fillColorA;
 	unsigned char prevStrokeColorR, prevStrokeColorG, prevStrokeColorB, prevStrokeColorA;
-	float strokeWidth, prevStrokeWidth;
+	float prevStrokeWidth;
+
+	// Parametres des formes (pour le sample entre autre) A.S.
+	ofParameter<float> strokeWidth;
+	VectorPrimitiveType type;
+
 	
 	void saveStrokeState();
 	void restorePrevStrokeState();
@@ -94,5 +101,6 @@ public:
 
 private:
 	void drawShapes();
+	void drawSample();
 };
 

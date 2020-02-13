@@ -7,8 +7,11 @@ Renderer::Renderer()
 }
 
 
-void Renderer::setup()
+void Renderer::setup(ofxPanel *gui)
 {
+	// Ajout des paramètres de dessin au gui
+	gui->add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
+	
 	//color = p_userColor;
 	mouseIsPressed = false;
 	isDrawing = true; //TODO changer ceci pour s'adapter avec le UI
@@ -37,8 +40,12 @@ void Renderer::setup()
 	recordMode = false;
 }
 
-void Renderer::update()
+void Renderer::update(ofParameter<ofColor> p_fillColor, 
+					  ofParameter<ofColor> p_strokeColor)
 {
+	// Update des couleurs en temps réel (pour le sample)
+	fillColor = p_fillColor;
+	strokeColor = p_strokeColor;
 }
 
 void Renderer::draw()
@@ -60,6 +67,9 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
+
+	drawSample();
+
 	drawShapes();
 
 
@@ -188,6 +198,122 @@ void Renderer::drawShapes() {
 	}
 }
 
+void Renderer::drawSample()
+{
+	// Drawing a sample
+
+	// Differentes valeurs du sample
+	float origineX = 230; // Points d'origine
+	float origineY = 30;
+	float deltaX = 50;    // Tailles en x et en y
+	float deltaY = 100;
+
+
+	switch (shapeType)
+	{
+	case VectorPrimitiveType::pixel:
+
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetColor(strokeColor);
+		drawPixel(origineX, origineY);
+		break;
+
+	case VectorPrimitiveType::line:
+
+		ofNoFill();
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawLine(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		break;
+
+	case VectorPrimitiveType::rectangle:
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetColor(fillColor);
+		drawRectangle(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		ofNoFill();
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawRectangle(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		break;
+
+	case VectorPrimitiveType::square:
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetColor(shapes[index].fillColor);
+		drawSquare(
+			shapes[index].position1[0],
+			shapes[index].position1[1],
+			shapes[index].position2[0],
+			shapes[index].position2[1]);
+		ofNoFill();
+		ofSetLineWidth(shapes[index].strokeWidth);
+		ofSetColor(
+			shapes[index].strokeColor[0],
+			shapes[index].strokeColor[1],
+			shapes[index].strokeColor[2]);
+		drawSquare(
+			shapes[index].position1[0],
+			shapes[index].position1[1],
+			shapes[index].position2[0],
+			shapes[index].position2[1]);
+		break;
+
+	case VectorPrimitiveType::ellipse:
+
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetCircleResolution(48);
+		ofSetColor(
+			shapes[index].fillColor[0],
+			shapes[index].fillColor[1],
+			shapes[index].fillColor[2]);
+		drawEllipse(
+			shapes[index].position1[0],
+			shapes[index].position1[1],
+			shapes[index].position2[0],
+			shapes[index].position2[1]);
+		ofNoFill();
+		ofSetLineWidth(shapes[index].strokeWidth);
+		ofSetColor(
+			shapes[index].strokeColor[0],
+			shapes[index].strokeColor[1],
+			shapes[index].strokeColor[2]);
+		drawEllipse(
+			shapes[index].position1[0],
+			shapes[index].position1[1],
+			shapes[index].position2[0],
+			shapes[index].position2[1]);
+		break;
+	case VectorPrimitiveType::circle:
+		ofFill();
+		ofSetColor(
+			shapes[index].fillColor[0],
+			shapes[index].fillColor[1],
+			shapes[index].fillColor[2]);
+		drawCircle(
+			shapes[index].position1[0],
+			shapes[index].position1[1],
+			shapes[index].position2[0],
+			shapes[index].position2[1]);
+		ofNoFill();
+		ofSetLineWidth(shapes[index].strokeWidth);
+		ofSetColor(
+			shapes[index].strokeColor[0],
+			shapes[index].strokeColor[1],
+			shapes[index].strokeColor[2]);
+		drawCircle(
+			shapes[index].position1[0],
+			shapes[index].position1[1],
+			shapes[index].position2[0],
+			shapes[index].position2[1]);
+		break;
+	default:
+		break;
+	}
+}
+
 /*
 * @brief Importe l'image sous le nom de fichier passé en argument.
 */
@@ -266,7 +392,7 @@ void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 }
 
 // fonction qui ajoute une primitive vectorielle au tableau
-void Renderer::addVectorShape(VectorPrimitiveType type, ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
+void Renderer::addVectorShape(VectorPrimitiveType p_type)
 {
 	shapes[head].type = type;
 
