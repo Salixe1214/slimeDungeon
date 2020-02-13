@@ -368,8 +368,9 @@ void Renderer::drawEllipse(float x1, float y1, float x2, float y2) const
 // fonction qui dessine un point
 void Renderer::drawCircle(float  x1, float y1, float x2, float y2) const
 {
-	float diameter = x2 - x1;
-	ofDrawEllipse(x1 + diameter / 2.0f, y1 + diameter / 2.0f, diameter, diameter);
+	float diameterX = x2 - x1;
+	float diameterY = y2 - y1;
+	ofDrawEllipse(x1 + diameterX / 2.0f, y1 + diameterY / 2.0f, diameterX, diameterY);
 }
 
 
