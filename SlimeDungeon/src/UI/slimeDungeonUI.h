@@ -5,6 +5,8 @@
 #include "Domain/SlimeDungeonController.h"
 #include "Domain/Renderer.h"
 #include <utility> 
+#include "opencv2/opencv.hpp"
+#include <Windows.h>
 
 class SlimeDungeonUI : public ofBaseApp{
 	
@@ -12,7 +14,7 @@ public:
 	void setup();
 	void update();
 	void draw();
-	
+
 	void exit();
 
 	void keyPressed(int key);
@@ -61,6 +63,9 @@ public:
 	size_t recordModeTimeLimit;
 	int videoSampleRate;
 	int videoChannels;
+	cv::VideoWriter videoRecorder;
+	cv::VideoCapture capture;
+	int videoFps;
 	string videoFileName;
 	string videoTimeStamp;
 	string videoFileExt;
@@ -105,5 +110,7 @@ private:
 	void screenshotBtnPressed();
 	void importImageBtnPressed();
 
-};
+	//Record
+	cv::Mat hwnd2mat(HWND hwnd);
 
+};

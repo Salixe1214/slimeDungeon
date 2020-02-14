@@ -11,6 +11,11 @@ void SlimeDungeonController::publishSetupEvent()
 	ctrlRenderer.setup();
 }
 
+void SlimeDungeonController::publishExitEvent()
+{
+	ctrlRenderer.exit();
+}
+
 void SlimeDungeonController::rendererDraw()
 {
 	ctrlRenderer.draw();
@@ -43,6 +48,10 @@ void SlimeDungeonController::setDrawType(int drawType)
 
 	case 6:
 		ctrlRenderer.setShapeType(VectorPrimitiveType::circle);
+		break;
+
+	case 7:
+		ctrlRenderer.setShapeType(VectorPrimitiveType::tiles);
 		break;
 
 	default:
