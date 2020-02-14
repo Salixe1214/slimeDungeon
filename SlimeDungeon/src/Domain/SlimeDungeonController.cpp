@@ -16,7 +16,6 @@ void SlimeDungeonController::publishExitEvent()
 	ctrlRenderer.exit();
 }
 
-void SlimeDungeonController::rendererDraw()
 void SlimeDungeonController::rendererDraw(ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
 {
 	ctrlRenderer.draw();
@@ -56,6 +55,9 @@ void SlimeDungeonController::setDrawType(int drawType)
 		ctrlRenderer.setShapeType(VectorPrimitiveType::tiles);
 		break;
 
+	case 8:
+		ctrlRenderer.setShapeType(VectorPrimitiveType::slime);
+		break;
 	default:
 		ctrlRenderer.setShapeType(VectorPrimitiveType::none);
 		break;

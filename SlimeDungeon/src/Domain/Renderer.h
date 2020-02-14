@@ -7,6 +7,7 @@
 #include "ofMain.h"
 //#include "Domain/Shapes/Shape.h"
 #include "Domain/Shapes/TileShape.h"
+#include "Domain/Shapes//SlimeShape.h"
 #include "ofxGui.h"
 
 
@@ -88,7 +89,7 @@ public:
 
 	// Parametres des formes (pour le sample entre autre) A.S.
 	ofParameter<float> strokeWidth;
-
+	ofParameter<int> tileSize;
 	
 	void saveStrokeState();
 	void restorePrevStrokeState();

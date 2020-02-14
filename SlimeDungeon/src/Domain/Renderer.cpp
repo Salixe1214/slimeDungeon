@@ -11,6 +11,7 @@ void Renderer::setup(ofxPanel *gui)
 {
 	// Ajout des paramètres de dessin au gui
 	gui->add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
+	gui->add(tileSize.set("Tile size", 50, 1, 300));
 	
 	//color = p_userColor;
 	mouseIsPressed = false;
@@ -207,7 +208,7 @@ void Renderer::drawShapes() {
 		}
 	}
 
-	for (int i = 0; i < vecShapes.size(); i++) {
+	for (unsigned int i = 0; i < vecShapes.size(); i++) {
 		vecShapes.at(i)->draw();
 	}
 }
@@ -376,8 +377,12 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 	shapes[head].fillColor = ofColor(fillColor);
 
 	if (type == VectorPrimitiveType::tiles) {
-		vecShapes.push_back(new TileShape(VectorPrimitiveType::tiles, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth, 30));
+		vecShapes.push_back(new TileShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, tileSize)); 
+	}
+	if (type == VectorPrimitiveType::slime) {
+		vecShapes.push_back(new SlimeShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth));
 	}
 
 	if (type == VectorPrimitiveType::square || type == VectorPrimitiveType::circle) {
