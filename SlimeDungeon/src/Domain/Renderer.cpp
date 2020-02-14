@@ -56,7 +56,6 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 
 void Renderer::draw()
 {	
-	drawCursor(curMouse.x, curMouse.y);
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
 
@@ -74,9 +73,10 @@ void Renderer::draw()
 		restorePrevStrokeState();
 	}
 
-	drawSample();
 
 	drawShapes();
+	drawSample();
+	drawCursor(curMouse.x, curMouse.y);
 
 
 }
