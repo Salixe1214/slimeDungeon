@@ -38,6 +38,12 @@ void Renderer::setup(ofxPanel *gui)
 	mousePress.x = mousePress.y = curMouse.x = curMouse.y = 0;
 	//CaptureTool
 	recordMode = false;
+
+	//load les cursors
+	cursor1.load("fleche.png");
+	cursor2.load("fleche1.png");
+	cursor3.load("hand.png");
+	cursor4.load("hand1.png");
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -49,13 +55,13 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 }
 
 void Renderer::draw()
-{
-	
+{	
+	drawCursor(curMouse.x, curMouse.y);
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
 
 	if (mouseIsPressed)
-	{
+	{	
 		saveStrokeState();
 		strokeColorA = 100;
 		if (shapeType == VectorPrimitiveType::circle || shapeType == VectorPrimitiveType::square) {
@@ -480,12 +486,26 @@ void Renderer::drawZone(float x1, float y1, float x2, float y2) const
 
 void Renderer::drawCursor(float x, float y) const
 {
-	float length = 10.0f;
-	float offset = 5.0f;
-	ofSetLineWidth(2);
-	ofSetColor(31);
-	ofDrawLine(x + offset, y, x + offset + length, y);
-	ofDrawLine(x - offset, y, x - offset - length, y);
-	ofDrawLine(x, y + offset, x, y + offset + length);
-	ofDrawLine(x, y - offset, x, y - offset - length);
+	if (mouseIsPressed) {
+		/*float length = 15.0f;
+		float offset = 10.0f;
+		ofSetLineWidth(4);
+		ofSetColor(255,0,0);
+		ofDrawLine(x + offset, y, x + offset + length, y);
+		ofDrawLine(x - offset, y, x - offset - length, y);
+		ofDrawLine(x, y + offset, x, y + offset + length);
+		ofDrawLine(x, y - offset, x, y - offset - length);*/
+		cursor3.draw(x-20, y-20, 40,40);
+
+	}else{
+		/*float length = 10.0f;
+		float offset = 5.0f;
+		ofSetLineWidth(2);
+		ofSetColor(31);
+		ofDrawLine(x + offset, y, x + offset + length, y);
+		ofDrawLine(x - offset, y, x - offset - length, y);
+		ofDrawLine(x, y + offset, x, y + offset + length);
+		ofDrawLine(x, y - offset, x, y - offset - length);*/
+		cursor1.draw(x-20, y-20 ,40,40);
+	}
 }

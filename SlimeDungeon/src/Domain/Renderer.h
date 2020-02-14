@@ -42,6 +42,10 @@ public:
 	int index;
 	int head;
 	float strokeWidthDefault;
+	ofImage cursor1;
+	ofImage cursor2;
+	ofImage cursor3;
+	ofImage cursor4;
 
 	ofImage imageImport(const string filename);
 	void exportImg(ofImage imgToExport, string filename) const;
@@ -57,6 +61,7 @@ public:
 	ofPoint mousePress;
 	ofParameter<ofColor> fillColor, strokeColor;
 	bool mouseIsPressed, isDrawing; //TODO isDrawing n'est peut-être pas requis
+	
 
 	void setShapeType(VectorPrimitiveType newShapeType);
 
