@@ -41,6 +41,10 @@ void Renderer::update()
 {
 }
 
+void Renderer::exit() {
+	vecShapes.clear();
+}
+
 void Renderer::draw()
 {
 	
@@ -186,6 +190,10 @@ void Renderer::drawShapes() {
 			break;
 		}
 	}
+
+	for (int i = 0; i < vecShapes.size(); i++) {
+		vecShapes.at(i)->draw();
+	}
 }
 
 /*
@@ -271,18 +279,14 @@ void Renderer::addVectorShape(VectorPrimitiveType type, ofParameter<ofColor> fil
 	shapes[head].type = type;
 
 	shapes[head].strokeColor = ofColor(strokeColor);
-	/*
-	shapes[head].strokeColor[0] = strokeColorR;
-	shapes[head].strokeColor[1] = strokeColorG;
-	shapes[head].strokeColor[2] = strokeColorB;
-	shapes[head].strokeColor[3] = strokeColorA;*/
 
 	shapes[head].fillColor = ofColor(fillColor);
-	/*
-	shapes[head].fillColor[0] = fillColorR;
-	shapes[head].fillColor[1] = fillColorG;
-	shapes[head].fillColor[2] = fillColorB;
-	shapes[head].fillColor[3] = fillColorA;*/
+
+	if (type == VectorPrimitiveType::tiles) {
+		vecShapes.push_back(new TileShape(VectorPrimitiveType::tiles, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, 30));
+	}
+
 	if (type == VectorPrimitiveType::square || type == VectorPrimitiveType::circle) {
 		float sideLength = abs(mousePress.x - curMouse.x);
 		shapes[head].position1[0] = mousePress.x;

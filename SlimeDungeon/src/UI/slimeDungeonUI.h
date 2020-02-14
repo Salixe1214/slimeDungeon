@@ -5,6 +5,7 @@
 #include "Domain/SlimeDungeonController.h"
 #include "Domain/Renderer.h"
 #include <utility> 
+#include <Windows.h>
 
 class SlimeDungeonUI : public ofBaseApp{
 	
@@ -12,7 +13,7 @@ public:
 	void setup();
 	void update();
 	void draw();
-	
+
 	void exit();
 
 	void keyPressed(int key);
@@ -59,13 +60,8 @@ public:
 	bool recordMode = false, isWaitingForScreenSelection = false;
 	size_t recordModeEntryTime;
 	size_t recordModeTimeLimit;
-	int videoSampleRate;
-	int videoChannels;
-	string videoFileName;
-	string videoTimeStamp;
-	string videoFileExt;
+
 	void exportScreenshot();
-	void setupRecorder();
 	void enterRecordMode();
 	void exitRecordMode();
 
@@ -106,4 +102,3 @@ private:
 	void importImageBtnPressed();
 
 };
-

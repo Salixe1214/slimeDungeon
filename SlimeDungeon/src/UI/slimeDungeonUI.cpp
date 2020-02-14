@@ -6,7 +6,6 @@ void SlimeDungeonUI::setup(){
 	
 	sdCtrl.publishSetupEvent();
 
-	setupRecorder();
 	//Listeners
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
 	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
@@ -57,21 +56,12 @@ void SlimeDungeonUI::setup(){
 	ring.load("ring.wav");
 }
 
-void SlimeDungeonUI::setupRecorder() {
-	string FfmpegLibRepo = "./ls";//"./thirdPartyLib/ffmpeg.exe";
-	/*FfmpegLibRepo = "D:\\Application\\openFrameworks\\apps\\SlimeDungeon\\src\\SlimeDungeon\\thirdPartyLib\\ffmpeg.exe";*/
-	FfmpegLibRepo = "D:/abeau/Documents/A_UniversiteLaval/AA_Hiver2020/IFT-3100/TestVideoRecorder/ofxVideoRecorder/ofxVideoRecorderExample/ffmpeg.exe";
-	videoFileName = "SlimeDungeonVideoCapture";
-	videoFileExt = ".mov";
-
-	videoSampleRate = 44100;
-	videoChannels = 2;
-}
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::exit(){
 	ringButton.removeListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+	sdCtrl.publishExitEvent();
 }
 
 //--------------------------------------------------------------
@@ -110,7 +100,7 @@ void SlimeDungeonUI::screenshotBtnPressed()
 void SlimeDungeonUI::exportScreenshot() {
 	if (imgToExport.isAllocated()) {
 		ofFileDialogResult saveFileResult = ofSystemSaveDialog(ofGetTimestampString(), "Save your file");
-		/*ofFile file = saveFileResult.getPath();
+		ofFile file = saveFileResult.getPath();
 		if (hasImgExtension(file)) {
 			if (saveFileResult.bSuccess) {
 				sdCtrl.exportImg(imgToExport, saveFileResult.filePath);
@@ -118,26 +108,22 @@ void SlimeDungeonUI::exportScreenshot() {
 		}
 		else {
 			ofSystemAlertDialog("Error: The file extension is incorrect");
-		}*/
+		}
 	}
 }
+
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::update() {
 
-	//videoGrabber.update();&& videoGrabber.isFrameNew()
-	if (recordMode ) { //Timer to force exit of recordMode
-		imgToExport.grabScreen(0,0, ofGetWidth(), ofGetHeight());
-		//bool success = videoRecorder.addFrame(imgToExport.getPixels());
-	/*	if (!success) {
-			ofLogWarning("This frame was not added!");
-		}*/
-
-		// Check if the video recorder encountered any error while writing video frame or audio smaples.
-
-		if (recordModeEntryTime + recordModeTimeLimit <= (size_t) ofGetSeconds()) {
+	if (recordMode) { //Timer to force exit of recordMode
+		if (recordModeEntryTime + recordModeTimeLimit <= (size_t)ofGetSeconds()) {
 			exitRecordMode();
 		}
+		else {
+		}
+
+
 	}
 	//Drag les images a l'interieure de la window
 	//Check width
@@ -211,7 +197,7 @@ void SlimeDungeonUI::keyReleased(int key){
 			exitRecordMode();
 		}
 		else {
-				enterRecordMode();
+			enterRecordMode();
 		}
 	}
 	switch (key)
@@ -244,6 +230,11 @@ void SlimeDungeonUI::keyReleased(int key){
 	case 54:  // key 6
 		currentShapeType = "circle";
 		sdCtrl.setDrawType(6);
+		break;
+
+	case 55:  // key 7
+		currentShapeType = "tiles";
+		sdCtrl.setDrawType(7);
 		break;
 
 	//case 102: // key f
@@ -357,19 +348,16 @@ void SlimeDungeonUI::dragEvent(ofDragInfo info) {
 
 	void SlimeDungeonUI::enterRecordMode()
 	{
-		cout << "Entering Record mode" << endl;
-
-		videoTimeStamp = ofGetTimestampString();
-
 		recordMode = true;
 		recordModeEntryTime = ofGetSeconds();
 		sdCtrl.publishEnterRecordModeEvent();
+		cout << "Entering Record mode" << endl;
+
 	}
 
 	void SlimeDungeonUI::exitRecordMode()
 	{
 		cout << "Exiting Record mode" << endl;
-
 		recordMode = false;
 		sdCtrl.publishExitRecordModeEvent();
 	}

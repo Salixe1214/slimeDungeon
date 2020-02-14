@@ -5,9 +5,9 @@
 
 #pragma once
 #include "ofMain.h"
+//#include "Domain/Shapes/Shape.h"
+#include "Domain/Shapes/TileShape.h"
 
-// énumération des différents types de primitives vectorielles
-enum class VectorPrimitiveType { none, pixel, line, rectangle, square, ellipse, circle };
 
 // structure de primitive vectorielle générique
 struct VectorPrimitive
@@ -26,7 +26,6 @@ struct VectorPrimitive
 
 
 
-
 class Renderer
 {
 public:
@@ -34,6 +33,7 @@ public:
 
 	VectorPrimitiveType shapeType;
 	VectorPrimitive *shapes;
+	std::vector<Shape*> vecShapes;
 	int count;
 	int size;
 	int stride;
@@ -47,7 +47,7 @@ public:
 	
 	void setup();
 	void update();
-
+	void exit();
 
 	void draw();
 

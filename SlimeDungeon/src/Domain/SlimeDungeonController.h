@@ -1,6 +1,7 @@
 #include "ofMain.h"
 #include "Domain/Renderer.h"
 
+
 #pragma once
 
 /** @brief classe qui lie le domaine et le UI
@@ -11,7 +12,8 @@ class SlimeDungeonController
 public:
 	SlimeDungeonController();
 	void publishSetupEvent();
-
+	void publishExitEvent();
+	
 	//Draw ---------------
 	void rendererDraw();
 	void setDrawType(int drawType);
@@ -35,6 +37,8 @@ public:
 
 private:
 	Renderer ctrlRenderer;
+
+
 	
 };
 
