@@ -11,13 +11,12 @@ class SlimeDungeonController
 
 public:
 	SlimeDungeonController();
-	void publishSetupEvent();
+	void publishSetupEvent(ofxPanel*);
 	void publishExitEvent();
-	
 	//Draw ---------------
-	void rendererDraw();
+	void rendererDraw(ofParameter<ofColor>, ofParameter<ofColor>);
 	void setDrawType(int drawType);
-	void addShape(ofParameter<ofColor>, ofParameter<ofColor>);
+	void addShape();
 
 	void exportImg(ofImage imgToExport, string filename) const;
 
@@ -37,8 +36,6 @@ public:
 
 private:
 	Renderer ctrlRenderer;
-
-
 	
 };
 

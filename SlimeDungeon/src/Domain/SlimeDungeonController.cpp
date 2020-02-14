@@ -6,9 +6,9 @@ SlimeDungeonController::SlimeDungeonController()
 
 }
 
-void SlimeDungeonController::publishSetupEvent()
+void SlimeDungeonController::publishSetupEvent(ofxPanel *gui)
 {
-	ctrlRenderer.setup();
+	ctrlRenderer.setup(gui);
 }
 
 void SlimeDungeonController::publishExitEvent()
@@ -17,8 +17,10 @@ void SlimeDungeonController::publishExitEvent()
 }
 
 void SlimeDungeonController::rendererDraw()
+void SlimeDungeonController::rendererDraw(ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
 {
 	ctrlRenderer.draw();
+	ctrlRenderer.update(fillColor, strokeColor);
 }
 
 void SlimeDungeonController::setDrawType(int drawType)
@@ -60,9 +62,9 @@ void SlimeDungeonController::setDrawType(int drawType)
 	}
 }
 
-void SlimeDungeonController::addShape(ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
+void SlimeDungeonController::addShape()
 {
-	ctrlRenderer.addVectorShape(ctrlRenderer.shapeType, fillColor, strokeColor);
+	ctrlRenderer.addVectorShape(ctrlRenderer.shapeType);
 }
 
 void SlimeDungeonController::setCurMouse(ofPoint newMousePos)

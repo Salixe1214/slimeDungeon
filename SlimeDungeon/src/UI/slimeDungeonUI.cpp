@@ -4,7 +4,6 @@
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
 	
-	sdCtrl.publishSetupEvent();
 
 	//Listeners
 	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
@@ -52,6 +51,8 @@ void SlimeDungeonUI::setup(){
 	gui.add(&captureToolsGroup);
 	gui.add(&importToolsGroup);
 	bHide = false;
+	
+	sdCtrl.publishSetupEvent(&gui);
 
 	ring.load("ring.wav");
 }
@@ -137,7 +138,8 @@ void SlimeDungeonUI::update() {
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
     ofBackgroundGradient(backColor2, backColor1);
-	sdCtrl.rendererDraw();
+
+	sdCtrl.rendererDraw(shapeColor1, shapeColor2);
 	
 
 	//draw l'image qui a ete drag dans la window
@@ -157,13 +159,15 @@ void SlimeDungeonUI::draw(){
 		ofNoFill();
 	}
 
+	/*
+	// Retrait du cercle qui est là de base [A.S.]
 	ofSetColor(shapeColor1);
 	if(twoCircles){
 		ofDrawCircle(center->x-radius*.5, center->y, radius );
 		ofDrawCircle(center->x+radius*.5, center->y, radius );
 	}else{
 		ofDrawCircle((glm::vec2)center, radius );
-	}
+	}*/
 	
 	if( !bHide ){
 		gui.draw();
@@ -299,7 +303,7 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 	}
 	else{
 		if (drawMode) {
-			sdCtrl.addShape(shapeColor1, shapeColor2); //TODO faut passer les colors des shapes ici
+			sdCtrl.addShape(); //TODO faut passer les colors des shapes ici
 		}
 	}
 	

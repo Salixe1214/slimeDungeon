@@ -7,8 +7,11 @@ Renderer::Renderer()
 }
 
 
-void Renderer::setup()
+void Renderer::setup(ofxPanel *gui)
 {
+	// Ajout des paramètres de dessin au gui
+	gui->add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
+	
 	//color = p_userColor;
 	mouseIsPressed = false;
 	isDrawing = true; //TODO changer ceci pour s'adapter avec le UI
@@ -35,10 +38,20 @@ void Renderer::setup()
 	mousePress.x = mousePress.y = curMouse.x = curMouse.y = 0;
 	//CaptureTool
 	recordMode = false;
+
+	//load les cursors
+	cursor1.load("fleche.png");
+	cursor2.load("fleche1.png");
+	cursor3.load("hand.png");
+	cursor4.load("hand1.png");
 }
 
-void Renderer::update()
+void Renderer::update(ofParameter<ofColor> p_fillColor, 
+					  ofParameter<ofColor> p_strokeColor)
 {
+	// Update des couleurs en temps réel (pour le sample)
+	fillColor = p_fillColor;
+	strokeColor = p_strokeColor;
 }
 
 void Renderer::exit() {
@@ -46,13 +59,12 @@ void Renderer::exit() {
 }
 
 void Renderer::draw()
-{
-	
+{	
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
 
 	if (mouseIsPressed)
-	{
+	{	
 		saveStrokeState();
 		strokeColorA = 100;
 		if (shapeType == VectorPrimitiveType::circle || shapeType == VectorPrimitiveType::square) {
@@ -64,7 +76,11 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
+
+
 	drawShapes();
+	drawSample();
+	drawCursor(curMouse.x, curMouse.y);
 
 
 }
@@ -196,6 +212,83 @@ void Renderer::drawShapes() {
 	}
 }
 
+void Renderer::drawSample()
+{
+	// Drawing a sample
+
+	// Differentes valeurs du sample
+	float origineX = 230; // Points d'origine
+	float origineY = 30;
+	float deltaX = 50;    // Tailles en x et en y
+	float deltaY = 100;
+
+
+	switch (shapeType)
+	{
+	case VectorPrimitiveType::pixel:
+
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetColor(strokeColor);
+		drawPixel(origineX, origineY);
+		break;
+
+	case VectorPrimitiveType::line:
+
+		ofNoFill();
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawLine(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		break;
+
+	case VectorPrimitiveType::rectangle:
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetColor(fillColor);
+		drawRectangle(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		ofNoFill();
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawRectangle(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		break;
+
+	case VectorPrimitiveType::square:
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetColor(fillColor);
+		drawSquare(origineX, origineY, origineX + deltaX, origineY + deltaX);
+		ofNoFill();
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawSquare(origineX, origineY, origineX + deltaX, origineY + deltaX);
+		break;
+
+	case VectorPrimitiveType::ellipse:
+
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetCircleResolution(48);
+		ofSetColor(fillColor);
+		drawEllipse(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		ofNoFill();
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawEllipse(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		break;
+	case VectorPrimitiveType::circle:
+		ofFill();
+		ofSetColor(fillColor);
+		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
+		ofNoFill();
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
+		break;
+	default:
+		break;
+	}
+}
+
 /*
 * @brief Importe l'image sous le nom de fichier passé en argument.
 */
@@ -274,7 +367,7 @@ void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 }
 
 // fonction qui ajoute une primitive vectorielle au tableau
-void Renderer::addVectorShape(VectorPrimitiveType type, ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
+void Renderer::addVectorShape(VectorPrimitiveType type)
 {
 	shapes[head].type = type;
 
@@ -397,12 +490,26 @@ void Renderer::drawZone(float x1, float y1, float x2, float y2) const
 
 void Renderer::drawCursor(float x, float y) const
 {
-	float length = 10.0f;
-	float offset = 5.0f;
-	ofSetLineWidth(2);
-	ofSetColor(31);
-	ofDrawLine(x + offset, y, x + offset + length, y);
-	ofDrawLine(x - offset, y, x - offset - length, y);
-	ofDrawLine(x, y + offset, x, y + offset + length);
-	ofDrawLine(x, y - offset, x, y - offset - length);
+	if (mouseIsPressed) {
+		/*float length = 15.0f;
+		float offset = 10.0f;
+		ofSetLineWidth(4);
+		ofSetColor(255,0,0);
+		ofDrawLine(x + offset, y, x + offset + length, y);
+		ofDrawLine(x - offset, y, x - offset - length, y);
+		ofDrawLine(x, y + offset, x, y + offset + length);
+		ofDrawLine(x, y - offset, x, y - offset - length);*/
+		cursor3.draw(x-20, y-20, 40,40);
+
+	}else{
+		/*float length = 10.0f;
+		float offset = 5.0f;
+		ofSetLineWidth(2);
+		ofSetColor(31);
+		ofDrawLine(x + offset, y, x + offset + length, y);
+		ofDrawLine(x - offset, y, x - offset - length, y);
+		ofDrawLine(x, y + offset, x, y + offset + length);
+		ofDrawLine(x, y - offset, x, y - offset - length);*/
+		cursor1.draw(x-20, y-20 ,40,40);
+	}
 }
