@@ -226,6 +226,11 @@ void Renderer::drawSample()
 
 	switch (shapeType)
 	{
+	case VectorPrimitiveType::slime:
+		SlimeShape(VectorPrimitiveType::slime, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth).draw();
+		break;	
+
 	case VectorPrimitiveType::pixel:
 
 		ofFill();
