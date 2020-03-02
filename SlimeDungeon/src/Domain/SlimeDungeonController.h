@@ -13,6 +13,13 @@ public:
 	SlimeDungeonController();
 	void publishSetupEvent(ofxPanel*);
 	void publishExitEvent();
+	
+	//Selection, etc.
+	void checkClickInShape();
+	void deleteSelectedShape();
+	bool isSelectedShapeEmpty();
+
+
 	//Draw ---------------
 	void rendererDraw(ofParameter<ofColor>, ofParameter<ofColor>);
 	void setDrawMode(bool drawMode);

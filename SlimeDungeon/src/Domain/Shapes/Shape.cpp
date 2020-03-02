@@ -25,6 +25,10 @@ Shape::Shape(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, floa
 	}
 }
 
+bool Shape::operator== (const Shape& shape) const {
+	return this->shapeId == shape.shapeId;
+}
+
 Shape::Shape(VectorPrimitiveType p_shapeType, ofPoint p_position1, ofPoint p_position2,
 	ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth) :
 	Shape(p_shapeType, p_position1.x, p_position1.y, p_position2.x, p_position2.y, p_fillColor, p_strokeColor, p_strokeWidth)

@@ -9,6 +9,10 @@ Renderer::Renderer()
 
 void Renderer::setup(ofxPanel *gui)
 {
+	//Shapes count
+	//SlimeShape::numSlimeShape = 0;
+	//TileShape::numTileShape = 0;
+
 	// Ajout des paramètres de dessin au gui
 	gui->getGroup("Draw tools").add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
 	gui->getGroup("Draw tools").add(tileSize.set("Tile size", 50, 1, 300));
@@ -79,13 +83,12 @@ void Renderer::draw()
 		restorePrevStrokeState();
 	}
 
-
-	drawShapes();
-	drawSample();
 	drawCursor(curMouse.x, curMouse.y);
-
-
+	drawSample();
+	drawShapes();
+	highlightSelectedShape();
 }
+
 
 void Renderer::drawShapes() {
 	for (index = 0; index < count; ++index)
@@ -209,7 +212,7 @@ void Renderer::drawSample()
 	float origineY = 30;
 	float deltaX = 50;    // Tailles en x et en y
 	float deltaY = 100;
-
+	bool sampleShape = true;
 
 	switch (shapeType)
 	{
@@ -272,8 +275,26 @@ void Renderer::drawSample()
 		ofSetColor(strokeColor);
 		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
 		break;
+
+	case VectorPrimitiveType::tiles:
+		TileShape(VectorPrimitiveType::tiles, origineX, origineY, origineX + deltaX, origineY + deltaY,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, (int) deltaX /4, sampleShape).draw();
+		break;
+	case VectorPrimitiveType::slime:
+		SlimeShape(VectorPrimitiveType::slime, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
+
+
 	default:
 		break;
+	}
+}
+
+
+void Renderer::highlightSelectedShape() {
+	for (auto shape : selectedShapes) {
+		shape.second->highlight();
 	}
 }
 
@@ -514,10 +535,42 @@ void Renderer::drawCursor(float x, float y) const
 	}
 }
 
+void Renderer::checkClickInShape() {
+
+	for (unsigned int i = 0; i < vecShapes.size(); i++) {
+		if (vecShapes.at(i)->contains(mousePress.x, mousePress.y)) {
+				if (selectedShapes.find(vecShapes.at(i)->shapeId) != selectedShapes.end()) {//Is the shape already selected?
+					selectedShapes.erase(selectedShapes.find(vecShapes.at(i)->shapeId)); //Unselect the shape
+					return;
+				}
+				else {
+					selectedShapes.insert(std::make_pair(vecShapes.at(i)->shapeId, vecShapes.at(i)));
+					return;
+				}
+		}
+	}
+	selectedShapes.clear();
+}
+
+void Renderer::deleteSelectedShape() {
+	if (! selectedShapes.empty()) {
+		for (int i = vecShapes.size() - 1; i >= 0; i--) {
+			if (selectedShapes.find(vecShapes.at(i)->shapeId) != selectedShapes.end()) { //The shapes is selected
+				vecShapes.erase(vecShapes.begin() + i);
+			}
+		}
+		selectedShapes.clear();
+	}
+}
+
 void Renderer::setFill(bool fill) {
 	fillShape = fill;
 }
 
 void Renderer::setDrawMode(bool drawMode) {
 	isDrawing = drawMode;
+}
+
+bool Renderer::isSelectedShapeEmpty() {
+	return selectedShapes.empty();
 }

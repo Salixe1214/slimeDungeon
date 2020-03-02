@@ -28,8 +28,6 @@ public:
 	void dragEvent(ofDragInfo info);
 	void gotMessage(ofMessage msg);		
 
-	void circleResolutionChanged(int & circleResolution);
-
 	bool bHide;
 	ofPoint mousePress, screenshotPtUpperRight;
 	ofPoint curMouse, screenshotPtDownLeft;
@@ -87,6 +85,10 @@ public:
 	//Scene
 	ofxTextField hierarchy;
 	string emptySceneMsg;
+	int scenePanelWidth;
+	ofxButton deleteShapeBtn;
+
+	void deleteShapeBtnPressed();
 
 	//Panel
 	ofxPanel gui;
@@ -99,7 +101,7 @@ private:
 	
 
 	//Pressed
-	void ringButtonPressed();
+	void setDefaultParameter();
 	void screenshotBtnPressed();
 	void importImageBtnPressed();
 

@@ -16,6 +16,21 @@ void SlimeDungeonController::publishExitEvent()
 	ctrlRenderer.exit();
 }
 
+void SlimeDungeonController::checkClickInShape()
+{
+	ctrlRenderer.checkClickInShape();
+}
+
+void SlimeDungeonController::deleteSelectedShape()
+{
+	ctrlRenderer.deleteSelectedShape();
+}
+
+bool SlimeDungeonController::isSelectedShapeEmpty()
+{
+	return ctrlRenderer.isSelectedShapeEmpty();
+}
+
 void SlimeDungeonController::rendererDraw(ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
 {
 	ctrlRenderer.draw();
