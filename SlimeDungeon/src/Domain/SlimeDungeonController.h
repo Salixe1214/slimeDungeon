@@ -15,8 +15,10 @@ public:
 	void publishExitEvent();
 	//Draw ---------------
 	void rendererDraw(ofParameter<ofColor>, ofParameter<ofColor>);
+	void setDrawMode(bool drawMode);
 	void setDrawType(int drawType);
 	void addShape();
+	void setFill(bool fill);
 
 	void exportImg(ofImage imgToExport, string filename) const;
 

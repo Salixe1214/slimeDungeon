@@ -6,31 +6,32 @@ void SlimeDungeonUI::setup(){
 	
 
 	//Listeners
-	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
-	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+	
+	//Scene
+	scene.setup("Scene Content");
+	emptySceneMsg = "No element in scene";
+	scene.add(hierarchy.setup("hierarchy", emptySceneMsg));
 
 
-
+	//gui
 	gui.setup("Toolbox"); // most of the time you don't need a name but don't forget to call setup
-	gui.add(filled.set("Remplir", true));
-	gui.add(radius.set("Rayon", 140, 10, 300 ));
-	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
+	prevFill = true;
 	gui.add(backColor1.set("Fond exterieur",ofColor::green,ofColor(0,0),ofColor(255,255)));
     gui.add(backColor2.set("Fond interieur",ofColor::black,ofColor(0,0),ofColor(255,255)));
-	//gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
-	gui.add(twoCircles.set("Deux cercles", false));
-	gui.add(ringButton.setup("Cloche"));
+
 	gui.add(screenSize.set("Screen size", ""));
 
 
 	//Draw tools
 	drawToolsGroup.setup("Draw tools");	
-	drawToolsGroup.add(drawMode.setup("Draw mode", true));
-	drawToolsGroup.add(currentShapeType.setup("Draw : ", "pixel"));
-	drawToolsGroup.add(shapeColor1.set("Fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
-	drawToolsGroup.add(shapeColor2.set("Stroke color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 	
+	drawToolsGroup.add(drawMode.setup("Draw mode", true));
+	prevDrawMode = true;
+	drawToolsGroup.add(currentShapeType.setup("Draw : ", "pixel"));
+	drawToolsGroup.add(shapeColor2.set("Stroke color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
+	drawToolsGroup.add(filled.set("Remplir", true));
+	drawToolsGroup.add(shapeColor1.set("Fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 
 	//int tmpHeight = drawToolsGroup.getHeight(); TODO permettre à la légende de s'afficher dans une seule boîte
 	//shapeKeyLegend.setDefaultHeight(100);
@@ -55,13 +56,11 @@ void SlimeDungeonUI::setup(){
 	
 	sdCtrl.publishSetupEvent(&gui);
 
-	ring.load("ring.wav");
 }
 
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::exit(){
-	ringButton.removeListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	sdCtrl.publishExitEvent();
 }
@@ -71,10 +70,6 @@ void SlimeDungeonUI::circleResolutionChanged(int & circleResolution){
 	ofSetCircleResolution(circleResolution);
 }
 
-//--------------------------------------------------------------
-void SlimeDungeonUI::ringButtonPressed(){
-	ring.play();
-}
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::importImageBtnPressed() {
@@ -127,6 +122,14 @@ void SlimeDungeonUI::update() {
 
 
 	}
+	if (drawMode != prevDrawMode) {
+		sdCtrl.setDrawMode(drawMode);
+		prevDrawMode = drawMode;
+	}
+	if (filled != prevFill) {
+		sdCtrl.setFill(filled);
+		prevFill = filled;
+	}
 	//Drag les images a l'interieure de la window
 	//Check width
 	
@@ -154,11 +157,6 @@ void SlimeDungeonUI::draw(){
 	ofSetColor(0);
 	ofDrawBitmapString("drag image files into this window", 10, 20);
     
-	if( filled ){
-		ofFill();
-	}else{
-		ofNoFill();
-	}
 
 	/*
 	// Retrait du cercle qui est là de base [A.S.]

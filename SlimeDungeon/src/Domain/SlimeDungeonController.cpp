@@ -22,6 +22,11 @@ void SlimeDungeonController::rendererDraw(ofParameter<ofColor> fillColor, ofPara
 	ctrlRenderer.update(fillColor, strokeColor);
 }
 
+void SlimeDungeonController::setDrawMode(bool drawMode)
+{
+	ctrlRenderer.setDrawMode(drawMode);
+}
+
 void SlimeDungeonController::setDrawType(int drawType)
 {
 	switch (drawType) {
@@ -67,6 +72,11 @@ void SlimeDungeonController::setDrawType(int drawType)
 void SlimeDungeonController::addShape()
 {
 	ctrlRenderer.addVectorShape(ctrlRenderer.shapeType);
+}
+
+void SlimeDungeonController::setFill(bool fill)
+{
+	ctrlRenderer.setFill(fill);
 }
 
 void SlimeDungeonController::setCurMouse(ofPoint newMousePos)

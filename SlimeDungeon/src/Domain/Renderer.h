@@ -61,9 +61,10 @@ public:
 	ofPoint curMouse;
 	ofPoint mousePress;
 	ofParameter<ofColor> fillColor, strokeColor;
-	bool mouseIsPressed, isDrawing; //TODO isDrawing n'est peut-être pas requis
+	bool mouseIsPressed, isDrawing, fillShape;
 	
-
+	void setFill(bool fill);
+	void setDrawMode(bool drawMode);
 	void setShapeType(VectorPrimitiveType newShapeType);
 
 	// Fonctions inspirées des exemples du cours (Module 2/Ex04)
