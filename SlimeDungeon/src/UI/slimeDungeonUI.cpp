@@ -197,6 +197,17 @@ void SlimeDungeonUI::keyPressed(int key){
 	if (key == 'o') {
 		shapeColor2 = shapeColor1;
 	}
+	switch (key)
+	{
+	case OF_KEY_LEFT:
+		sdCtrl.changeState(true);
+		break;
+	case OF_KEY_RIGHT:
+		sdCtrl.changeState(false);
+		break;
+	default:
+		break;
+	}
 
 }
 

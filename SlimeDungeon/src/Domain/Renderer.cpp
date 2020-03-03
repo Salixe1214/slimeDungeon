@@ -60,6 +60,11 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 }
 
 void Renderer::exit() {
+	while (!pastVecShapes.empty())
+	{
+		vecShapes.push_back(pastVecShapes.top());
+		pastVecShapes.pop();
+	}
 	vecShapes.clear();
 }
 
@@ -109,6 +114,11 @@ void Renderer::drawSample()
 
 	switch (shapeType)
 	{
+	case VectorPrimitiveType::slime:
+		SlimeShape(VectorPrimitiveType::slime, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth).draw();
+		break;	
+
 	case VectorPrimitiveType::pixel:
 		shape::Pixel(shapeType, origineX, origineY, ofColor(fillColor), sampleShape).draw();
 		break;
@@ -224,7 +234,6 @@ void Renderer::restorePrevStrokeState()
 //
 //	ofLog() << "<reset>";
 //}
-
 void Renderer::removeLastAddedVectorShape(){
 
 }
@@ -378,4 +387,18 @@ void Renderer::setDrawMode(bool drawMode) {
 
 bool Renderer::isSelectedShapeEmpty() {
 	return selectedShapes.empty();
+}
+
+void Renderer::goBack() {
+	if (vecShapes.size() > 0) {
+		pastVecShapes.push(vecShapes.back());
+		vecShapes.pop_back();
+	}
+}
+
+void Renderer::reDo() {
+	if (pastVecShapes.size() > 0) {
+		vecShapes.push_back(pastVecShapes.top());
+		pastVecShapes.pop();
+	}
 }

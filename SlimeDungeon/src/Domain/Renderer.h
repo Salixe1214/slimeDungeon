@@ -15,6 +15,7 @@
 #include "Domain/Shapes/Pixel.h"
 #include "Domain/Shapes/Line.h"
 #include "ofxGui.h"
+#include <stack>
 
 using namespace shape;
 
@@ -43,6 +44,7 @@ public:
 	VectorPrimitiveType shapeType;
 	VectorPrimitive *shapes;
 	std::vector<Shape*> vecShapes;
+	std::stack<Shape*> pastVecShapes;
 	//std::vector<Shape*> selectedShapes;
 	std::unordered_map<std::string, Shape*> selectedShapes;
 
@@ -70,6 +72,9 @@ public:
 	void highlightSelectedShape();
 	void deleteSelectedShape();
 	bool isSelectedShapeEmpty();
+
+	void goBack();
+	void reDo();
 
 
 	//drawTool -----------------
