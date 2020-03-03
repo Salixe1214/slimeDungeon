@@ -18,6 +18,7 @@ public:
 	void checkClickInShape();
 	void deleteSelectedShape();
 	bool isSelectedShapeEmpty();
+	void changeState(bool);
 
 
 	//Draw ---------------

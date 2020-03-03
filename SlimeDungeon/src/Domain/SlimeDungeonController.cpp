@@ -134,3 +134,8 @@ void SlimeDungeonController::publishExitRecordModeEvent()
 {
 	ctrlRenderer.recordMode = false;
 }
+
+void SlimeDungeonController::changeState(bool goBack) {
+	if (goBack) ctrlRenderer.goBack();
+	else ctrlRenderer.reDo();
+}

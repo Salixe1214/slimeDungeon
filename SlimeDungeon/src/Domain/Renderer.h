@@ -9,6 +9,7 @@
 #include "Domain/Shapes/TileShape.h"
 #include "Domain/Shapes//SlimeShape.h"
 #include "ofxGui.h"
+#include <stack>
 
 
 // structure de primitive vectorielle générique
@@ -36,6 +37,7 @@ public:
 	VectorPrimitiveType shapeType;
 	VectorPrimitive *shapes;
 	std::vector<Shape*> vecShapes;
+	std::stack<Shape*> pastVecShapes;
 	//std::vector<Shape*> selectedShapes;
 	std::unordered_map<std::string, Shape*> selectedShapes;
 
@@ -64,6 +66,9 @@ public:
 	void highlightSelectedShape();
 	void deleteSelectedShape();
 	bool isSelectedShapeEmpty();
+
+	void goBack();
+	void reDo();
 
 
 	//drawTool -----------------
