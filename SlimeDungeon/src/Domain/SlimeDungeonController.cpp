@@ -16,10 +16,30 @@ void SlimeDungeonController::publishExitEvent()
 	ctrlRenderer.exit();
 }
 
+void SlimeDungeonController::checkClickInShape()
+{
+	ctrlRenderer.checkClickInShape();
+}
+
+void SlimeDungeonController::deleteSelectedShape()
+{
+	ctrlRenderer.deleteSelectedShape();
+}
+
+bool SlimeDungeonController::isSelectedShapeEmpty()
+{
+	return ctrlRenderer.isSelectedShapeEmpty();
+}
+
 void SlimeDungeonController::rendererDraw(ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
 {
 	ctrlRenderer.draw();
 	ctrlRenderer.update(fillColor, strokeColor);
+}
+
+void SlimeDungeonController::setDrawMode(bool drawMode)
+{
+	ctrlRenderer.setDrawMode(drawMode);
 }
 
 void SlimeDungeonController::setDrawType(int drawType)
@@ -67,6 +87,11 @@ void SlimeDungeonController::setDrawType(int drawType)
 void SlimeDungeonController::addShape()
 {
 	ctrlRenderer.addVectorShape(ctrlRenderer.shapeType);
+}
+
+void SlimeDungeonController::setFill(bool fill)
+{
+	ctrlRenderer.setFill(fill);
 }
 
 void SlimeDungeonController::setCurMouse(ofPoint newMousePos)

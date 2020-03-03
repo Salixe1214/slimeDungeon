@@ -19,9 +19,17 @@ public:
 	VectorPrimitiveType shapeType;
 	Shape* parent;
 	std::vector<Shape*> childs;
+	string shapeId;
+
 	virtual void draw() {};
+	virtual bool contains(float x, float y) { return false; };
+	virtual void highlight() {};
+	bool operator== (const Shape& shape) const;
 
 	void setPosition1(float x1, float y1);
 	void setPosition2(float x2, float y2);
+
+	ofColor highlightColor = ofColor::blueSteel;
+
 };
 

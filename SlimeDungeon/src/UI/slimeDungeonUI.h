@@ -28,8 +28,6 @@ public:
 	void dragEvent(ofDragInfo info);
 	void gotMessage(ofMessage msg);		
 
-	void circleResolutionChanged(int & circleResolution);
-
 	bool bHide;
 	ofPoint mousePress, screenshotPtUpperRight;
 	ofPoint curMouse, screenshotPtDownLeft;
@@ -37,6 +35,7 @@ public:
 	//DrawTools------------------------------------------
 	ofxGuiGroup drawToolsGroup;
 	ofxToggle drawMode;
+	bool prevDrawMode;
 	ofxTextField currentShapeType;
 	ofxTextField shapeKeyLegend;
 	
@@ -76,21 +75,25 @@ public:
     ofParameter<ofColor> shapeColor2;
 	//ofParameter<int> tileSize;
 	ofParameter<glm::vec2> center;
-	ofParameter<int> circleResolution;
 	ofParameter<bool> filled;
-	ofParameter<bool> twoCircles;
+	bool prevFill;
 	ofParameter<string> screenSize;
 
 	int screenWidth, screenHeight;
 
 
-	//Buttons
-	
-	ofxButton ringButton;
+	//Scene
+	ofxTextField hierarchy;
+	string emptySceneMsg;
+	int scenePanelWidth;
+	ofxButton deleteShapeBtn;
 
+	void deleteShapeBtnPressed();
+
+	//Panel
 	ofxPanel gui;
+	ofxPanel scene;
 
-	ofSoundPlayer ring;
 
 private:
 	SlimeDungeonController sdCtrl;
@@ -98,7 +101,7 @@ private:
 	
 
 	//Pressed
-	void ringButtonPressed();
+	void setDefaultParameter();
 	void screenshotBtnPressed();
 	void importImageBtnPressed();
 

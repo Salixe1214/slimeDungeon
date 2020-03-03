@@ -36,6 +36,9 @@ public:
 	VectorPrimitiveType shapeType;
 	VectorPrimitive *shapes;
 	std::vector<Shape*> vecShapes;
+	//std::vector<Shape*> selectedShapes;
+	std::unordered_map<std::string, Shape*> selectedShapes;
+
 	int count;
 	int size;
 	int stride;
@@ -56,14 +59,21 @@ public:
 	void exit();
 
 	void draw();
+	//Selection, etc.
+	void checkClickInShape();
+	void highlightSelectedShape();
+	void deleteSelectedShape();
+	bool isSelectedShapeEmpty();
+
 
 	//drawTool -----------------
 	ofPoint curMouse;
 	ofPoint mousePress;
 	ofParameter<ofColor> fillColor, strokeColor;
-	bool mouseIsPressed, isDrawing; //TODO isDrawing n'est peut-être pas requis
+	bool mouseIsPressed, isDrawing, fillShape;
 	
-
+	void setFill(bool fill);
+	void setDrawMode(bool drawMode);
 	void setShapeType(VectorPrimitiveType newShapeType);
 
 	// Fonctions inspirées des exemples du cours (Module 2/Ex04)

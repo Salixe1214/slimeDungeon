@@ -3,34 +3,39 @@
 //--------------------------------------------------------------
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
-	
+
+	setDefaultParameter(); 
 
 	//Listeners
-	circleResolution.addListener(this, &SlimeDungeonUI::circleResolutionChanged);
-	ringButton.addListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
+
+	
+	//Scene
+	//Ajout éventuel d'un affichage des éléments de la scène.
+	scene.setup("Scene Managing");
+	scene.setPosition(glm::vec3(ofGetWidth() - scenePanelWidth, 0, 0)); //To the right of the window	
+	scene.add(hierarchy.setup("hierarchy", emptySceneMsg));
+	scene.add(deleteShapeBtn.setup("Delete Selected Shape"));
+	
 
 
+	//gui
+	gui.setup("Toolbox"); 
 
-	gui.setup("Toolbox"); // most of the time you don't need a name but don't forget to call setup
-	gui.add(filled.set("Remplir", true));
-	gui.add(radius.set("Rayon", 140, 10, 300 ));
-	gui.add(center.set("Centrer",glm::vec2(ofGetWidth()*.5,ofGetHeight()*.5),glm::vec2(0,0),glm::vec2(ofGetWidth(),ofGetHeight())));
 	gui.add(backColor1.set("Fond exterieur",ofColor::green,ofColor(0,0),ofColor(255,255)));
     gui.add(backColor2.set("Fond interieur",ofColor::black,ofColor(0,0),ofColor(255,255)));
-	//gui.add(circleResolution.set("Resolution du cercle", 5, 3, 90));
-	gui.add(twoCircles.set("Deux cercles", false));
-	gui.add(ringButton.setup("Cloche"));
-	gui.add(screenSize.set("Screen size", ""));
 
+	gui.add(screenSize.set("Screen size", ""));
 
 	//Draw tools
 	drawToolsGroup.setup("Draw tools");	
+	
 	drawToolsGroup.add(drawMode.setup("Draw mode", true));
 	drawToolsGroup.add(currentShapeType.setup("Draw : ", "pixel"));
-	drawToolsGroup.add(shapeColor1.set("Fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 	drawToolsGroup.add(shapeColor2.set("Stroke color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
-	
+	drawToolsGroup.add(filled.set("Remplir", true));
+	drawToolsGroup.add(shapeColor1.set("Fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 
 	//int tmpHeight = drawToolsGroup.getHeight(); TODO permettre à la légende de s'afficher dans une seule boîte
 	//shapeKeyLegend.setDefaultHeight(100);
@@ -51,29 +56,36 @@ void SlimeDungeonUI::setup(){
 	gui.add(&drawToolsGroup);
 	gui.add(&captureToolsGroup);
 	gui.add(&importToolsGroup);
-	bHide = false;
+	
 	
 	sdCtrl.publishSetupEvent(&gui);
 
-	ring.load("ring.wav");
 }
 
+void SlimeDungeonUI::setDefaultParameter() {
+	//Scene
+	scenePanelWidth = 200;
+	emptySceneMsg = "No element in scene";
+
+	//drawMode
+	prevDrawMode = true;
+	prevFill = true;
+
+
+	bHide = false;
+}
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::exit(){
-	ringButton.removeListener(this,&SlimeDungeonUI::ringButtonPressed);
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+	deleteShapeBtn.removeListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	sdCtrl.publishExitEvent();
 }
 
-//--------------------------------------------------------------
-void SlimeDungeonUI::circleResolutionChanged(int & circleResolution){
-	ofSetCircleResolution(circleResolution);
-}
 
-//--------------------------------------------------------------
-void SlimeDungeonUI::ringButtonPressed(){
-	ring.play();
+void SlimeDungeonUI::deleteShapeBtnPressed() {
+	if (sdCtrl.isSelectedShapeEmpty()) ofSystemAlertDialog("Select at least one shape");
+	else sdCtrl.deleteSelectedShape();
 }
 
 //--------------------------------------------------------------
@@ -127,6 +139,14 @@ void SlimeDungeonUI::update() {
 
 
 	}
+	if (drawMode != prevDrawMode) {
+		sdCtrl.setDrawMode(drawMode);
+		prevDrawMode = drawMode;
+	}
+	if (filled != prevFill) {
+		sdCtrl.setFill(filled);
+		prevFill = filled;
+	}
 	//Drag les images a l'interieure de la window
 	//Check width
 	
@@ -153,25 +173,10 @@ void SlimeDungeonUI::draw(){
 
 	ofSetColor(0);
 	ofDrawBitmapString("drag image files into this window", 10, 20);
-    
-	if( filled ){
-		ofFill();
-	}else{
-		ofNoFill();
-	}
-
-	/*
-	// Retrait du cercle qui est là de base [A.S.]
-	ofSetColor(shapeColor1);
-	if(twoCircles){
-		ofDrawCircle(center->x-radius*.5, center->y, radius );
-		ofDrawCircle(center->x+radius*.5, center->y, radius );
-	}else{
-		ofDrawCircle((glm::vec2)center, radius );
-	}*/
 	
 	if( !bHide ){
 		gui.draw();
+		scene.draw();
 	}
 }
 
@@ -308,6 +313,9 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 	else{
 		if (drawMode) {
 			sdCtrl.addShape(); //TODO faut passer les colors des shapes ici
+		}
+		else {
+			sdCtrl.checkClickInShape();
 		}
 	}
 	

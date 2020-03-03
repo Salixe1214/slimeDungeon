@@ -9,9 +9,13 @@ Renderer::Renderer()
 
 void Renderer::setup(ofxPanel *gui)
 {
+	//Shapes count
+	//SlimeShape::numSlimeShape = 0;
+	//TileShape::numTileShape = 0;
+
 	// Ajout des paramètres de dessin au gui
-	gui->add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
-	gui->add(tileSize.set("Tile size", 50, 1, 300));
+	gui->getGroup("Draw tools").add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
+	gui->getGroup("Draw tools").add(tileSize.set("Tile size", 50, 1, 300));
 	
 	//color = p_userColor;
 	mouseIsPressed = false;
@@ -22,6 +26,7 @@ void Renderer::setup(ofxPanel *gui)
 	size = count * stride;
 	shapes = (VectorPrimitive*)std::malloc(size);
 	shapeType = VectorPrimitiveType::pixel;
+	fillShape = true;
 
 	//TODO TEMPORARY ---
 	strokeColorR = 148;
@@ -68,7 +73,7 @@ void Renderer::draw()
 	{	
 		saveStrokeState();
 		strokeColorA = 100;
-		if (shapeType == VectorPrimitiveType::circle || shapeType == VectorPrimitiveType::square) {
+		if ((shapeType == VectorPrimitiveType::circle || shapeType == VectorPrimitiveType::square) && isDrawing) {
 			if (curMouse.y - mousePress.y < 0)
 				drawZone(mousePress.x, mousePress.y, curMouse.x, mousePress.y - fabs(curMouse.x - mousePress.x));
 			else drawZone(mousePress.x, mousePress.y, curMouse.x, mousePress.y + fabs(curMouse.x - mousePress.x));
@@ -78,13 +83,12 @@ void Renderer::draw()
 		restorePrevStrokeState();
 	}
 
-
-	drawShapes();
-	drawSample();
 	drawCursor(curMouse.x, curMouse.y);
-
-
+	drawSample();
+	drawShapes();
+	highlightSelectedShape();
 }
+
 
 void Renderer::drawShapes() {
 	for (index = 0; index < count; ++index)
@@ -143,10 +147,7 @@ void Renderer::drawShapes() {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(
-				shapes[index].strokeColor[0],
-				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+			ofSetColor(shapes[index].strokeColor);
 			drawSquare(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -159,10 +160,7 @@ void Renderer::drawShapes() {
 			ofFill();
 			ofSetLineWidth(0);
 			ofSetCircleResolution(48);
-			ofSetColor(
-				shapes[index].fillColor[0],
-				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);
+			ofSetColor(shapes[index].fillColor);
 			drawEllipse(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -170,10 +168,7 @@ void Renderer::drawShapes() {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(
-				shapes[index].strokeColor[0],
-				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+			ofSetColor(shapes[index].strokeColor);
 			drawEllipse(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -182,10 +177,7 @@ void Renderer::drawShapes() {
 			break;
 		case VectorPrimitiveType::circle:
 			ofFill();
-			ofSetColor(
-				shapes[index].fillColor[0],
-				shapes[index].fillColor[1],
-				shapes[index].fillColor[2]);
+			ofSetColor(shapes[index].fillColor);
 			drawCircle(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -193,10 +185,7 @@ void Renderer::drawShapes() {
 				shapes[index].position2[1]);
 			ofNoFill();
 			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(
-				shapes[index].strokeColor[0],
-				shapes[index].strokeColor[1],
-				shapes[index].strokeColor[2]);
+			ofSetColor(shapes[index].strokeColor);
 			drawCircle(
 				shapes[index].position1[0],
 				shapes[index].position1[1],
@@ -208,6 +197,7 @@ void Renderer::drawShapes() {
 		}
 	}
 
+	//Draw vector shapes
 	for (unsigned int i = 0; i < vecShapes.size(); i++) {
 		vecShapes.at(i)->draw();
 	}
@@ -222,7 +212,7 @@ void Renderer::drawSample()
 	float origineY = 30;
 	float deltaX = 50;    // Tailles en x et en y
 	float deltaY = 100;
-
+	bool sampleShape = true;
 
 	switch (shapeType)
 	{
@@ -290,8 +280,26 @@ void Renderer::drawSample()
 		ofSetColor(strokeColor);
 		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
 		break;
+
+	case VectorPrimitiveType::tiles:
+		TileShape(VectorPrimitiveType::tiles, origineX, origineY, origineX + deltaX, origineY + deltaY,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, (int) deltaX /4, sampleShape).draw();
+		break;
+	case VectorPrimitiveType::slime:
+		SlimeShape(VectorPrimitiveType::slime, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
+
+
 	default:
 		break;
+	}
+}
+
+
+void Renderer::highlightSelectedShape() {
+	for (auto shape : selectedShapes) {
+		shape.second->highlight();
 	}
 }
 
@@ -378,16 +386,24 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 	shapes[head].type = type;
 
 	shapes[head].strokeColor = ofColor(strokeColor);
-
-	shapes[head].fillColor = ofColor(fillColor);
+	if (fillShape) shapes[head].fillColor = ofColor(fillColor);
+	else shapes[head].fillColor = ofColor(0,0,0,0); //Composante avec transparence maximale
 
 	if (type == VectorPrimitiveType::tiles) {
-		vecShapes.push_back(new TileShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth, tileSize)); 
+		if (fillShape)
+			vecShapes.push_back(new TileShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
+				ofColor(fillColor), ofColor(strokeColor), strokeWidth, tileSize)); 
+		else 
+			vecShapes.push_back(new TileShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
+				ofColor(0,0,0,0), ofColor(strokeColor), strokeWidth, tileSize));
 	}
 	if (type == VectorPrimitiveType::slime) {
-		vecShapes.push_back(new SlimeShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth));
+		if (fillShape) 
+			vecShapes.push_back(new SlimeShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
+				ofColor(fillColor), ofColor(strokeColor), strokeWidth));
+		else
+			vecShapes.push_back(new SlimeShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
+				ofColor(0,0,0,0), ofColor(strokeColor), strokeWidth));
 	}
 
 	if (type == VectorPrimitiveType::square || type == VectorPrimitiveType::circle) {
@@ -522,4 +538,44 @@ void Renderer::drawCursor(float x, float y) const
 		ofDrawLine(x, y - offset, x, y - offset - length);*/
 		cursor1.draw(x-20, y-20 ,40,40);
 	}
+}
+
+void Renderer::checkClickInShape() {
+
+	for (unsigned int i = 0; i < vecShapes.size(); i++) {
+		if (vecShapes.at(i)->contains(mousePress.x, mousePress.y)) {
+				if (selectedShapes.find(vecShapes.at(i)->shapeId) != selectedShapes.end()) {//Is the shape already selected?
+					selectedShapes.erase(selectedShapes.find(vecShapes.at(i)->shapeId)); //Unselect the shape
+					return;
+				}
+				else {
+					selectedShapes.insert(std::make_pair(vecShapes.at(i)->shapeId, vecShapes.at(i)));
+					return;
+				}
+		}
+	}
+	selectedShapes.clear();
+}
+
+void Renderer::deleteSelectedShape() {
+	if (! selectedShapes.empty()) {
+		for (int i = vecShapes.size() - 1; i >= 0; i--) {
+			if (selectedShapes.find(vecShapes.at(i)->shapeId) != selectedShapes.end()) { //The shapes is selected
+				vecShapes.erase(vecShapes.begin() + i);
+			}
+		}
+		selectedShapes.clear();
+	}
+}
+
+void Renderer::setFill(bool fill) {
+	fillShape = fill;
+}
+
+void Renderer::setDrawMode(bool drawMode) {
+	isDrawing = drawMode;
+}
+
+bool Renderer::isSelectedShapeEmpty() {
+	return selectedShapes.empty();
 }
