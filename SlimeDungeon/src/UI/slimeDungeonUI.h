@@ -82,22 +82,37 @@ public:
 
 
 	//Scene
+	//Overview
 	ofxTextField hierarchy;
 	string emptySceneMsg;
 	int scenePanelWidth;
 	ofxButton deleteShapeBtn;
-	ofParameter<ofColor> fillColorScene;
-	ofParameter<ofColor> strokeColorScene;
+	void deleteShapeBtnPressed();
+
+	//Transform selectedShape 
+	ofxGuiGroup transformToolsGroup;
+	ofParameter<ofColor> fillColorScene, strokeColorScene;
 	ofColor prevFillColorScene, prevStrokeColorScene;
-	ofParameter<float> extendSelectionX;
-	ofParameter<float> extendSelectionY;
+	ofParameter<float> extendSelectionX,  extendSelectionY;
 	float prevExtendSelectionX, prevExtendSelectionY;
-	ofParameter<int> extendTileRowX;
-	ofParameter<int> extendTileRowY;
+	ofParameter<int> extendTileRowX, extendTileRowY;
 	ofxToggle addTileRow;
 	int prevExtendTileRowX, prevExtendTileRowY;
+	
+	//Translate
+	ofxGuiGroup translationToolsGroup;
+	ofParameter<float> translateX, translateY;
+	float prevTranslateX, prevTranslateY;
 
-	void deleteShapeBtnPressed();
+	//Rotate
+	ofxGuiGroup  rotationToolsGroup;
+	ofParameter<float> rotateZ;
+	float prevRotateZ;
+
+	//Scale
+	ofxGuiGroup scalingToolsGroup;
+	ofParameter<float> scaleX, scaleY;
+	float prevScaleX, prevScaleY;
 
 	//Panel
 	ofxPanel gui;
