@@ -67,12 +67,17 @@ public:
 	void exit();
 
 	void draw();
+
 	//Selection, etc.
 	void checkClickInShape();
 	void highlightSelectedShape();
 	void deleteSelectedShape();
 	bool isSelectedShapeEmpty();
-
+	void setSelectionColor(ofColor newfillColor, ofColor newStrokeColor);
+	int getSelectedShapeSize();
+	string getFirstSelectedShapeName();
+	void extendSelectionBorder(float dx, float dy);
+	void addTileShapeRow(int addedXRow, int addedYRow);
 	void goBack();
 	void reDo();
 

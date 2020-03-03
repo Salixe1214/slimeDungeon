@@ -139,3 +139,28 @@ void SlimeDungeonController::changeState(bool goBack) {
 	if (goBack) ctrlRenderer.goBack();
 	else ctrlRenderer.reDo();
 }
+
+void SlimeDungeonController::setSelectionColor(ofColor fillColorScene, ofColor strokeColorScene)
+{
+	ctrlRenderer.setSelectionColor(fillColorScene, strokeColorScene);
+}
+
+int SlimeDungeonController::getSelectedShapeSize()
+{
+	return ctrlRenderer.getSelectedShapeSize();
+}
+
+string SlimeDungeonController::getFirstSelectedShapeName()
+{
+	return ctrlRenderer.getFirstSelectedShapeName();
+}
+
+void SlimeDungeonController::extendSelectionBorder(float dx, float dy)
+{
+	ctrlRenderer.extendSelectionBorder(dx, dy);
+}
+
+void SlimeDungeonController::addTileShapeRow(int addedXRow, int addedYRow)
+{
+	ctrlRenderer.addTileShapeRow(addedXRow, addedYRow);
+}

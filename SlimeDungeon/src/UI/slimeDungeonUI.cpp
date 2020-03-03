@@ -14,10 +14,20 @@ void SlimeDungeonUI::setup(){
 	//Scene
 	//Ajout éventuel d'un affichage des éléments de la scène.
 	scene.setup("Scene Managing");
-	scene.setPosition(glm::vec3(ofGetWidth() - scenePanelWidth, 0, 0)); //To the right of the window	
+	//scene.setDefaultWidth(scenePanelWidth);
+	scene.setPosition(ofGetWidth() - scenePanelWidth, 0); //To the right of the window
+
 	scene.add(hierarchy.setup("hierarchy", emptySceneMsg));
 	scene.add(deleteShapeBtn.setup("Delete Selected Shape"));
+
+	scene.add(fillColorScene.set("Selection fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
+	scene.add(strokeColorScene.set("Selection stroke color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 	
+	scene.add(extendSelectionX.set("Extend selection by x", 0, -100, 100));
+	scene.add(extendSelectionY.set("Extend selection by y", 0, -100, 100));
+	scene.add(addTileRow.setup("Add tile row", false));
+	scene.add(extendTileRowX.set("Add tile row x", 0, -10, 10));
+	scene.add(extendTileRowY.set("Add tile row y", 0, -10, 10));
 
 
 	//gui
@@ -66,6 +76,11 @@ void SlimeDungeonUI::setDefaultParameter() {
 	//Scene
 	scenePanelWidth = 200;
 	emptySceneMsg = "No element in scene";
+
+	prevFillColorScene = (ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255));
+	prevStrokeColorScene = (ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255));
+	prevExtendSelectionX = prevExtendSelectionY  = 0.0f;
+	prevExtendTileRowX = prevExtendTileRowY = 0;
 
 	//drawMode
 	prevDrawMode = true;
@@ -147,6 +162,13 @@ void SlimeDungeonUI::update() {
 		sdCtrl.setFill(filled);
 		prevFill = filled;
 	}
+	int numShape = sdCtrl.getSelectedShapeSize();
+	if (numShape > 0) {
+		if (numShape == 1)		hierarchy = sdCtrl.getFirstSelectedShapeName();
+		else hierarchy = "Group of shapes";
+	}
+	else hierarchy = "No shape selected";
+
 	//Drag les images a l'interieure de la window
 	//Check width
 	
@@ -161,6 +183,37 @@ void SlimeDungeonUI::draw(){
     ofBackgroundGradient(backColor2, backColor1);
 
 	sdCtrl.rendererDraw(shapeColor1, shapeColor2);
+
+	//Change selected Shape color
+	if (prevFillColorScene != fillColorScene || prevStrokeColorScene != strokeColorScene) {
+		sdCtrl.setSelectionColor(ofColor(fillColorScene), ofColor(strokeColorScene));
+		prevFillColorScene = fillColorScene;
+		prevStrokeColorScene = strokeColorScene;
+	}
+	//Change selected Shape border
+	if (!sdCtrl.isSelectedShapeEmpty()) {
+		if ((!ofIsFloatEqual(prevExtendSelectionX, (float)extendSelectionX) || !ofIsFloatEqual(prevExtendSelectionY, (float)extendSelectionY)) 
+			&& !addTileRow)
+		{
+			sdCtrl.extendSelectionBorder((float)extendSelectionX - prevExtendSelectionX,
+										(float)extendSelectionY - prevExtendSelectionY);
+			prevExtendSelectionX = extendSelectionX;
+			prevExtendSelectionY = extendSelectionY;
+		}
+		else if (addTileRow) {
+			sdCtrl.addTileShapeRow(extendTileRowX - prevExtendTileRowX,
+									extendTileRowY - prevExtendTileRowY);
+			prevExtendTileRowX = extendTileRowX;
+			prevExtendTileRowY = extendTileRowY;
+		}
+	}
+	else {
+		extendSelectionX = prevExtendSelectionX = 0.0f;
+		extendSelectionY = prevExtendSelectionY = 0.0f;
+		extendTileRowX = prevExtendTileRowX = 0;
+		extendTileRowY = prevExtendTileRowY = 0;
+
+	}
 	
 
 	//draw l'image qui a ete drag dans la window
@@ -347,6 +400,7 @@ void SlimeDungeonUI::windowResized(int w, int h){
 	screenWidth = w;
 	screenHeight = h;
     screenSize = ofToString(w) + "x" + ofToString(h);
+	scene.setPosition(w - scenePanelWidth, 0);
 }
 
 //--------------------------------------------------------------
