@@ -1,44 +1,37 @@
-#include "Rectangle.h"
+#include "Pixel.h"
 namespace shape {
 
-	Rectangle::Rectangle(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth)
-		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
+	Pixel::Pixel(VectorPrimitiveType p_shapeType, float x1, float y1, ofColor p_fillColor)
+		:Shape(p_shapeType, floorf(x1), floorf(y1), x1 + 1, y1 + 1, p_fillColor, ofColor(0,0,0,0), 1)
 	{
-		static int numRectangle;
-		numRectangle++;
-		shapeId = "tile" + std::to_string(numRectangle);
+		static int numPixel;
+		numPixel++;
+		shapeId = "pixel" + std::to_string(numPixel);
 	}
 
 	//Constructeur pour les formes temporaires
-	Rectangle::Rectangle(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool sampleShape)
-		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
+	Pixel::Pixel(VectorPrimitiveType p_shapeType, float x1, float y1,ofColor p_fillColor, bool sampleShape)
+		:Shape(p_shapeType, x1, y1, x1 + 1, y1 + 1, p_fillColor, ofColor(0, 0, 0, 0), 1)
 	{
 	}
 
-	void Rectangle::draw()
+	void Pixel::draw()
 	{
 		ofFill();
 		ofSetLineWidth(0);
 		ofSetColor(fillColor);
-		ofDrawRectangle(position1.x, position1.y, position2.x - position1.x, position2.y - position1.y);
-
-		ofSetLineWidth(strokeWidth);
-		ofSetColor(strokeColor);
-		ofNoFill();
-		ofDrawRectangle(position1.x, position1.y, position2.x - position1.x, position2.y - position1.y);
+		ofDrawRectangle(position1.x, position1.y, 1, 1);
 	}
 
-	bool Rectangle::contains(float x, float y)
+	bool Pixel::contains(float x, float y)
 	{
 		return (x > position1.x) && (x < position2.x) && (y > position1.y) && (y < position2.y);
 	}
 
-	void Rectangle::highlight()
+	void Pixel::highlight()
 	{
 		ofSetColor(highlightColor);
-		ofNoFill();
-		ofDrawRectangle(position1.x, position1.y, position2.x - position1.x, position2.y - position1.y);
+		ofFill();
+		ofDrawRectangle(position1.x, position1.y, 1, 1);
 	}
 }

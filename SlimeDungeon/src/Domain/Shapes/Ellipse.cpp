@@ -1,66 +1,64 @@
-#include "TileShape.h"
+#include "Ellipse.h"
 
-TileShape::TileShape(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, int p_tileSize)
-	:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth), tileSize(p_tileSize)
-{
-	static int numTileShape;
-	numTileShape++;
-	shapeId = "tile" + std::to_string(numTileShape);
+namespace shape {
 
-	//On va rectifier la position de x2 et y2 afin d'obtenir un quadrillage parfait
-	position2.x  -= int(x2 - x1) % (tileSize);
-	position2.y  -= int(y2 - y1) % (tileSize);
-}
-
-//Constructeur pour les formes temporaires
-TileShape::TileShape(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-	ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, int p_tileSize, bool sampleShape)
-	:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth), tileSize(p_tileSize)
-{
-	//On va rectifier la position de x2 et y2 afin d'obtenir un quadrillage parfait
-	position2.x -= int(x2 - x1) % (tileSize);
-	position2.y -= int(y2 - y1) % (tileSize);
-}
-
-void TileShape::draw()
-{
-	ofFill();
-	ofSetLineWidth(0);
-	ofSetColor(fillColor);
-	ofDrawRectangle(position1.x, position1.y, position2.x - position1.x, position2.y - position1.y);
-
-	int curX = position1.x + tileSize, curY = position1.y + tileSize;
-	int prevX = position1.x, prevY = position1.y;
-	ofSetLineWidth(strokeWidth);
-	ofSetColor(strokeColor);
-	ofNoFill();
-	ofDrawRectangle(position1.x, position1.y, position2.x - position1.x, position2.y - position1.y);
-
-	while (curY <= position2.y) {
-		ofDrawLine(position1.x, curY, position2.x, curY);
-		curY += tileSize;
+	Ellipse::Ellipse(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth)
+		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
+	{
+		static int numEllipseShape;
+		numEllipseShape++;
+		shapeId = "ellipse" + std::to_string(numEllipseShape);
 	}
-	//drawLine
-	while (curX <= position2.x) {
-		ofDrawLine(curX, position1.y, curX, position2.y);
-		curX += tileSize;
+
+	//Constructeur pour les formes temporaires
+	Ellipse::Ellipse(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool sampleShape)
+		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
+	{
+
 	}
-}
 
-bool TileShape::contains(float x, float y)
-{
-	return (x > position1.x) && ( x < position2.x) && (y > position1.y) && (y < position2.y);
-}
+	void Ellipse::draw()
+	{
+		float centerX = position1.x + (position2.x - position1.x) / 2;
+		float diameterX = position2.x - position1.x;
+		float diameterY = position2.y - position1.y;
+		float centerY = position1.y + (position2.y - position1.y) / 2;
 
-void TileShape::highlight()
-{
-	ofSetColor(highlightColor);
-	ofNoFill();
-	ofDrawRectangle(position1.x, position1.y, position2.x - position1.x, position2.y - position1.y);
-}
+		//fill
+		ofFill();
+		ofSetLineWidth(0);
+		ofSetColor(fillColor);
 
-int TileShape::getNbTile()
-{
-	return (position2.x - position1.x )/ tileSize * (position2.y - position1.y) / tileSize;
+		ofDrawEllipse(centerX, centerY, diameterX, diameterY);
+
+		//Line
+		ofSetLineWidth(strokeWidth);
+		ofSetColor(strokeColor);
+		ofNoFill();
+
+		ofDrawEllipse(centerX, centerY, diameterX, diameterY);
+	}
+
+	bool Ellipse::contains(float x, float y)
+	{
+		float centerX = position1.x + (position2.x - position1.x) / 2;
+		float diameterX = position2.x - position1.x;
+		float diameterY = position2.y - position1.y;
+		float centerY = position1.y + (position2.y - position1.y) / 2;
+		return (pow((x - centerX), 2) / pow((diameterX / 2), 2)) + (pow((y - centerY), 2) / pow((diameterY / 2), 2)) <= 1;
+	}
+
+	void Ellipse::highlight()
+	{
+		float centerX = position1.x + (position2.x - position1.x) / 2;
+		float diameterX = position2.x - position1.x;
+		float diameterY = position2.y - position1.y;
+		float centerY = position1.y + (position2.y - position1.y) / 2;
+
+		ofSetColor(highlightColor);
+		ofNoFill();
+		ofDrawEllipse(centerX, centerY, diameterX, diameterY);
+	}
 }

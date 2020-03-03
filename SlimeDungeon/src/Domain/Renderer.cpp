@@ -21,7 +21,6 @@ void Renderer::setup(ofxPanel *gui)
 	mouseIsPressed = false;
 	isDrawing = true; //TODO changer ceci pour s'adapter avec le UI
 	count = 100;
-	head = 0;
 	stride = sizeof(VectorPrimitive);
 	size = count * stride;
 	shapes = (VectorPrimitive*)std::malloc(size);
@@ -91,111 +90,6 @@ void Renderer::draw()
 
 
 void Renderer::drawShapes() {
-	for (index = 0; index < count; ++index)
-	{
-		switch (shapes[index].type)
-		{
-		case VectorPrimitiveType::pixel:
-
-			ofFill();
-			ofSetLineWidth(0);
-			ofSetColor(shapes[index].strokeColor);
-			drawPixel(
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			break;
-
-		case VectorPrimitiveType::line:
-
-			ofNoFill();
-			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(shapes[index].strokeColor);
-			drawLine(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			break;
-
-		case VectorPrimitiveType::rectangle:
-			ofFill();
-			ofSetLineWidth(0);
-            ofSetColor(shapes[index].fillColor);
-			drawRectangle(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			ofNoFill();
-			ofSetLineWidth(shapes[index].strokeWidth);
-            ofSetColor(shapes[index].strokeColor);
-			drawRectangle(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			break;
-		
-		case VectorPrimitiveType::square:
-			ofFill();
-			ofSetLineWidth(0);
-			ofSetColor(shapes[index].fillColor);
-			drawSquare(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			ofNoFill();
-			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(shapes[index].strokeColor);
-			drawSquare(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			break;
-
-		case VectorPrimitiveType::ellipse:
-
-			ofFill();
-			ofSetLineWidth(0);
-			ofSetCircleResolution(48);
-			ofSetColor(shapes[index].fillColor);
-			drawEllipse(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			ofNoFill();
-			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(shapes[index].strokeColor);
-			drawEllipse(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			break;
-		case VectorPrimitiveType::circle:
-			ofFill();
-			ofSetColor(shapes[index].fillColor);
-			drawCircle(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			ofNoFill();
-			ofSetLineWidth(shapes[index].strokeWidth);
-			ofSetColor(shapes[index].strokeColor);
-			drawCircle(
-				shapes[index].position1[0],
-				shapes[index].position1[1],
-				shapes[index].position2[0],
-				shapes[index].position2[1]);
-			break;
-		default:
-			break;
-		}
-	}
 
 	//Draw vector shapes
 	for (unsigned int i = 0; i < vecShapes.size(); i++) {
@@ -206,7 +100,6 @@ void Renderer::drawShapes() {
 void Renderer::drawSample()
 {
 	// Drawing a sample
-
 	// Differentes valeurs du sample
 	float origineX = 230; // Points d'origine
 	float origineY = 30;
@@ -217,74 +110,41 @@ void Renderer::drawSample()
 	switch (shapeType)
 	{
 	case VectorPrimitiveType::pixel:
-
-		ofFill();
-		ofSetLineWidth(0);
-		ofSetColor(strokeColor);
-		drawPixel(origineX, origineY);
+		shape::Pixel(shapeType, origineX, origineY, ofColor(fillColor), sampleShape).draw();
 		break;
 
 	case VectorPrimitiveType::line:
-
-		ofNoFill();
-		ofSetLineWidth(strokeWidth);
-		ofSetColor(strokeColor);
-		drawLine(origineX, origineY, origineX + deltaX, origineY + deltaY);
+		shape::Line(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
+			 ofColor(strokeColor), strokeWidth, sampleShape).draw();
 		break;
 
 	case VectorPrimitiveType::rectangle:
-		ofFill();
-		ofSetLineWidth(0);
-		ofSetColor(fillColor);
-		drawRectangle(origineX, origineY, origineX + deltaX, origineY + deltaY);
-		ofNoFill();
-		ofSetLineWidth(strokeWidth);
-		ofSetColor(strokeColor);
-		drawRectangle(origineX, origineY, origineX + deltaX, origineY + deltaY);
-		break;
-
-	case VectorPrimitiveType::square:
-		ofFill();
-		ofSetLineWidth(0);
-		ofSetColor(fillColor);
-		drawSquare(origineX, origineY, origineX + deltaX, origineY + deltaX);
-		ofNoFill();
-		ofSetLineWidth(strokeWidth);
-		ofSetColor(strokeColor);
-		drawSquare(origineX, origineY, origineX + deltaX, origineY + deltaX);
-		break;
-
-	case VectorPrimitiveType::ellipse:
-
-		ofFill();
-		ofSetLineWidth(0);
-		ofSetCircleResolution(48);
-		ofSetColor(fillColor);
-		drawEllipse(origineX, origineY, origineX + deltaX, origineY + deltaY);
-		ofNoFill();
-		ofSetLineWidth(strokeWidth);
-		ofSetColor(strokeColor);
-		drawEllipse(origineX, origineY, origineX + deltaX, origineY + deltaY);
-		break;
-	case VectorPrimitiveType::circle:
-		ofFill();
-		ofSetColor(fillColor);
-		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
-		ofNoFill();
-		ofSetLineWidth(strokeWidth);
-		ofSetColor(strokeColor);
-		drawCircle(origineX, origineY, origineX + deltaX, origineY + deltaX);
-		break;
-
-	case VectorPrimitiveType::tiles:
-		TileShape(VectorPrimitiveType::tiles, origineX, origineY, origineX + deltaX, origineY + deltaY,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth, (int) deltaX /4, sampleShape).draw();
-		break;
-	case VectorPrimitiveType::slime:
-		SlimeShape(VectorPrimitiveType::slime, origineX, origineY, origineX + deltaX, origineY + deltaX,
+		shape::Rectangle(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
 			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
 		break;
 
+	case VectorPrimitiveType::square:
+		shape::Square(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
+
+	case VectorPrimitiveType::ellipse:
+		shape::Ellipse(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
+	case VectorPrimitiveType::circle:
+		Circle(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
+
+	case VectorPrimitiveType::tiles:
+		TileShape(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, (int) deltaX /4, sampleShape).draw();
+		break;
+	case VectorPrimitiveType::slime:
+		SlimeShape(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
 
 	default:
 		break;
@@ -322,10 +182,10 @@ void Renderer::drawRecordModeBorder()
 	ofSetLineWidth(5);
 	if (ofGetFill() == 1) { //Was filling before
 		ofNoFill();
-		drawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+		ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 		ofFill();
 	}
-	else drawRectangle(0, 0, ofGetScreenWidth(), ofGetScreenHeight());
+	else ofDrawRectangle(0, 0, ofGetScreenWidth(), ofGetScreenHeight());
 	restorePrevStrokeState();
 }
 
@@ -366,8 +226,7 @@ void Renderer::restorePrevStrokeState()
 //}
 
 void Renderer::removeLastAddedVectorShape(){
-	head--;
-	shapes[head].type = VectorPrimitiveType::none;
+
 }
 
 void Renderer::setShapeType(VectorPrimitiveType newShapeType)
@@ -378,119 +237,65 @@ void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 // fonction qui ajoute une primitive vectorielle au tableau
 void Renderer::addVectorShape(VectorPrimitiveType type)
 {
-	shapes[head].type = type;
-
-	shapes[head].strokeColor = ofColor(strokeColor);
-	if (fillShape) shapes[head].fillColor = ofColor(fillColor);
-	else shapes[head].fillColor = ofColor(0,0,0,0); //Composante avec transparence maximale
-
-	if (type == VectorPrimitiveType::tiles) {
-		if (fillShape)
-			vecShapes.push_back(new TileShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
-				ofColor(fillColor), ofColor(strokeColor), strokeWidth, tileSize)); 
-		else 
-			vecShapes.push_back(new TileShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
-				ofColor(0,0,0,0), ofColor(strokeColor), strokeWidth, tileSize));
-	}
-	if (type == VectorPrimitiveType::slime) {
-		if (fillShape) 
-			vecShapes.push_back(new SlimeShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
-				ofColor(fillColor), ofColor(strokeColor), strokeWidth));
-		else
-			vecShapes.push_back(new SlimeShape(type, mousePress.x, mousePress.y, curMouse.x, curMouse.y,
-				ofColor(0,0,0,0), ofColor(strokeColor), strokeWidth));
-	}
-
+	ofColor fillingColor;
+	float posX1 = mousePress.x, posX2 = curMouse.x;
+	float posY1 = mousePress.y, posY2 = curMouse.y;
+	
+	if (fillShape) fillingColor = fillColor;
+	else fillingColor = ofColor(0, 0, 0, 0); //Composante avec transparence maximale
+	
 	if (type == VectorPrimitiveType::square || type == VectorPrimitiveType::circle) {
 		float sideLength = abs(mousePress.x - curMouse.x);
-		shapes[head].position1[0] = mousePress.x;
-		shapes[head].position1[1] = mousePress.y;
-		if (curMouse.x - mousePress.x < 0) shapes[head].position2[0] = mousePress.x - sideLength;
-		else  shapes[head].position2[0] = mousePress.x + sideLength;
-		if (curMouse.y - mousePress.y < 0) shapes[head].position2[1] = mousePress.y - sideLength;
-		else shapes[head].position2[1] = mousePress.y + sideLength;
-	}
-	else {
-		shapes[head].position1[0] = mousePress.x;
-		shapes[head].position1[1] = mousePress.y;
-
-		shapes[head].position2[0] = curMouse.x;
-		shapes[head].position2[1] = curMouse.y;
+		posX1 = mousePress.x;
+		posY1 = mousePress.y;
+		if (curMouse.x - mousePress.x < 0) posX2 = mousePress.x - sideLength;
+		else  posX2 = mousePress.x + sideLength;
+		if (curMouse.y - mousePress.y < 0) posY2 = mousePress.y - sideLength;
+		else posY2 = mousePress.y + sideLength;
 	}
 
-	switch (shapes[head].type)
+	switch (type)
 	{
 	case VectorPrimitiveType::pixel:
-		shapes[head].strokeWidth = ofRandom(1);
+		vecShapes.push_back(new shape::Pixel(type, posX2, posY2,fillingColor));
 		break;
 
 	case VectorPrimitiveType::line:
-		shapes[head].strokeWidth = strokeWidth;
+		vecShapes.push_back(new shape::Line(type, posX1, posY1, posX2, posY2,
+			 ofColor(strokeColor), strokeWidth));
 		break;
 
 	case VectorPrimitiveType::rectangle:
-		shapes[head].strokeWidth = strokeWidth;
+		vecShapes.push_back(new shape::Rectangle(type, posX1, posY1, posX2, posY2,
+			fillingColor, ofColor(strokeColor), strokeWidth));
 		break;
 	case VectorPrimitiveType::square:
-		shapes[head].strokeWidth = strokeWidth;
+		vecShapes.push_back(new shape::Square(type, posX1, posY1, posX2, posY2,
+			fillingColor, ofColor(strokeColor), strokeWidth));
 		break;
 	case VectorPrimitiveType::ellipse:
-		shapes[head].strokeWidth = strokeWidth;
+		vecShapes.push_back(new shape::Ellipse(type, posX1, posY1, posX2, posY2,
+			fillingColor, ofColor(strokeColor), strokeWidth));
 		break;
+
 	case VectorPrimitiveType::circle:
-		shapes[head].strokeWidth = strokeWidth;
+		vecShapes.push_back(new shape::Circle(type, posX1, posY1, posX2, posY2,
+			fillingColor, ofColor(strokeColor), strokeWidth));
+		break;
+
+	case VectorPrimitiveType::tiles:
+		vecShapes.push_back(new shape::TileShape(type, posX1, posY1, posX2, posY2,
+			fillingColor, ofColor(strokeColor), strokeWidth, tileSize));
+		break;
+	case VectorPrimitiveType::slime:
+		vecShapes.push_back(new shape::SlimeShape(type, posX1, posY1, posX2, posY2,
+				fillingColor, ofColor(strokeColor), strokeWidth));
 		break;
 
 	default:
-		shapes[head].strokeWidth = strokeWidthDefault;
 		break;
 	}
-	head = ++head >= count ? 0 : head; // boucler sur le tableau si plein
 }
-
-// Fonction prise des exemples du cours (Module 2/Ex04)
-void Renderer::drawPixel(float x, float y) const
-{
-	int pixelX = floorf(x);
-	int pixelY = floorf(y);
-
-	ofDrawRectangle(pixelX, pixelY, 1, 1);
-}
-
-// fonction qui dessine une ligne
-void Renderer::drawLine(float x1, float y1, float x2, float y2) const
-{
-	ofDrawLine(x1, y1, x2, y2);
-}
-
-// fonction qui dessine un rectangle
-void Renderer::drawRectangle(float x1, float y1, float x2, float y2) const
-{
-	ofDrawRectangle(x1, y1, x2 - x1, y2 - y1);
-}
-
-void Renderer::drawSquare(float x1, float y1, float x2, float y2) const
-{
-	ofDrawRectangle(x1, y1, x2 - x1, y2 - y1);
-}
-
-// fonction qui dessine une ellipse
-void Renderer::drawEllipse(float x1, float y1, float x2, float y2) const
-{
-	float diameter_x = x2 - x1;
-	float diameter_y = y2 - y1;
-
-	ofDrawEllipse(x1 + diameter_x / 2.0f, y1 + diameter_y / 2.0f, diameter_x, diameter_y);
-}
-
-// fonction qui dessine un point
-void Renderer::drawCircle(float  x1, float y1, float x2, float y2) const
-{
-	float diameterX = x2 - x1;
-	float diameterY = y2 - y1;
-	ofDrawEllipse(x1 + diameterX / 2.0f, y1 + diameterY / 2.0f, diameterX, diameterY);
-}
-
 
 void Renderer::drawZone(float x1, float y1, float x2, float y2) const
 {

@@ -7,9 +7,16 @@
 #include "ofMain.h"
 //#include "Domain/Shapes/Shape.h"
 #include "Domain/Shapes/TileShape.h"
-#include "Domain/Shapes//SlimeShape.h"
+#include "Domain/Shapes/SlimeShape.h"
+#include "Domain/Shapes/Circle.h"
+#include "Domain/Shapes/Ellipse.h"
+#include "Domain/Shapes/Square.h"
+#include "Domain/Shapes/Rectangle.h"
+#include "Domain/Shapes/Pixel.h"
+#include "Domain/Shapes/Line.h"
 #include "ofxGui.h"
 
+using namespace shape;
 
 // structure de primitive vectorielle générique
 struct VectorPrimitive
@@ -44,7 +51,6 @@ public:
 	int stride;
 
 	int index;
-	int head;
 	float strokeWidthDefault;
 	ofImage cursor1;
 	ofImage cursor2;
@@ -78,13 +84,6 @@ public:
 
 	// Fonctions inspirées des exemples du cours (Module 2/Ex04)
 	void addVectorShape(VectorPrimitiveType);
-	
-	void drawPixel(float x, float y) const;
-	void drawLine(float x1, float y1, float x2, float y2) const;
-	void drawRectangle(float x1, float y1, float x2, float y2) const;
-	void drawSquare(float x1, float y1, float x2, float y2) const;
-	void drawEllipse(float x1, float y1, float x2, float y2) const;
-	void drawCircle(float  x1, float y1, float x2, float y2) const;
 
 	void drawZone(float x1, float y1, float x2, float y2) const;
 	void drawCursor(float x, float y) const;

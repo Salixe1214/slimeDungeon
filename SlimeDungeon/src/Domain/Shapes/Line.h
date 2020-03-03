@@ -3,12 +3,12 @@
 
 namespace shape {
 
-	class Rectangle : public Shape
+	class Line : public Shape
 	{
 	public:
-		Rectangle(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofColor p_fillColor, ofColor p_strokeColor,
+		Line(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofColor p_strokeColor,
 			float p_strokeWidth);
-		Rectangle(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofColor p_fillColor, ofColor p_strokeColor,
+		Line(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofColor p_strokeColor,
 			float p_strokeWidth, bool sampleShape);
 
 
