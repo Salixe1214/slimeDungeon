@@ -201,7 +201,7 @@ void SlimeDungeonUI::update() {
 	int numShape = sdCtrl.getSelectedShapeSize();
 	if (numShape > 0) {
 		if (numShape == 1)		hierarchy = sdCtrl.getFirstSelectedShapeName();
-		else hierarchy = "Group of shapes";
+		else hierarchy = "Shapes group";
 	}
 	else hierarchy = "No shape selected";
 

@@ -298,9 +298,12 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		break;
 
 	case VectorPrimitiveType::tiles:
-		vecShapes.push_back(new shape::TileShape(type, posX1, posY1, posX2, posY2,
-			fillingColor, ofColor(strokeColor), strokeWidth, tileSize));
+		if (abs(posX2 - posX1) >= tileSize && abs(posY2 - posY1) >= tileSize) {
+			vecShapes.push_back(new shape::TileShape(type, posX1, posY1, posX2, posY2,
+				fillingColor, ofColor(strokeColor), strokeWidth, tileSize));
+		}
 		break;
+
 	case VectorPrimitiveType::slime:
 		vecShapes.push_back(new shape::SlimeShape(type, posX1, posY1, posX2, posY2,
 				fillingColor, ofColor(strokeColor), strokeWidth));
