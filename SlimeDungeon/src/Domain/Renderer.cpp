@@ -151,10 +151,6 @@ void Renderer::drawSample()
 		TileShape(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
 			ofColor(fillColor), ofColor(strokeColor), strokeWidth, (int) deltaX /4, sampleShape).draw();
 		break;
-	case VectorPrimitiveType::slime:
-		SlimeShape(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
-		break;
 
 	default:
 		break;
