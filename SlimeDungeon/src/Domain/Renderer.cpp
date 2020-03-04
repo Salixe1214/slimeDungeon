@@ -119,6 +119,11 @@ void Renderer::drawSample()
 		shape::Pixel(shapeType, origineX, origineY, ofColor(fillColor), sampleShape).draw();
 		break;
 
+	case VectorPrimitiveType::slime:
+		shape::SlimeShape(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
+
 	case VectorPrimitiveType::line:
 		shape::Line(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
 			 ofColor(strokeColor), strokeWidth, sampleShape).draw();
@@ -296,6 +301,12 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 	default:
 		break;
 	}
+
+	while (!pastVecShapes.empty())
+	{
+		delete pastVecShapes.top();
+		pastVecShapes.pop();
+	}
 }
 
 void Renderer::drawZone(float x1, float y1, float x2, float y2) const
@@ -366,6 +377,12 @@ void Renderer::deleteSelectedShape() {
 			}
 		}
 		selectedShapes.clear();
+
+		while (!pastVecShapes.empty())
+		{
+			delete pastVecShapes.top();
+			pastVecShapes.pop();
+		}
 	}
 }
 
