@@ -42,11 +42,10 @@ public:
 	Renderer();
 
 	VectorPrimitiveType shapeType;
-	VectorPrimitive *shapes;
 	std::vector<Shape*> vecShapes;
 	std::stack<Shape*> pastVecShapes;
-	//std::vector<Shape*> selectedShapes;
 	std::unordered_map<std::string, Shape*> selectedShapes;
+
 
 	int count;
 	int size;
@@ -76,8 +75,14 @@ public:
 	void setSelectionColor(ofColor newfillColor, ofColor newStrokeColor);
 	int getSelectedShapeSize();
 	string getFirstSelectedShapeName();
+
+	//Transform
 	void extendSelectionBorder(float dx, float dy);
 	void addTileShapeRow(int addedXRow, int addedYRow);
+	void translateSelection(float dx, float dy, float dz);
+	void rotateSelectionZ(float thetaZ);
+	void scaleSelection(float sx, float sy, float sz);
+
 	void goBack();
 	void reDo();
 

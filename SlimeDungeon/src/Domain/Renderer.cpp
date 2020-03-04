@@ -9,33 +9,20 @@ Renderer::Renderer()
 
 void Renderer::setup(ofxPanel *gui)
 {
-	//Shapes count
-	//SlimeShape::numSlimeShape = 0;
-	//TileShape::numTileShape = 0;
-
 	// Ajout des paramètres de dessin au gui
 	gui->getGroup("Draw tools").add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
 	gui->getGroup("Draw tools").add(tileSize.set("Tile size", 50, 1, 300));
 	
 	//color = p_userColor;
 	mouseIsPressed = false;
-	isDrawing = true; //TODO changer ceci pour s'adapter avec le UI
-	count = 100;
-	stride = sizeof(VectorPrimitive);
-	size = count * stride;
-	shapes = (VectorPrimitive*)std::malloc(size);
-	shapeType = VectorPrimitiveType::pixel;
+	isDrawing = true; 
+	//count = 100;
+	//stride = sizeof(VectorPrimitive);
+	//size = count * stride;
+	//shapes = (VectorPrimitive*)std::malloc(size);
+	//shapeType = VectorPrimitiveType::pixel;
 	fillShape = true;
 
-	//TODO TEMPORARY ---
-	strokeColorR = 148;
-	strokeColorG = 100;
-	strokeColorB = 211;
-	strokeColorA = 255;
-	fillColorR = 148;
-	fillColorG = 255;
-	fillColorB = 211;
-	fillColorA = 255; 
 	strokeWidthDefault = 4;
 	strokeWidth = 4;//----
 
@@ -99,7 +86,17 @@ void Renderer::drawShapes() {
 
 	//Draw vector shapes
 	for (unsigned int i = 0; i < vecShapes.size(); i++) {
-		vecShapes.at(i)->draw();
+		if (vecShapes.at(i)->rotation.z != 0.0) {
+			ofPushMatrix();
+			ofTranslate((vecShapes.at(i)->position1.x + vecShapes.at(i)->position2.x) /2.0,
+				(vecShapes.at(i)->position1.y + vecShapes.at(i)->position2.y) / 2.0); //Rotation par rapport au centre de la shape
+			ofRotateZDeg(vecShapes.at(i)->rotation.z);
+			ofTranslate(-(vecShapes.at(i)->position1.x + vecShapes.at(i)->position2.x) / 2.0,
+				-(vecShapes.at(i)->position1.y + vecShapes.at(i)->position2.y) / 2.0);
+			vecShapes.at(i)->draw();
+			ofPopMatrix();
+		}
+		else vecShapes.at(i)->draw();
 	}
 }
 
@@ -161,7 +158,18 @@ void Renderer::drawSample()
 
 void Renderer::highlightSelectedShape() {
 	for (auto shape : selectedShapes) {
-		shape.second->highlight();
+		if (shape.second->rotation.z != 0.0) {
+			ofPushMatrix();
+			ofTranslate((shape.second->position1.x + shape.second->position2.x) /2.0,
+				(shape.second->position1.y + shape.second->position2.y) / 2.0); //Rotation par rapport au centre de la shape
+			ofRotateZDeg(shape.second->rotation.z);
+			ofTranslate(-(shape.second->position1.x + shape.second->position2.x) / 2.0,
+				-(shape.second->position1.y + shape.second->position2.y) / 2.0);
+
+			shape.second->highlight();
+			ofPopMatrix();
+		}
+		else shape.second->highlight();
 	}
 }
 
@@ -484,6 +492,45 @@ void Renderer::addTileShapeRow(int addedXRow, int addedYRow)
 			if (addedYRow > 0) shape.second->position2.y += tileSize; //Ajout row y
 			else if (addedYRow < 0 && shape.second->position2.y > shape.second->position1.y + tileSize) //Retrait row y 
 				shape.second->position2.y -= tileSize; 
+		}
+	}
+}
+
+void Renderer::translateSelection(float dx, float dy, float dz)
+{
+	for (auto shape : selectedShapes) {
+		shape.second->position1.x += dx;
+		shape.second->position2.x += dx;
+		shape.second->position1.y += dy;
+		shape.second->position2.y += dy;
+	}
+}
+
+void Renderer::rotateSelectionZ(float thetaZ)
+{
+	for (auto shape : selectedShapes) {
+		shape.second->rotation[2] += thetaZ;
+	}
+}
+
+void Renderer::scaleSelection(float sx, float sy, float sz)
+{
+	float middleX, middleY; 
+	for (auto shape : selectedShapes) {
+		middleX = (shape.second->position1.x + shape.second->position2.x) / 2.0;
+		middleY = (shape.second->position1.y + shape.second->position2.y) / 2.0;
+		if (shape.second->shapeType == VectorPrimitiveType::circle ||
+			shape.second->shapeType == VectorPrimitiveType::square) {
+			shape.second->position1.x = middleX + (shape.second->position1.x - middleX) * sx;
+			shape.second->position2.x = middleX + (shape.second->position2.x - middleX) * sx;
+			shape.second->position1.y = middleY + (shape.second->position1.y - middleY) * sx;
+			shape.second->position2.y = middleY + (shape.second->position2.y - middleY) * sx;
+		}
+		else{
+		shape.second->position1.x = middleX + (shape.second->position1.x - middleX) * sx;
+		shape.second->position2.x = middleX + (shape.second->position2.x - middleX) * sx;
+		shape.second->position1.y = middleY + (shape.second->position1.y - middleY) * sy;
+		shape.second->position2.y = middleY + (shape.second->position2.y - middleY) * sy;
 		}
 	}
 }

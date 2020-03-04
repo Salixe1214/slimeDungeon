@@ -3,8 +3,8 @@
 namespace shape {
 
 	TileShape::TileShape(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, int p_tileSize)
-		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth), tileSize(p_tileSize)
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, int p_tileSize, glm::vec3 p_rotation)
+		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth, p_rotation), tileSize(p_tileSize)
 	{
 		static int numTileShape;
 		numTileShape++;
@@ -17,8 +17,8 @@ namespace shape {
 
 	//Constructeur pour les formes temporaires
 	TileShape::TileShape(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, int p_tileSize, bool sampleShape)
-		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth), tileSize(p_tileSize)
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, int p_tileSize, bool sampleShape, glm::vec3 p_rotation)
+		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth, p_rotation), tileSize(p_tileSize)
 	{
 		//On va rectifier la position de x2 et y2 afin d'obtenir un quadrillage parfait
 		position2.x -= int(x2 - x1) % (tileSize);

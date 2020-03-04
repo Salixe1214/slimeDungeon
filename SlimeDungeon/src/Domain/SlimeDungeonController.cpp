@@ -164,3 +164,18 @@ void SlimeDungeonController::addTileShapeRow(int addedXRow, int addedYRow)
 {
 	ctrlRenderer.addTileShapeRow(addedXRow, addedYRow);
 }
+
+void SlimeDungeonController::translateSelection(float dx, float dy, float dz)
+{
+	ctrlRenderer.translateSelection(dx, dy, dz);
+}
+
+void SlimeDungeonController::rotateSelectionZ(float thetaZ)
+{
+	ctrlRenderer.rotateSelectionZ(thetaZ);
+}
+
+void SlimeDungeonController::scaleSelection(float sx, float sy, float sz)
+{
+	ctrlRenderer.scaleSelection(sx, sy, sz);
+}

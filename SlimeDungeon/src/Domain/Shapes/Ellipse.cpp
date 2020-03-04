@@ -3,8 +3,8 @@
 namespace shape {
 
 	Ellipse::Ellipse(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth)
-		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, glm::vec3 p_rotation)
+		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth, p_rotation)
 	{
 		static int numEllipseShape;
 		numEllipseShape++;
@@ -13,8 +13,8 @@ namespace shape {
 
 	//Constructeur pour les formes temporaires
 	Ellipse::Ellipse(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool sampleShape)
-		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool sampleShape, glm::vec3 p_rotation)
+		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth, p_rotation)
 	{
 
 	}

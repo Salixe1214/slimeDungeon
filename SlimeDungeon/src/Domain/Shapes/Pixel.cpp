@@ -2,7 +2,7 @@
 namespace shape {
 
 	Pixel::Pixel(VectorPrimitiveType p_shapeType, float x1, float y1, ofColor p_fillColor)
-		:Shape(p_shapeType, floorf(x1), floorf(y1), x1 + 1, y1 + 1, p_fillColor, ofColor(0,0,0,0), 1)
+		:Shape(p_shapeType, floorf(x1), floorf(y1), x1 + 1, y1 + 1, p_fillColor, ofColor(0, 0, 0, 0), 1, { 0,0,0 })
 	{
 		static int numPixel;
 		numPixel++;
@@ -11,7 +11,7 @@ namespace shape {
 
 	//Constructeur pour les formes temporaires
 	Pixel::Pixel(VectorPrimitiveType p_shapeType, float x1, float y1,ofColor p_fillColor, bool sampleShape)
-		:Shape(p_shapeType, x1, y1, x1 + 1, y1 + 1, p_fillColor, ofColor(0, 0, 0, 0), 1)
+		:Shape(p_shapeType, x1, y1, x1 + 1, y1 + 1, p_fillColor, ofColor(0, 0, 0, 0), 1, { 0,0,0 })
 	{
 	}
 

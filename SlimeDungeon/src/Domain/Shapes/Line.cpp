@@ -2,8 +2,8 @@
 namespace shape {
 
 	Line::Line(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_strokeColor, float p_strokeWidth)
-		:Shape(p_shapeType, x1, y1, x2, y2, ofColor(0,0,0,0), p_strokeColor, p_strokeWidth, false)
+		ofColor p_strokeColor, float p_strokeWidth, glm::vec3 p_rotation)
+		:Shape(p_shapeType, x1, y1, x2, y2, ofColor(0,0,0,0), p_strokeColor, p_strokeWidth, false, p_rotation)
 	{
 		static int numLine;
 		numLine++;
@@ -12,8 +12,8 @@ namespace shape {
 
 	//Constructeur pour les formes temporaires
 	Line::Line(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		 ofColor p_strokeColor, float p_strokeWidth, bool sampleShape)
-		:Shape(p_shapeType, x1, y1, x2, y2, ofColor(0,0,0,0), p_strokeColor, p_strokeWidth, false)
+		 ofColor p_strokeColor, float p_strokeWidth, bool sampleShape, glm::vec3 p_rotation)
+		:Shape(p_shapeType, x1, y1, x2, y2, ofColor(0,0,0,0), p_strokeColor, p_strokeWidth, false, p_rotation)
 	{
 	}
 

@@ -42,14 +42,15 @@ void SlimeDungeonUI::setup(){
 
 	//Rotation
 	rotationToolsGroup.setup("Translation tools");
-	rotationToolsGroup.add(rotateZ.set("Rotation ", 0, -1000, 1000));
+	rotationToolsGroup.add(rotateZ.set("Rotation ", 0, -180, 180));
 
 	transformToolsGroup.add(&rotationToolsGroup);
 
 	//Scale
 	scalingToolsGroup.setup("Scaling tools");
-	scalingToolsGroup.add(scaleX.set("Scaling x", 0, -100, 100));
-	scalingToolsGroup.add(scaleY.set("Scaling y", 0, -100, 100));
+	scalingToolsGroup.add(scaleX.set("Scaling x", 0, 0.01, 10));
+	scalingToolsGroup.add(scaleY.set("Scaling y", 0, 0.01, 10));
+	scalingToolsGroup.add(keepScaleProportion.setup("Keep proportion", true));
 
 	transformToolsGroup.add(&scalingToolsGroup);
 
@@ -115,7 +116,7 @@ void SlimeDungeonUI::setDefaultParameter() {
 	prevRotateZ = 0.0f;
 
 	//Scale
-	prevScaleX = prevScaleY = 0.0f;
+	prevScaleX = prevScaleY = 1.0f;
 
 	//drawMode
 	prevDrawMode = true;
@@ -212,8 +213,10 @@ void SlimeDungeonUI::update() {
 		prevFillColorScene = fillColorScene;
 		prevStrokeColorScene = strokeColorScene;
 	}
-	//Change selected Shape border
+	
+	//Transform selected shapes
 	if (!sdCtrl.isSelectedShapeEmpty()) {
+		//Change selected shapes border
 		if ((!ofIsFloatEqual(prevExtendSelectionX, (float)extendSelectionX) || !ofIsFloatEqual(prevExtendSelectionY, (float)extendSelectionY))
 			&& !addTileRow)
 		{
@@ -222,11 +225,34 @@ void SlimeDungeonUI::update() {
 			prevExtendSelectionX = extendSelectionX;
 			prevExtendSelectionY = extendSelectionY;
 		}
-		else if (addTileRow) {
+		else if (addTileRow) { 
 			sdCtrl.addTileShapeRow(extendTileRowX - prevExtendTileRowX,
 				extendTileRowY - prevExtendTileRowY);
 			prevExtendTileRowX = extendTileRowX;
 			prevExtendTileRowY = extendTileRowY;
+		}
+
+		//Translate
+		if (!ofIsFloatEqual(prevTranslateX, (float)translateX) || !ofIsFloatEqual(prevTranslateY, (float)translateY)) {
+			sdCtrl.translateSelection(translateX - prevTranslateX, translateY - prevTranslateY);
+			prevTranslateX = translateX;
+			prevTranslateY = translateY;
+		}
+
+		//Rotate
+		if (!ofIsFloatEqual(prevRotateZ, (float)rotateZ)) {
+			sdCtrl.rotateSelectionZ(rotateZ - prevRotateZ);
+			prevRotateZ = rotateZ;
+		}
+
+		//Scale
+		if (!ofIsFloatEqual(prevScaleX, (float)scaleX) || !ofIsFloatEqual(prevScaleY, (float)scaleY)) {
+			if (keepScaleProportion) {
+				scaleY = scaleX;
+			}
+			sdCtrl.scaleSelection(scaleX/prevScaleX, scaleY/prevScaleY);
+			prevScaleX = scaleX;
+			prevScaleY = scaleY;
 		}
 	}
 	else {
@@ -235,20 +261,15 @@ void SlimeDungeonUI::update() {
 		extendTileRowX = prevExtendTileRowX = 0;
 		extendTileRowY = prevExtendTileRowY = 0;
 
+		translateX = prevTranslateX = 0.0f;
+		translateY = prevTranslateY = 0.0f;
+
+		rotateZ = prevRotateZ = 0.0f;
+
+		scaleX = prevScaleX = 1.0f;
+		scaleY = prevScaleY = 1.0f;
+
 	}
-
-		//Translate
-	prevTranslateX = prevTranslateY = 0.0f;
-	//TODO 
-
-	//Rotate
-
-	//TODO
-	prevRotateZ = 0.0f;
-
-	//Scale
-	//TODO
-	prevScaleX = prevScaleY = 0.0f;
 }
 
 	
@@ -421,7 +442,7 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 	}
 	else{
 		if (drawMode) {
-			sdCtrl.addShape(); //TODO faut passer les colors des shapes ici
+			sdCtrl.addShape();
 		}
 		else {
 			sdCtrl.checkClickInShape();

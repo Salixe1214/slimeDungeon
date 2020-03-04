@@ -111,6 +111,7 @@ public:
 
 	//Scale
 	ofxGuiGroup scalingToolsGroup;
+	ofxToggle keepScaleProportion;
 	ofParameter<float> scaleX, scaleY;
 	float prevScaleX, prevScaleY;
 
