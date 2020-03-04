@@ -43,7 +43,7 @@ void Renderer::setup(ofxPanel *gui)
 	mousePress.x = mousePress.y = curMouse.x = curMouse.y = 0;
 	//CaptureTool
 	recordMode = false;
-
+	//ofHideCursor();
 	//load les cursors
 	cursor1.load("fleche.png");
 	cursor2.load("fleche1.png");
@@ -88,8 +88,9 @@ void Renderer::draw()
 	}
 
 	drawCursor(curMouse.x, curMouse.y);
-	drawSample();
+	
 	drawShapes();
+	drawSample();
 	highlightSelectedShape();
 }
 
@@ -114,11 +115,6 @@ void Renderer::drawSample()
 
 	switch (shapeType)
 	{
-	case VectorPrimitiveType::slime:
-		SlimeShape(VectorPrimitiveType::slime, origineX, origineY, origineX + deltaX, origineY + deltaX,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth).draw();
-		break;	
-
 	case VectorPrimitiveType::pixel:
 		shape::Pixel(shapeType, origineX, origineY, ofColor(fillColor), sampleShape).draw();
 		break;
@@ -397,4 +393,90 @@ void Renderer::reDo() {
 		vecShapes.push_back(pastVecShapes.top());
 		pastVecShapes.pop();
 	}
+}
+
+void Renderer::setSelectionColor(ofColor newFillColor, ofColor newStrokeColor) {
+	for (auto shape : selectedShapes) {
+		shape.second->fillColor = newFillColor;
+		shape.second->strokeColor = newStrokeColor;
+	}
+}
+
+
+void Renderer::extendSelectionBorder(float dx, float dy) {
+	float tileSize;
+	for (auto shape : selectedShapes) {
+		switch (shape.second->shapeType)
+		{
+		case VectorPrimitiveType::square:
+			if (dx != 0.0f) {
+				shape.second->position2.x += dx;
+				shape.second->position2.y += dx;
+			}
+			else {
+				shape.second->position2.x += dy;
+				shape.second->position2.y += dy;
+			}
+			break;
+
+		case VectorPrimitiveType::circle:
+			if (dx != 0.0f) {
+				shape.second->position2.x += dx;
+				shape.second->position2.y += dx;
+			}
+			else {
+				shape.second->position2.x += dy;
+				shape.second->position2.y += dy;
+			}
+			break;
+
+		//case VectorPrimitiveType::tiles: //TODO pour l'ajout de rangée par rangée...
+		//	tileSize = ((shape::TileShape*) shape.second)->tileSize;
+		//	if (dx /tileSize  >= 1) {
+		//		shape.second->position2.x += tileSize;
+		//	}
+		//	else if (dx / tileSize <= -1) {
+		//		shape.second->position2.x -= tileSize;
+		//	}
+		//	if (dy / tileSize >= 1) {
+		//		shape.second->position2.y += tileSize;
+		//	}
+		//	else if (dy / tileSize <= -1) {
+		//		shape.second->position2.y -= tileSize;
+		//	}
+		//	break;
+			
+		default:
+			shape.second->position2.x += dx;
+			shape.second->position2.y += dy;
+			break;
+		}
+	}
+}
+
+void Renderer::addTileShapeRow(int addedXRow, int addedYRow)
+{
+	float tileSize;
+	for (auto shape : selectedShapes) {
+		if (shape.second->shapeType == VectorPrimitiveType::tiles) {
+			tileSize = ((shape::TileShape*) shape.second)->tileSize;
+
+			if (addedXRow > 0 ) shape.second->position2.x += tileSize; //Ajout row X
+			else if (addedXRow < 0 && shape.second->position2.x > shape.second->position1.x + tileSize) //Retrait row x 
+				shape.second->position2.x -= tileSize;
+			if (addedYRow > 0) shape.second->position2.y += tileSize; //Ajout row y
+			else if (addedYRow < 0 && shape.second->position2.y > shape.second->position1.y + tileSize) //Retrait row y 
+				shape.second->position2.y -= tileSize; 
+		}
+	}
+}
+
+int Renderer::getSelectedShapeSize()
+{
+	return selectedShapes.size();
+}
+
+string Renderer::getFirstSelectedShapeName()
+{
+	return selectedShapes.begin()->second->shapeId;
 }

@@ -16,9 +16,10 @@ namespace shape {
 		bool contains(float x, float y) override;
 		void highlight() override;
 		int getNbTile();
+		int tileSize;
 
 	private:
-		int tileSize;
+		
 
 	};
 }

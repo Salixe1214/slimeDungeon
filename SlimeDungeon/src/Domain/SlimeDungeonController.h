@@ -19,7 +19,11 @@ public:
 	void deleteSelectedShape();
 	bool isSelectedShapeEmpty();
 	void changeState(bool);
-
+	void setSelectionColor(ofColor fillColorScene, ofColor strokeColorScene);
+	int getSelectedShapeSize();
+	string getFirstSelectedShapeName();
+	void extendSelectionBorder(float dx, float dy);
+	void addTileShapeRow(int addedXRow, int addedYRow);
 
 	//Draw ---------------
 	void rendererDraw(ofParameter<ofColor>, ofParameter<ofColor>);

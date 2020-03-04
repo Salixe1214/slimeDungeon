@@ -39,7 +39,6 @@ public:
 	ofxTextField currentShapeType;
 	ofxTextField shapeKeyLegend;
 	
-	std::vector<ofParameter<bool>> drawOptionVec;
 
 	//ImportTools--------------------------------------------
 	ofxGuiGroup importToolsGroup;
@@ -83,12 +82,37 @@ public:
 
 
 	//Scene
+	//Overview
 	ofxTextField hierarchy;
 	string emptySceneMsg;
 	int scenePanelWidth;
 	ofxButton deleteShapeBtn;
-
 	void deleteShapeBtnPressed();
+
+	//Transform selectedShape 
+	ofxGuiGroup transformToolsGroup;
+	ofParameter<ofColor> fillColorScene, strokeColorScene;
+	ofColor prevFillColorScene, prevStrokeColorScene;
+	ofParameter<float> extendSelectionX,  extendSelectionY;
+	float prevExtendSelectionX, prevExtendSelectionY;
+	ofParameter<int> extendTileRowX, extendTileRowY;
+	ofxToggle addTileRow;
+	int prevExtendTileRowX, prevExtendTileRowY;
+	
+	//Translate
+	ofxGuiGroup translationToolsGroup;
+	ofParameter<float> translateX, translateY;
+	float prevTranslateX, prevTranslateY;
+
+	//Rotate
+	ofxGuiGroup  rotationToolsGroup;
+	ofParameter<float> rotateZ;
+	float prevRotateZ;
+
+	//Scale
+	ofxGuiGroup scalingToolsGroup;
+	ofParameter<float> scaleX, scaleY;
+	float prevScaleX, prevScaleY;
 
 	//Panel
 	ofxPanel gui;
