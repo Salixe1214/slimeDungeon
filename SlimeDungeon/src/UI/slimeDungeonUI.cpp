@@ -19,7 +19,7 @@ void SlimeDungeonUI::setup(){
 	scene.setPosition(ofGetWidth() - scenePanelWidth, 0); //To the right of the window
 
 	scene.add(hierarchy.setup("Selection", emptySceneMsg));
-	scene.add(deleteShapeBtn.setup("Delete Selected Shape"));
+	scene.add(deleteShapeBtn.setup("Delete selected shape"));
 	
 	//Transform
 	transformToolsGroup.setup("Transform tools");

@@ -434,6 +434,8 @@ void Renderer::setSelectionColor(ofColor newFillColor, ofColor newStrokeColor) {
 void Renderer::extendSelectionBorder(float dx, float dy) {
 	float tileSize;
 	for (auto shape : selectedShapes) {
+		if (shape.second->position2.x + dx <= shape.second->position1.x + 1
+			|| shape.second->position2.y + dy <= shape.second->position1.y + 1) continue;
 		switch (shape.second->shapeType)
 		{
 		case VectorPrimitiveType::square:
@@ -457,22 +459,6 @@ void Renderer::extendSelectionBorder(float dx, float dy) {
 				shape.second->position2.y += dy;
 			}
 			break;
-
-		//case VectorPrimitiveType::tiles: //TODO pour l'ajout de rangée par rangée...
-		//	tileSize = ((shape::TileShape*) shape.second)->tileSize;
-		//	if (dx /tileSize  >= 1) {
-		//		shape.second->position2.x += tileSize;
-		//	}
-		//	else if (dx / tileSize <= -1) {
-		//		shape.second->position2.x -= tileSize;
-		//	}
-		//	if (dy / tileSize >= 1) {
-		//		shape.second->position2.y += tileSize;
-		//	}
-		//	else if (dy / tileSize <= -1) {
-		//		shape.second->position2.y -= tileSize;
-		//	}
-		//	break;
 			
 		default:
 			shape.second->position2.x += dx;
