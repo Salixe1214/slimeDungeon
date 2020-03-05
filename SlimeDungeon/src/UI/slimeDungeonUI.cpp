@@ -161,12 +161,16 @@ void SlimeDungeonUI::screenshotBtnPressed()
 			//	int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
 			ofSystemAlertDialog("Select the portion of the screen you want to export");
 			isWaitingForScreenSelection = true;
+			sdCtrl.setPartialScreenBool(true);
 		}
 		else {
 			imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
 			exportScreenshot();
+			
 		}
+		
 	}
+	
 }
 
 //Export the imgToExport
@@ -444,6 +448,8 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 		
 		imgToExport.grabScreen(screenshotPtUpperRight.x, screenshotPtUpperRight.y, screenshotPtDownLeft.x - screenshotPtUpperRight.x, screenshotPtDownLeft.y - screenshotPtUpperRight.y);
 		isWaitingForScreenSelection = false;
+		sdCtrl.setPartialScreenBool(false);
+
 		if (! recordMode) exportScreenshot();
 	}
 	else{

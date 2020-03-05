@@ -16,6 +16,7 @@ void Renderer::setup(ofxPanel *gui)
 	//color = p_userColor;
 	mouseIsPressed = false;
 	isDrawing = true; 
+	partialScreenPressed = false;
 	//count = 100;
 	//stride = sizeof(VectorPrimitive);
 	//size = count * stride;
@@ -35,7 +36,7 @@ void Renderer::setup(ofxPanel *gui)
 	cursor1.load("fleche.png");
 	cursor2.load("fleche1.png");
 	cursor3.load("hand.png");
-	cursor4.load("hand1.png");
+	cursor4.load("partialScreenshotCursor.png");
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -74,11 +75,12 @@ void Renderer::draw()
 		restorePrevStrokeState();
 	}
 
-	drawCursor(curMouse.x, curMouse.y);
+	
 	
 	drawShapes();
 	drawSample();
 	highlightSelectedShape();
+	drawCursor(curMouse.x, curMouse.y);
 }
 
 
@@ -229,6 +231,8 @@ void Renderer::restorePrevStrokeState()
 }
 
 
+
+
 // fonction qui vide le tableau de primitives vectorielles
 //void Renderer::reset()
 //{
@@ -339,34 +343,30 @@ void Renderer::drawZone(float x1, float y1, float x2, float y2) const
 
 void Renderer::drawCursor(float x, float y) const
 {
-	if (mouseIsPressed) {
-		/*float length = 15.0f;
-		float offset = 10.0f;
-		ofSetLineWidth(4);
-		ofSetColor(255,0,0);
-		ofDrawLine(x + offset, y, x + offset + length, y);
-		ofDrawLine(x - offset, y, x - offset - length, y);
-		ofDrawLine(x, y + offset, x, y + offset + length);
-		ofDrawLine(x, y - offset, x, y - offset - length);*/
-		cursor3.draw(x-20, y-20, 40,40);
+	ofSetColor(ofColor::black);
+	if (mouseIsPressed && partialScreenPressed) {
+		
+		cursor4.draw(x-20, y-20, 40,40);
 
+	}
+	else if (mouseIsPressed) {
+		cursor3.draw(x - 20, y - 20, 40, 40);
 	}else{
-		/*float length = 10.0f;
-		float offset = 5.0f;
-		ofSetLineWidth(2);
-		ofSetColor(31);
-		ofDrawLine(x + offset, y, x + offset + length, y);
-		ofDrawLine(x - offset, y, x - offset - length, y);
-		ofDrawLine(x, y + offset, x, y + offset + length);
-		ofDrawLine(x, y - offset, x, y - offset - length);*/
 		if ((curMouse.x > 0 && curMouse.x < 230 && curMouse.y > 0 && curMouse.y < 390) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 450)) {
 			ofShowCursor();
 		}
+		else if(partialScreenPressed){
+			ofHideCursor();
+			cursor4.draw(x - 20, y - 20, 40, 40);
+			
+		}
 		else {
 			ofHideCursor();
+			
 			cursor1.draw(x - 20, y - 20, 40, 40);
 		}
 	}
+	
 }
 
 void Renderer::checkClickInShape() {
@@ -434,6 +434,10 @@ void Renderer::setSelectionColor(ofColor newFillColor, ofColor newStrokeColor) {
 		shape.second->fillColor = newFillColor;
 		shape.second->strokeColor = newStrokeColor;
 	}
+}
+
+void Renderer::setPartialScreenBool(bool isPartialScreen) {
+	partialScreenPressed = isPartialScreen;
 }
 
 

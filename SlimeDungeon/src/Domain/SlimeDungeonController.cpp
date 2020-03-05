@@ -145,6 +145,11 @@ void SlimeDungeonController::setSelectionColor(ofColor fillColorScene, ofColor s
 	ctrlRenderer.setSelectionColor(fillColorScene, strokeColorScene);
 }
 
+void SlimeDungeonController::setPartialScreenBool(bool isPartialScreen)
+{
+	ctrlRenderer.setPartialScreenBool(isPartialScreen);
+}
+
 int SlimeDungeonController::getSelectedShapeSize()
 {
 	return ctrlRenderer.getSelectedShapeSize();
