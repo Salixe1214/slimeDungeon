@@ -55,6 +55,15 @@ namespace shape {
 		ofSetColor(strokeColor);
 		ofDrawLine(middleX, position1.y, middleX - sideLengthX / 4, position1.y + sideLengthY / 3);
 		ofDrawLine(middleX, position1.y, middleX + sideLengthX / 4, position1.y + sideLengthY / 3);
+
+		//Ajout de yeux
+		ofFill();
+		ofSetColor(ofColor::white);
+		ofDrawCircle(position1.x + (sideLengthX / 3), position1.y + sideLengthY / 2, ((sideLengthX + sideLengthY)/2)/15);
+		ofDrawCircle(position1.x + (2*(sideLengthX / 3)), position1.y + sideLengthY / 2, ((sideLengthX + sideLengthY) / 2) / 15);
+		ofSetColor(ofColor::black);
+		ofDrawCircle(position1.x + (sideLengthX / 3), position1.y + sideLengthY / 2, ((sideLengthX + sideLengthY) / 2) / 40);
+		ofDrawCircle(position1.x + (2 * (sideLengthX / 3)), position1.y + sideLengthY / 2, ((sideLengthX + sideLengthY) / 2) / 40);
 	}
 
 	void SlimeShape::highlight()
