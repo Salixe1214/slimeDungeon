@@ -100,10 +100,10 @@ void SlimeDungeonUI::setup(){
 	instructions.push_back("Tracez une forme avec votre souris");
 	instructions.push_back("Utiliser les chiffres pour tracer différentes formes");
 	instructions.push_back("h pour cacher l'interface");
-	instructions.push_back("s pour enregistrer les paramètres");
-	instructions.push_back("l pour charger les paramètres");
-	instructions.push_back("Gauche pour retourner en arrière");
-	instructions.push_back("Droite pour annuler le retour en arrière");
+	instructions.push_back("s pour enregistrer les parametres");
+	instructions.push_back("l pour charger les parametres");
+	instructions.push_back("Gauche pour retourner en arriere");
+	instructions.push_back("Droite pour annuler le retour en arriere");
 
 }
 
@@ -402,7 +402,6 @@ void SlimeDungeonUI::keyReleased(int key){
 	default:
 		break;
 	}
-
 
 }
 
