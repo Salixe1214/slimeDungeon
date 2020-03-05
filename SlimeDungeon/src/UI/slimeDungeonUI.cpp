@@ -406,7 +406,6 @@ void SlimeDungeonUI::keyReleased(int key){
 		break;
 	}
 
-
 }
 
 //--------------------------------------------------------------
