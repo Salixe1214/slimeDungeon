@@ -6,6 +6,8 @@
 #include "Domain/Renderer.h"
 #include <utility> 
 #include <Windows.h>
+#include <vector>
+#include <string>
 
 class SlimeDungeonUI : public ofBaseApp{
 	
@@ -120,6 +122,7 @@ public:
 	ofxPanel scene;
 
 
+
 private:
 	SlimeDungeonController sdCtrl;
 	bool hasImgExtension(ofFile file);
@@ -130,4 +133,6 @@ private:
 	void screenshotBtnPressed();
 	void importImageBtnPressed();
 
+	//Instructions pour l'utilisateur
+	std::vector<string> instructions;
 };

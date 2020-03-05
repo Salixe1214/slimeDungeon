@@ -97,6 +97,14 @@ void SlimeDungeonUI::setup(){
 	
 	sdCtrl.publishSetupEvent(&gui);
 
+	instructions.push_back("Tracez une forme avec votre souris");
+	instructions.push_back("Utiliser les chiffres pour tracer différentes formes");
+	instructions.push_back("h pour cacher l'interface");
+	instructions.push_back("s pour enregistrer les paramètres");
+	instructions.push_back("l pour charger les paramètres");
+	instructions.push_back("Gauche pour retourner en arrière");
+	instructions.push_back("Droite pour annuler le retour en arrière");
+
 }
 
 void SlimeDungeonUI::setDefaultParameter() {
@@ -291,33 +299,32 @@ void SlimeDungeonUI::draw(){
 	}
 
 	ofSetColor(0);
-	ofDrawBitmapString("drag image files into this window", 10, 20);
+	ofDrawBitmapString("drag image files into this window", 10, ofGetHeight() - 20);
 	
 	if( !bHide ){
 		gui.draw();
 		scene.draw();
+
+		// Writing instructions
+		for (unsigned int i = 0; i < instructions.size() ; i++) {
+			ofDrawBitmapString(instructions[i], 10, gui.getHeight() + 30 + ( i * 12));
+		}
 	}
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::keyPressed(int key){
-	if( key == 'h' ){
-		bHide = !bHide;
-	}
-	if(key == 's') {
-		gui.saveToFile("settings.xml");
-	}
-	if(key == 'l') {
-		gui.loadFromFile("settings.xml");
-	}
-	if(key == ' '){
-		shapeColor1 = ofColor(255);
-	}
-	if (key == 'o') {
-		shapeColor2 = shapeColor1;
-	}
 	switch (key)
 	{
+	case 'h':
+		bHide = !bHide;
+		break;
+	case 's':
+		gui.saveToFile("settings.xml");
+		break;
+	case 'l':
+		gui.loadFromFile("settings.xml");
+		break;
 	case OF_KEY_LEFT:
 		sdCtrl.changeState(true);
 		break;
