@@ -53,6 +53,8 @@ public:
 	void setRendererIsMousePressed(bool mouseIsPressed);
 
 
+	void setCameraMoveLeft(bool isCameraMoveLeft);
+
 
 private:
 	Renderer ctrlRenderer;

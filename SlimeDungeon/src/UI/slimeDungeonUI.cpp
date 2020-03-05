@@ -98,12 +98,12 @@ void SlimeDungeonUI::setup(){
 	sdCtrl.publishSetupEvent(&gui);
 
 	instructions.push_back("Tracez une forme avec votre souris");
-	instructions.push_back("Utiliser les chiffres pour tracer différentes formes");
+	instructions.push_back("Utiliser les chiffres pour tracer differentes formes");
 	instructions.push_back("h pour cacher l'interface");
-	instructions.push_back("s pour enregistrer les paramètres");
-	instructions.push_back("l pour charger les paramètres");
-	instructions.push_back("Gauche pour retourner en arrière");
-	instructions.push_back("Droite pour annuler le retour en arrière");
+	instructions.push_back("s pour enregistrer les parametres");
+	instructions.push_back("l pour charger les parametres");
+	instructions.push_back("Gauche pour retourner en arriere");
+	instructions.push_back("Droite pour annuler le retour en arriere");
 
 }
 
@@ -195,8 +195,6 @@ void SlimeDungeonUI::update() {
 		}
 		else {
 		}
-
-
 	}
 	if (drawMode != prevDrawMode) {
 		sdCtrl.setDrawMode(drawMode);
@@ -319,6 +317,9 @@ void SlimeDungeonUI::keyPressed(int key){
 	case 'h':
 		bHide = !bHide;
 		break;
+
+	case 'a':
+		sdCtrl.setCameraMoveLeft(true);
 	case 's':
 		gui.saveToFile("settings.xml");
 		break;
@@ -398,7 +399,9 @@ void SlimeDungeonUI::keyReleased(int key){
 	//case 115: // key s
 	//	renderer.random_color_stroke();
 	//	break;
-
+	case 'a':
+		sdCtrl.setCameraMoveLeft(false);
+		break;
 	default:
 		break;
 	}
@@ -414,7 +417,7 @@ void SlimeDungeonUI::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void SlimeDungeonUI::mouseDragged(int x, int y, int button){
 	positionImg.x = mouseX - distance.x;
-	positionImg.y = mouseX - distance.y; //ne devrait pas être mouseY plutôt ici? A.B.
+	positionImg.y = mouseX - distance.y; 
 
 	sdCtrl.setCurMouse(ofPoint(x,y));
 }

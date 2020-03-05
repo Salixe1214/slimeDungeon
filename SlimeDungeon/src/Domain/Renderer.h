@@ -46,6 +46,16 @@ public:
 	std::stack<Shape*> pastVecShapes;
 	std::unordered_map<std::string, Shape*> selectedShapes;
 
+	ofCamera camFront;
+	bool isCameraMoveLeft;
+	float speedDelta;
+	float speedTranslation;
+	float speedRotation;
+
+	float timeCurrent;
+	float timeLast;
+	float timeElapsed;
+	void setCameraMoveLeft(bool cameraMoveLeft);
 
 	int count;
 	int size;

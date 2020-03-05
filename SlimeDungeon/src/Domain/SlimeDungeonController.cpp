@@ -119,6 +119,11 @@ void SlimeDungeonController::setRendererIsMousePressed(bool mouseIsPressed)
 	ctrlRenderer.mouseIsPressed = mouseIsPressed;
 }
 
+void SlimeDungeonController::setCameraMoveLeft(bool isCameraMoveLeft)
+{
+	ctrlRenderer.setCameraMoveLeft(isCameraMoveLeft);
+}
+
 void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) const 
 {
 	ctrlRenderer.exportImg(imgToExport, filename);
