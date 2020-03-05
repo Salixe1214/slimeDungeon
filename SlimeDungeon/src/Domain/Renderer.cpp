@@ -6,6 +6,11 @@ Renderer::Renderer()
 
 }
 
+void Renderer::setCameraMoveLeft(bool cameraMoveLeft)
+{
+	isCameraMoveLeft = cameraMoveLeft;
+}
+
 
 void Renderer::setup(ofxPanel *gui)
 {
@@ -16,12 +21,7 @@ void Renderer::setup(ofxPanel *gui)
 	//color = p_userColor;
 	mouseIsPressed = false;
 	isDrawing = true; 
-	partialScreenPressed = false;
-	//count = 100;
-	//stride = sizeof(VectorPrimitive);
-	//size = count * stride;
-	//shapes = (VectorPrimitive*)std::malloc(size);
-	//shapeType = VectorPrimitiveType::pixel;
+
 	fillShape = true;
 
 	strokeWidthDefault = 4;
@@ -31,17 +31,37 @@ void Renderer::setup(ofxPanel *gui)
 	mousePress.x = mousePress.y = curMouse.x = curMouse.y = 0;
 	//CaptureTool
 	recordMode = false;
-	//ofHideCursor();
+
 	//load les cursors
 	cursor1.load("fleche.png");
 	cursor2.load("fleche1.png");
 	cursor3.load("hand.png");
 	cursor4.load("partialScreenshotCursor.png");
+	cursor4.load("hand1.png");
+
+	speedDelta = 250.0f;
+	camFront.setPosition({ 0,0, -1000 }); //TODO changer la position de départ
+	camFront.lookAt({ 0,0,0 }); 
+
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
 					  ofParameter<ofColor> p_strokeColor)
 {
+
+	timeCurrent = ofGetElapsedTimef();
+	timeElapsed = timeCurrent - timeLast;
+	timeLast = timeCurrent;
+
+	speedTranslation = speedDelta * timeElapsed;
+	speedRotation = speedTranslation / 8.0f;
+
+	if (isCameraMoveLeft) {
+		camFront.truck(-speedTranslation);
+		cout << "moving" << endl;
+	}
+		
+
 	// Update des couleurs en temps réel (pour le sample)
 	fillColor = p_fillColor;
 	strokeColor = p_strokeColor;
@@ -58,6 +78,7 @@ void Renderer::exit() {
 
 void Renderer::draw()
 {	
+	//camFront.begin(); //TODO retirer cette ligne-ci
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
 
@@ -74,9 +95,10 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
+	drawCursor(curMouse.x, curMouse.y);
+	ofDrawBox(250, 200, 250, 200);
+	
 
-	
-	
 	drawShapes();
 	drawSample();
 	highlightSelectedShape();
@@ -231,18 +253,6 @@ void Renderer::restorePrevStrokeState()
 }
 
 
-
-
-// fonction qui vide le tableau de primitives vectorielles
-//void Renderer::reset()
-//{
-//	for (index = 0; index < count; ++index)
-//		shapes[index].type = VectorPrimitiveType::none;
-//
-//	head = 0;
-//
-//	ofLog() << "<reset>";
-//}
 void Renderer::removeLastAddedVectorShape(){
 
 }
