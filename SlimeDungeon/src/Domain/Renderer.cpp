@@ -359,7 +359,13 @@ void Renderer::drawCursor(float x, float y) const
 		ofDrawLine(x - offset, y, x - offset - length, y);
 		ofDrawLine(x, y + offset, x, y + offset + length);
 		ofDrawLine(x, y - offset, x, y - offset - length);*/
-		cursor1.draw(x-20, y-20 ,40,40);
+		if ((curMouse.x > 0 && curMouse.x < 230 && curMouse.y > 0 && curMouse.y < 390) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 450)) {
+			ofShowCursor();
+		}
+		else {
+			ofHideCursor();
+			cursor1.draw(x - 20, y - 20, 40, 40);
+		}
 	}
 }
 
