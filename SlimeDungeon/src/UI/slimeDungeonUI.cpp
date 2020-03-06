@@ -98,7 +98,7 @@ void SlimeDungeonUI::setup(){
 	sdCtrl.publishSetupEvent(&gui);
 
 	instructions.push_back("Tracez une forme avec votre souris");
-	instructions.push_back("Utiliser les chiffres pour tracer différentes formes");
+	instructions.push_back("Utiliser les chiffres pour tracer differentes formes");
 	instructions.push_back("h pour cacher l'interface");
 	instructions.push_back("s pour enregistrer les parametres");
 	instructions.push_back("l pour charger les parametres");
@@ -161,12 +161,16 @@ void SlimeDungeonUI::screenshotBtnPressed()
 			//	int screenshotHeight = stoi(ofSystemTextBoxDialog("Size of screenshot", "Height"));
 			ofSystemAlertDialog("Select the portion of the screen you want to export");
 			isWaitingForScreenSelection = true;
+			sdCtrl.setPartialScreenBool(true);
 		}
 		else {
 			imgToExport.grabScreen(0, 0, screenWidth, screenHeight);
 			exportScreenshot();
+			
 		}
+		
 	}
+	
 }
 
 //Export the imgToExport
@@ -195,8 +199,6 @@ void SlimeDungeonUI::update() {
 		}
 		else {
 		}
-
-
 	}
 	if (drawMode != prevDrawMode) {
 		sdCtrl.setDrawMode(drawMode);
@@ -319,6 +321,9 @@ void SlimeDungeonUI::keyPressed(int key){
 	case 'h':
 		bHide = !bHide;
 		break;
+
+	case 'a':
+		sdCtrl.setCameraMoveLeft(true);
 	case 's':
 		gui.saveToFile("settings.xml");
 		break;
@@ -398,7 +403,9 @@ void SlimeDungeonUI::keyReleased(int key){
 	//case 115: // key s
 	//	renderer.random_color_stroke();
 	//	break;
-
+	case 'a':
+		sdCtrl.setCameraMoveLeft(false);
+		break;
 	default:
 		break;
 	}
@@ -413,7 +420,7 @@ void SlimeDungeonUI::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void SlimeDungeonUI::mouseDragged(int x, int y, int button){
 	positionImg.x = mouseX - distance.x;
-	positionImg.y = mouseX - distance.y; //ne devrait pas être mouseY plutôt ici? A.B.
+	positionImg.y = mouseX - distance.y; 
 
 	sdCtrl.setCurMouse(ofPoint(x,y));
 }
@@ -444,6 +451,8 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 		
 		imgToExport.grabScreen(screenshotPtUpperRight.x, screenshotPtUpperRight.y, screenshotPtDownLeft.x - screenshotPtUpperRight.x, screenshotPtDownLeft.y - screenshotPtUpperRight.y);
 		isWaitingForScreenSelection = false;
+		sdCtrl.setPartialScreenBool(false);
+
 		if (! recordMode) exportScreenshot();
 	}
 	else{

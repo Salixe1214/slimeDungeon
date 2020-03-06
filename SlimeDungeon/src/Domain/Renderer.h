@@ -46,10 +46,22 @@ public:
 	std::stack<Shape*> pastVecShapes;
 	std::unordered_map<std::string, Shape*> selectedShapes;
 
+	ofCamera camFront;
+	bool isCameraMoveLeft;
+	float speedDelta;
+	float speedTranslation;
+	float speedRotation;
+
+	float timeCurrent;
+	float timeLast;
+	float timeElapsed;
+	void setCameraMoveLeft(bool cameraMoveLeft);
 
 	int count;
 	int size;
 	int stride;
+	bool partialScreenPressed;
+	
 
 	int index;
 	float strokeWidthDefault;
@@ -72,6 +84,7 @@ public:
 	void highlightSelectedShape();
 	void deleteSelectedShape();
 	bool isSelectedShapeEmpty();
+	void setPartialScreenBool(bool isPartialScreen);
 	void setSelectionColor(ofColor newfillColor, ofColor newStrokeColor);
 	int getSelectedShapeSize();
 	string getFirstSelectedShapeName();

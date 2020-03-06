@@ -119,6 +119,11 @@ void SlimeDungeonController::setRendererIsMousePressed(bool mouseIsPressed)
 	ctrlRenderer.mouseIsPressed = mouseIsPressed;
 }
 
+void SlimeDungeonController::setCameraMoveLeft(bool isCameraMoveLeft)
+{
+	ctrlRenderer.setCameraMoveLeft(isCameraMoveLeft);
+}
+
 void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) const 
 {
 	ctrlRenderer.exportImg(imgToExport, filename);
@@ -143,6 +148,11 @@ void SlimeDungeonController::changeState(bool goBack) {
 void SlimeDungeonController::setSelectionColor(ofColor fillColorScene, ofColor strokeColorScene)
 {
 	ctrlRenderer.setSelectionColor(fillColorScene, strokeColorScene);
+}
+
+void SlimeDungeonController::setPartialScreenBool(bool isPartialScreen)
+{
+	ctrlRenderer.setPartialScreenBool(isPartialScreen);
 }
 
 int SlimeDungeonController::getSelectedShapeSize()

@@ -13,6 +13,7 @@ public:
 	SlimeDungeonController();
 	void publishSetupEvent(ofxPanel*);
 	void publishExitEvent();
+	void setPartialScreenBool(bool isPartialScreen);
 	
 	//Selection, etc.
 	void checkClickInShape();
@@ -52,6 +53,8 @@ public:
 	void setCurMouseY(int y);
 	void setRendererIsMousePressed(bool mouseIsPressed);
 
+
+	void setCameraMoveLeft(bool isCameraMoveLeft);
 
 
 private:
