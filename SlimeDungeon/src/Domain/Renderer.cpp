@@ -95,7 +95,6 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
-	drawCursor(curMouse.x, curMouse.y);
 	//ofDrawBox(250, 200, 250, 200);
 	
 
@@ -103,6 +102,9 @@ void Renderer::draw()
 	drawSample();
 	highlightSelectedShape();
 	drawCursor(curMouse.x, curMouse.y);
+
+	
+
 	//camFront.end();
 }
 

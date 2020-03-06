@@ -1,7 +1,8 @@
 #pragma once
 #include "ofMain.h"
 namespace shape {
-	enum class VectorPrimitiveType { none, pixel, line, rectangle, square, ellipse, circle, slime, tiles}; //TODO rename
+	enum class VectorPrimitiveType { none, pixel, line, rectangle, square, ellipse, circle, slime, 
+									 tiles, slime3d, ball, monster}; //TODO rename
 
 	class Shape
 	{

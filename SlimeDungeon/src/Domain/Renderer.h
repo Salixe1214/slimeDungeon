@@ -14,6 +14,7 @@
 #include "Domain/Shapes/Rectangle.h"
 #include "Domain/Shapes/Pixel.h"
 #include "Domain/Shapes/Line.h"
+#include "Domain/Shapes/Shape3D.h"
 #include "ofxGui.h"
 #include <stack>
 
