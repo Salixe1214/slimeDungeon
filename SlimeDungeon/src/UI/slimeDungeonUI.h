@@ -32,7 +32,7 @@ public:
 
 	bool bHide;
 	ofPoint mousePress, screenshotPtUpperRight;
-	ofPoint curMouse, screenshotPtDownLeft;
+	ofPoint curMouse, screenshotPtDownLeft, guiPosition, gui2Position;
 
 	//DrawTools------------------------------------------
 	ofxGuiGroup drawToolsGroup;
@@ -50,6 +50,8 @@ public:
 	ofPoint dragPt;
 	ofPoint positionImg;
 	ofPoint distance;
+	ofImage imageImport;
+	bool ifImageImport;
 
 	
 	//CaptureTools ------------------------------------------

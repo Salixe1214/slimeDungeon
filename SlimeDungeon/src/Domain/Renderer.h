@@ -61,7 +61,7 @@ public:
 	int size;
 	int stride;
 	bool partialScreenPressed;
-	
+	bool mouseOverGUI;
 
 	int index;
 	float strokeWidthDefault;
@@ -85,6 +85,7 @@ public:
 	void deleteSelectedShape();
 	bool isSelectedShapeEmpty();
 	void setPartialScreenBool(bool isPartialScreen);
+	void setMouseOverGUI(bool overGUI);
 	void setSelectionColor(ofColor newfillColor, ofColor newStrokeColor);
 	int getSelectedShapeSize();
 	string getFirstSelectedShapeName();

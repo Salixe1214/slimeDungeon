@@ -9,6 +9,7 @@ void SlimeDungeonUI::setup(){
 	//Listeners
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
+	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
 
 	
 	//Scene
@@ -149,6 +150,17 @@ void SlimeDungeonUI::deleteShapeBtnPressed() {
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::importImageBtnPressed() {
+	ofSystemAlertDialog("Select the image you want to import");
+	ofFileDialogResult loadFileResult = ofSystemLoadDialog("Load your file", false);
+	if (loadFileResult.bSuccess) {
+		string loadPath = loadFileResult.getPath();
+		imageImport.load(loadPath);
+		ifImageImport = true;
+	}
+	else {
+		ofSystemAlertDialog("You did not select the image properly.");
+	}
+
 
 }
 
@@ -290,13 +302,33 @@ void SlimeDungeonUI::draw(){
     ofBackgroundGradient(backColor2, backColor1);
 
 	sdCtrl.rendererDraw(shapeColor1, shapeColor2);
-	
+	//draw l<image importer par le boutton
+	if (ifImageImport) {
+		ofSetColor(ofColor::white);
+		imageImport.draw(500, 300);
+	}
 
+	//si la mouse est over un des GUI, renvoir un bool au renderer NE MARCHE PAS ENCORE!
+	guiPosition = gui.getPosition();
+	gui2Position = scene.getPosition();
+	if ((curMouse.x > guiPosition.x && curMouse.x < guiPosition.x + gui.getWidth() + 100 && curMouse.y > guiPosition.y && curMouse.y < guiPosition.y + gui.getHeight() + 100) || 
+		(curMouse.x > gui2Position.x && curMouse.x < gui2Position.x + scene.getWidth() + 100 && curMouse.y > gui2Position.y && curMouse.y < gui2Position.y + scene.getHeight() + 100)) 
+	{
+		
+		sdCtrl.setMouseOverGUI(true);
+	}
+	else {
+		sdCtrl.setMouseOverGUI(false);
+	}
+	
+	
+	
 	//draw l'image qui a ete drag dans la window
 	float dx = dragPt.x;
 	float dy = dragPt.y;
 
 	for (unsigned int k = 0; k < draggedImages.size(); k++) {
+		ofSetColor(ofColor::white);
 		draggedImages.at(k).first.draw(draggedImages.at(k).second.x, draggedImages.at(k).second.y);
 	}
 

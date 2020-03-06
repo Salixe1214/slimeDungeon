@@ -14,6 +14,7 @@ public:
 	void publishSetupEvent(ofxPanel*);
 	void publishExitEvent();
 	void setPartialScreenBool(bool isPartialScreen);
+	void setMouseOverGUI(bool overGUI);
 	
 	//Selection, etc.
 	void checkClickInShape();

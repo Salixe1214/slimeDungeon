@@ -155,6 +155,11 @@ void SlimeDungeonController::setPartialScreenBool(bool isPartialScreen)
 	ctrlRenderer.setPartialScreenBool(isPartialScreen);
 }
 
+void SlimeDungeonController::setMouseOverGUI(bool overGUI)
+{
+	ctrlRenderer.setMouseOverGUI(overGUI);
+}
+
 int SlimeDungeonController::getSelectedShapeSize()
 {
 	return ctrlRenderer.getSelectedShapeSize();

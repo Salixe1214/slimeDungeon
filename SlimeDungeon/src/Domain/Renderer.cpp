@@ -37,7 +37,7 @@ void Renderer::setup(ofxPanel *gui)
 	cursor2.load("fleche1.png");
 	cursor3.load("hand.png");
 	cursor4.load("partialScreenshotCursor.png");
-	cursor4.load("hand1.png");
+	
 
 	speedDelta = 250.0f;
 	camFront.setPosition({ 0,0, -1000 }); //TODO changer la position de départ
@@ -96,13 +96,14 @@ void Renderer::draw()
 		restorePrevStrokeState();
 	}
 	drawCursor(curMouse.x, curMouse.y);
-	ofDrawBox(250, 200, 250, 200);
+	//ofDrawBox(250, 200, 250, 200);
 	
 
 	drawShapes();
 	drawSample();
 	highlightSelectedShape();
 	drawCursor(curMouse.x, curMouse.y);
+	//camFront.end();
 }
 
 
@@ -362,7 +363,7 @@ void Renderer::drawCursor(float x, float y) const
 	else if (mouseIsPressed) {
 		cursor3.draw(x - 20, y - 20, 40, 40);
 	}else{
-		if ((curMouse.x > 0 && curMouse.x < 230 && curMouse.y > 0 && curMouse.y < 390) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 450)) {
+		if ( /*mouseOverGUI*/(curMouse.x > 0 && curMouse.x < 230 && curMouse.y > 0 && curMouse.y < 390) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 450)) {
 			ofShowCursor();
 		}
 		else if(partialScreenPressed){
@@ -448,6 +449,10 @@ void Renderer::setSelectionColor(ofColor newFillColor, ofColor newStrokeColor) {
 
 void Renderer::setPartialScreenBool(bool isPartialScreen) {
 	partialScreenPressed = isPartialScreen;
+}
+
+void Renderer::setMouseOverGUI(bool overGUI) {
+	mouseOverGUI = overGUI;
 }
 
 
