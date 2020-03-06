@@ -38,10 +38,12 @@ void Renderer::setup(ofxPanel *gui)
 	cursor3.load("hand.png");
 	cursor4.load("partialScreenshotCursor.png");
 	
-
+	// Camera
 	speedDelta = 250.0f;
-	camFront.setPosition({ 0,0, -1000 }); //TODO changer la position de départ
-	camFront.lookAt({ 0,0,0 }); 
+	camFront.setPosition({ ofGetWidth()/2,ofGetHeight()/2,1000}); //TODO changer la position de départ
+	camFront.lookAt({ ofGetWidth() / 2,ofGetHeight() / 2, 0 });
+	camFront.setVFlip(true);
+	camFront.setFov(402);
 
 }
 
@@ -78,7 +80,7 @@ void Renderer::exit() {
 
 void Renderer::draw()
 {	
-	//camFront.begin(); //TODO retirer cette ligne-ci
+	camFront.begin(); //TODO retirer cette ligne-ci
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
 
@@ -95,7 +97,8 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
-	//ofDrawBox(250, 200, 250, 200);
+	Shape3D(VectorPrimitiveType::slime3d, ofGetWidth() / 2, ofGetHeight() / 2, 0, 0.5, ofColor::white, "slime1.dae",
+		glm::vec3({ 0, 270, 0 })).draw();
 	
 
 	drawShapes();
@@ -105,7 +108,7 @@ void Renderer::draw()
 
 	
 
-	//camFront.end();
+	camFront.end();
 }
 
 
