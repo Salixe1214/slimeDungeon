@@ -4,7 +4,7 @@
 void SlimeDungeonUI::setup(){
 	ofSetVerticalSync(true);
 
-	setDefaultParameter(); 
+	setDefaultParameter();
 
 	//Listeners
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);

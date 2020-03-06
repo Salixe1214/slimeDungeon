@@ -75,7 +75,7 @@ void Renderer::draw()
 	}
 
 	drawCursor(curMouse.x, curMouse.y);
-	
+
 	drawShapes();
 	drawSample();
 	highlightSelectedShape();
