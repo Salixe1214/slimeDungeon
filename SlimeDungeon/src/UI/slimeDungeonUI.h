@@ -3,9 +3,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "Domain/SlimeDungeonController.h"
-#include "Domain/Renderer.h"
 #include <utility> 
-#include <Windows.h>
 #include <vector>
 #include <string>
 
