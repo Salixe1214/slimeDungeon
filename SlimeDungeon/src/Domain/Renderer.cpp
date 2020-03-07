@@ -359,7 +359,7 @@ void Renderer::drawCursor(float x, float y) const
 	ofSetColor(ofColor::black);
 	if (mouseIsPressed && partialScreenPressed) {
 		
-		cursor4.draw(x-20, y-20, 40,40);
+		cursor4.draw(x, y, 40,40);
 
 	}
 	else if (mouseIsPressed) {
@@ -370,7 +370,7 @@ void Renderer::drawCursor(float x, float y) const
 		}
 		else if(partialScreenPressed){
 			ofHideCursor();
-			cursor4.draw(x - 20, y - 20, 40, 40);
+			cursor4.draw(x, y, 40, 40);
 			
 		}
 		else {

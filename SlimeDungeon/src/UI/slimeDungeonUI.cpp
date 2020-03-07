@@ -478,10 +478,29 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 	curMouse = ofPoint(x, y);
 	sdCtrl.setCurMouse(curMouse);
 	if (isWaitingForScreenSelection) {
-		screenshotPtUpperRight = mousePress;
-		screenshotPtDownLeft = curMouse;
-		
-		imgToExport.grabScreen(screenshotPtUpperRight.x, screenshotPtUpperRight.y, screenshotPtDownLeft.x - screenshotPtUpperRight.x, screenshotPtDownLeft.y - screenshotPtUpperRight.y);
+		screenshotPtUpperLeft = mousePress;
+		screenshotPtDownRight = curMouse;
+		float tmpX, tmpY;
+		//Triage des points
+		if (screenshotPtDownRight.x - screenshotPtUpperLeft.x > 0 && screenshotPtDownRight.y - screenshotPtUpperLeft.y < 0) {
+			tmpY = screenshotPtUpperLeft.y;
+			screenshotPtUpperLeft.y = screenshotPtDownRight.y;
+			screenshotPtDownRight.y = tmpY;
+		}
+		else if (screenshotPtDownRight.x - screenshotPtUpperLeft.x < 0 && screenshotPtDownRight.y - screenshotPtUpperLeft.y >0) {
+			tmpX = screenshotPtUpperLeft.x;
+			screenshotPtUpperLeft.x = screenshotPtDownRight.x;
+			screenshotPtDownRight.x = tmpX;
+		}
+		else if (screenshotPtDownRight.x - screenshotPtUpperLeft.x < 0 && screenshotPtDownRight.y - screenshotPtUpperLeft.y < 0) {
+			tmpX = screenshotPtUpperLeft.x;
+			tmpY = screenshotPtUpperLeft.y;
+			screenshotPtUpperLeft = screenshotPtDownRight;
+			screenshotPtDownRight.x = tmpX;
+			screenshotPtDownRight.y = tmpY;
+		}
+
+		imgToExport.grabScreen(screenshotPtUpperLeft.x, screenshotPtUpperLeft.y, screenshotPtDownRight.x - screenshotPtUpperLeft.x, screenshotPtDownRight.y - screenshotPtUpperLeft.y);
 		isWaitingForScreenSelection = false;
 		sdCtrl.setPartialScreenBool(false);
 

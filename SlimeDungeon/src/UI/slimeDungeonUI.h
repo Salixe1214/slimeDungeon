@@ -29,8 +29,8 @@ public:
 	void gotMessage(ofMessage msg);		
 
 	bool bHide;
-	ofPoint mousePress, screenshotPtUpperRight;
-	ofPoint curMouse, screenshotPtDownLeft, guiPosition, gui2Position;
+	ofPoint mousePress, screenshotPtUpperLeft;
+	ofPoint curMouse, screenshotPtDownRight, guiPosition, gui2Position;
 
 	//DrawTools------------------------------------------
 	ofxGuiGroup drawToolsGroup;
