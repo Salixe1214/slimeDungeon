@@ -13,7 +13,7 @@ namespace shape {
 		model.setPosition(position.x, position.y, position.z);
 		model.setScale(sizeRatio, sizeRatio, sizeRatio);
 		model.enableColors();
-		light.setPosition(position.x, position.y, position.z);
+		light.setPosition(position.x, position.y, 100);
 		model.setRotation(0, rotation.x, 1, 0, 0);
 		model.setRotation(0, rotation.y, 0, 1, 0);
 		model.setRotation(0, rotation.z, 0, 0, 1);
