@@ -78,6 +78,15 @@ void SlimeDungeonController::setDrawType(int drawType)
 	case 8:
 		ctrlRenderer.setShapeType(VectorPrimitiveType::slime);
 		break;
+	case 9:
+		ctrlRenderer.setShapeType(VectorPrimitiveType::slime3d);
+		break;
+	case 10:
+		ctrlRenderer.setShapeType(VectorPrimitiveType::monster3d);
+		break;
+	case 11:
+		ctrlRenderer.setShapeType(VectorPrimitiveType::ballFace);
+		break;
 	default:
 		ctrlRenderer.setShapeType(VectorPrimitiveType::none);
 		break;

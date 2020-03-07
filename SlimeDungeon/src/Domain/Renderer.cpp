@@ -97,8 +97,6 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
-	Shape3D(VectorPrimitiveType::slime3d, ofGetWidth() / 2, ofGetHeight() / 2, 0, 0.5, ofColor::white, "slime1.dae",
-		glm::vec3({ 0, 270, 0 })).draw();
 	
 
 	drawShapes();
@@ -178,6 +176,21 @@ void Renderer::drawSample()
 	case VectorPrimitiveType::tiles:
 		TileShape(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
 			ofColor(fillColor), ofColor(strokeColor), strokeWidth, (int) deltaX /4, sampleShape).draw();
+		break;
+	case VectorPrimitiveType::slime3d:
+		Shape3D(VectorPrimitiveType::slime3d, (origineX + deltaX)/2, (origineY + deltaY)/2, 0, 
+			((deltaX + deltaY) / 2) / ((ofGetHeight() + ofGetWidth())/2),ofColor::white, sampleShape,
+			"slime1.dae", glm::vec3({ 0, 270, 0 })).draw();
+		break;
+	case VectorPrimitiveType::monster3d:
+		Shape3D(VectorPrimitiveType::monster3d, (origineX + deltaX) / 2, (origineY + deltaY) / 2, 0,
+			((deltaX + deltaY) / 2) / ((ofGetHeight() + ofGetWidth()) / 2), ofColor::white, sampleShape,
+			"monster.dae", glm::vec3({ 0, 270, 0 })).draw();
+		break;
+	case VectorPrimitiveType::ballFace:
+		Shape3D(VectorPrimitiveType::ballFace, origineX + (deltaX / 2), (origineY + deltaY) / 2, 0,
+			((deltaX + deltaY) / 2) / ((ofGetHeight() + ofGetWidth()) / 2), ofColor::white, sampleShape,
+			"ball.dae", glm::vec3({ 0, 270, 0 })).draw();
 		break;
 
 	default:
@@ -327,6 +340,18 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 	case VectorPrimitiveType::slime:
 		vecShapes.push_back(new shape::SlimeShape(type, posX1, posY1, posX2, posY2,
 				fillingColor, ofColor(strokeColor), strokeWidth));
+		break;
+	case VectorPrimitiveType::slime3d:
+		vecShapes.push_back(new shape::Shape3D(type, (posX1 + posX2)/2, (posY1 + posY2)/2, 0, 0.5, 
+			fillingColor, "slime1.dae"));
+		break;
+	case VectorPrimitiveType::monster3d:
+		vecShapes.push_back(new shape::Shape3D(type, (posX1 + posX2) / 2, (posY1 + posY2) / 2, 0, 0.5,
+			fillingColor, "monster.dae"));
+		break;
+	case VectorPrimitiveType::ballFace:
+		vecShapes.push_back(new shape::Shape3D(type, (posX1 + posX2) / 2, (posY1 + posY2) / 2, 0, 0.5,
+			fillingColor, "ball.dae"));
 		break;
 
 	default:

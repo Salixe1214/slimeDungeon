@@ -356,6 +356,10 @@ void SlimeDungeonUI::keyPressed(int key){
 
 	case 'a':
 		sdCtrl.setCameraMoveLeft(true);
+		break;
+	case 'd':
+		sdCtrl.setCameraMoveLeft(true);
+		break;
 	case 's':
 		gui.saveToFile("settings.xml");
 		break;
@@ -424,6 +428,18 @@ void SlimeDungeonUI::keyReleased(int key){
 		currentShapeType = "slime";
 		sdCtrl.setDrawType(8);
 		break;
+	case 57:  // Key 9
+		currentShapeType = "slime3d1";
+		sdCtrl.setDrawType(9);
+		break;
+	case 48:  // Key 0
+		currentShapeType = "slime3d2";
+		sdCtrl.setDrawType(10);
+		break;
+	case '-':
+		currentShapeType = "slime3d3";
+		sdCtrl.setDrawType(11);
+		break;
 	//case 102: // key f
 	//	renderer.random_color_fill();
 	//	break;
@@ -436,6 +452,9 @@ void SlimeDungeonUI::keyReleased(int key){
 	//	renderer.random_color_stroke();
 	//	break;
 	case 'a':
+		sdCtrl.setCameraMoveLeft(false);
+		break;
+	case 'd':
 		sdCtrl.setCameraMoveLeft(false);
 		break;
 	default:
