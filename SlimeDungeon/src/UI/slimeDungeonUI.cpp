@@ -42,7 +42,7 @@ void SlimeDungeonUI::setup(){
 	transformToolsGroup.add(&translationToolsGroup);
 
 	//Rotation
-	rotationToolsGroup.setup("Translation tools");
+	rotationToolsGroup.setup("Rotation tools");
 	rotationToolsGroup.add(rotateZ.set("Rotation ", 0, -180, 180));
 
 	transformToolsGroup.add(&rotationToolsGroup);
