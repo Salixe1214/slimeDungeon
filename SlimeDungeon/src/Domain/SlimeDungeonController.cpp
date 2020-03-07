@@ -16,6 +16,11 @@ void SlimeDungeonController::publishExitEvent()
 	ctrlRenderer.exit();
 }
 
+void SlimeDungeonController::publishWindowResizedEvent(int w, int h)
+{
+	ctrlRenderer.windowResizedEvent(w, h);
+}
+
 void SlimeDungeonController::checkClickInShape()
 {
 	ctrlRenderer.checkClickInShape();

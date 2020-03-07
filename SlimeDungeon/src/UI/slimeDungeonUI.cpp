@@ -555,6 +555,7 @@ void SlimeDungeonUI::windowResized(int w, int h){
 	screenHeight = h;
     screenSize = ofToString(w) + "x" + ofToString(h);
 	scene.setPosition(w - scenePanelWidth, 0);
+	sdCtrl.publishWindowResizedEvent(w, h);
 }
 
 //--------------------------------------------------------------

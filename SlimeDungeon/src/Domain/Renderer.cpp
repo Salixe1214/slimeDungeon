@@ -17,16 +17,19 @@ void Renderer::setup(ofxPanel *gui)
 	// Ajout des paramètres de dessin au gui
 	gui->getGroup("Draw tools").add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
 	gui->getGroup("Draw tools").add(tileSize.set("Tile size", 50, 1, 300));
-	
+
 	//color = p_userColor;
 	mouseIsPressed = false;
-	isDrawing = true; 
-
+	isDrawing = true;
+	camInitialPos = {ofGetWidth() / 2, ofGetHeight() / 2, 1000};
 	fillShape = true;
 
 	strokeWidthDefault = 4;
 	strokeWidth = 4;//----
-
+	screenHeight = ofGetHeight();
+	screenWidth = ofGetWidth();
+	cameraOffsetX = 0.0;
+	cameraOffsetY = 0.0;
 
 	mousePress.x = mousePress.y = curMouse.x = curMouse.y = 0;
 	//CaptureTool
@@ -40,7 +43,7 @@ void Renderer::setup(ofxPanel *gui)
 	
 	// Camera
 	speedDelta = 250.0f;
-	camFront.setPosition({ ofGetWidth()/2,ofGetHeight()/2,1000}); //TODO changer la position de départ
+	camFront.setPosition(camInitialPos); //TODO changer la position de départ
 	camFront.lookAt({ ofGetWidth() / 2,ofGetHeight() / 2, 0 });
 	camFront.setVFlip(true);
 	camFront.setFov(402);
@@ -60,7 +63,7 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 
 	if (isCameraMoveLeft) {
 		camFront.truck(-speedTranslation);
-		cout << "moving" << endl;
+		cameraOffsetX += -speedTranslation;
 	}
 		
 
@@ -80,7 +83,6 @@ void Renderer::exit() {
 
 void Renderer::draw()
 {	
-	camFront.begin(); //TODO retirer cette ligne-ci
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
 
@@ -98,15 +100,28 @@ void Renderer::draw()
 		restorePrevStrokeState();
 	}
 	
-
+	camFront.begin();
 	drawShapes();
-	drawSample();
 	highlightSelectedShape();
+	camFront.end();
+
+	drawSample();
+	
 	drawCursor(curMouse.x, curMouse.y);
 
-	
+}
 
-	camFront.end();
+void Renderer::windowResizedEvent(int w, int h)
+{
+	//La caméra est centré de nouveau 
+	//camFront.setPosition({ ofGetWidth() / 2, ofGetHeight() / 2, 1000 });
+	//camFront.lookAt({ ofGetWidth() / 2,ofGetHeight() / 2, 0 });
+	//camInitialPos = { ofGetWidth() / 2, ofGetHeight() / 2, 1000 };
+	cameraOffsetX -= w/2 - screenWidth/2;
+	cameraOffsetY -= h/2 - screenHeight/2;
+	//camFront.setFov(402);
+	screenWidth = w;
+	screenHeight = h;
 }
 
 
@@ -285,20 +300,22 @@ void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 void Renderer::addVectorShape(VectorPrimitiveType type)
 {
 	ofColor fillingColor;
-	float posX1 = mousePress.x, posX2 = curMouse.x;
-	float posY1 = mousePress.y, posY2 = curMouse.y;
+	//float cameraOffsetX = camFront.getPosition().x - camInitialPos.x;
+	//float cameraOffsetY = camFront.getPosition().y - camInitialPos.y;
+	float posX1 = mousePress.x + cameraOffsetX;
+	float posX2 = curMouse.x + cameraOffsetX;
+	float posY1 = mousePress.y + cameraOffsetY;
+	float posY2 = curMouse.y + cameraOffsetY;
 	
 	if (fillShape) fillingColor = fillColor;
 	else fillingColor = ofColor(0, 0, 0, 0); //Composante avec transparence maximale
 	
 	if (type == VectorPrimitiveType::square || type == VectorPrimitiveType::circle) {
 		float sideLength = abs(mousePress.x - curMouse.x);
-		posX1 = mousePress.x;
-		posY1 = mousePress.y;
-		if (curMouse.x - mousePress.x < 0) posX2 = mousePress.x - sideLength;
-		else  posX2 = mousePress.x + sideLength;
-		if (curMouse.y - mousePress.y < 0) posY2 = mousePress.y - sideLength;
-		else posY2 = mousePress.y + sideLength;
+		if (curMouse.x - mousePress.x < 0) posX2 = posX1 - sideLength;
+		else  posX2 = posX1 + sideLength;
+		if (curMouse.y - mousePress.y < 0) posY2 = posY1 - sideLength;
+		else posY2 = posY1 + sideLength;
 	}
 
 	switch (type)

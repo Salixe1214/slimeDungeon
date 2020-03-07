@@ -13,6 +13,8 @@ public:
 	SlimeDungeonController();
 	void publishSetupEvent(ofxPanel*);
 	void publishExitEvent();
+	void publishWindowResizedEvent(int w, int h);
+
 	void setPartialScreenBool(bool isPartialScreen);
 	void setMouseOverGUI(bool overGUI);
 	

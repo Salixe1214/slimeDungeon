@@ -35,6 +35,9 @@ public:
 	float speedDelta;
 	float speedTranslation;
 	float speedRotation;
+	glm::vec3 camInitialPos;
+	int screenHeight, screenWidth;
+	float cameraOffsetX, cameraOffsetY;
 
 	float timeCurrent;
 	float timeLast;
@@ -62,6 +65,8 @@ public:
 	void exit();
 
 	void draw();
+
+	void windowResizedEvent(int w, int h);
 
 	//Selection, etc.
 	void checkClickInShape();
