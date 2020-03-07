@@ -135,4 +135,6 @@ private:
 
 	//Instructions pour l'utilisateur
 	std::vector<string> instructions;
+
+	ofLight light;
 };

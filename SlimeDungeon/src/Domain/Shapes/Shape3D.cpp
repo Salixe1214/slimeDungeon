@@ -13,11 +13,9 @@ namespace shape {
 		model.setPosition(position.x, position.y, position.z);
 		model.setScale(sizeRatio, sizeRatio, sizeRatio);
 		model.enableColors();
-		light.setPosition(position.x, position.y, 100);
 		model.setRotation(0, rotation.x, 1, 0, 0);
 		model.setRotation(0, rotation.y, 0, 1, 0);
 		model.setRotation(0, rotation.z, 0, 0, 1);
-		light.setup();
 
 	}
 
@@ -29,15 +27,12 @@ namespace shape {
 		model.setPosition(350, 150, 0);
 		model.setScale(0.3, 0.3, 0.3);
 		model.enableColors();
-		light.setPosition(0, 0, 0);
 		model.setRotation(0, rotation.y, 0, 1, 0);
-		light.setup();
 	}
 
 	void Shape3D::draw()
 	{
 		ofColor(fillColor);
-		light.enable();
 		model.drawFaces();
 
 	}

@@ -106,6 +106,8 @@ void SlimeDungeonUI::setup(){
 	instructions.push_back("Gauche pour retourner en arriere");
 	instructions.push_back("Droite pour annuler le retour en arriere");
 
+	light.setPosition(ofGetWidth() / 2, ofGetHeight() / 2, 1000);
+
 }
 
 void SlimeDungeonUI::setDefaultParameter() {
@@ -299,6 +301,7 @@ void SlimeDungeonUI::update() {
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
+	light.enable();
     ofBackgroundGradient(backColor2, backColor1);
 
 	sdCtrl.rendererDraw(shapeColor1, shapeColor2);

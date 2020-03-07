@@ -19,7 +19,6 @@ namespace shape {
 
 	private:
 		ofxAssimpModelLoader model;
-		ofLight light;
 	};
 }
 
