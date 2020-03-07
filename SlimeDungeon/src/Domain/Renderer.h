@@ -20,23 +20,6 @@
 
 using namespace shape;
 
-// structure de primitive vectorielle générique
-struct VectorPrimitive
-{
-	VectorPrimitiveType type;            // 1 * 4 = 4  octets
-	float                  position1[2];    // 2 * 4 = 8  octets
-	float                  position2[2];    // 2 * 4 = 8  octets
-	float                  strokeWidth;    // 1 * 4 = 4  octets
-	// unsigned char       strokeColor[4]; // 4 * 1 = 4  octets
-	// unsigned char       fillColor[4];   // 4 * 1 = 4  octets
-
-	// Utilisation de ofColor pour la couleur (facilite le colorPicker)
-	ofColor                fillColor;
-	ofColor                strokeColor;
-};                                        //       = 32 octets
-
-
-
 class Renderer
 {
 public:
