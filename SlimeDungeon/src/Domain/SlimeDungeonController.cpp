@@ -174,6 +174,31 @@ void SlimeDungeonController::setMouseOverGUI(bool overGUI)
 	ctrlRenderer.setMouseOverGUI(overGUI);
 }
 
+void SlimeDungeonController::setCameraMoveDown(bool isMoveDown)
+{
+	ctrlRenderer.setCameraMoveDown(isMoveDown);
+}
+
+void SlimeDungeonController::setCameraRollLeft(bool isRollLeft)
+{
+	ctrlRenderer.setCameraRollLeft(isRollLeft);
+}
+
+void SlimeDungeonController::setCameraRollRight(bool isRollRight)
+{
+	ctrlRenderer.setCameraRollRight(isRollRight);
+}
+
+void SlimeDungeonController::setCameraMoveUp(bool isMoveUp)
+{
+	ctrlRenderer.setCameraMoveUp(isMoveUp);
+}
+
+void SlimeDungeonController::setCameraMoveRight(bool isMoveRight)
+{
+	ctrlRenderer.setCameraMoveRight(isMoveRight);
+}
+
 int SlimeDungeonController::getSelectedShapeSize()
 {
 	return ctrlRenderer.getSelectedShapeSize();

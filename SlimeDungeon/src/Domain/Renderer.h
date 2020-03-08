@@ -32,6 +32,24 @@ public:
 
 	ofCamera camFront;
 	bool isCameraMoveLeft;
+	bool is_camera_move_right;
+	bool is_camera_move_up;
+	bool is_camera_move_down;
+	bool is_camera_move_forward;
+	bool is_camera_move_backward;
+
+	bool is_camera_tilt_up;
+	bool is_camera_tilt_down;
+	bool is_camera_pan_left;
+	bool is_camera_pan_right;
+	bool is_camera_roll_left;
+	bool is_camera_roll_right;
+
+	bool is_camera_fov_narrow;
+	bool is_camera_fov_wide;
+
+
+
 	float speedDelta;
 	float speedTranslation;
 	float speedRotation;
@@ -42,6 +60,13 @@ public:
 	float timeCurrent;
 	float timeLast;
 	float timeElapsed;
+
+	//Camera
+	void setCameraMoveDown(bool isMoveDown);
+	void setCameraRollLeft(bool isRollLeft);
+	void setCameraRollRight(bool isRollRight);
+	void setCameraMoveUp(bool isMoveUp);
+	void setCameraMoveRight(bool isMoveRight);
 	void setCameraMoveLeft(bool cameraMoveLeft);
 
 	int count;

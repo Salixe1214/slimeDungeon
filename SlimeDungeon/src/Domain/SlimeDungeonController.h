@@ -18,6 +18,16 @@ public:
 	void setPartialScreenBool(bool isPartialScreen);
 	void setMouseOverGUI(bool overGUI);
 	
+
+	//Camera
+	void setCameraMoveDown(bool isMoveDown);
+	void setCameraRollLeft(bool isRollLeft);
+	void setCameraRollRight(bool isRollRight);
+	void setCameraMoveUp(bool isMoveUp);
+	void setCameraMoveRight(bool isMoveDown);
+	void setCameraMoveLeft(bool isCameraMoveLeft);
+
+
 	//Selection, etc.
 	void checkClickInShape();
 	void deleteSelectedShape();
@@ -57,7 +67,6 @@ public:
 	void setRendererIsMousePressed(bool mouseIsPressed);
 
 
-	void setCameraMoveLeft(bool isCameraMoveLeft);
 
 
 private:

@@ -101,7 +101,7 @@ void SlimeDungeonUI::setup(){
 	instructions.push_back("Tracez une forme avec votre souris");
 	instructions.push_back("Utiliser les chiffres pour tracer differentes formes");
 	instructions.push_back("h pour cacher l'interface");
-	instructions.push_back("s pour enregistrer les parametres");
+	instructions.push_back("x pour enregistrer les parametres");
 	instructions.push_back("l pour charger les parametres");
 	instructions.push_back("Gauche pour retourner en arriere");
 	instructions.push_back("Droite pour annuler le retour en arriere");
@@ -361,14 +361,62 @@ void SlimeDungeonUI::keyPressed(int key){
 		sdCtrl.setCameraMoveLeft(true);
 		break;
 	case 'd':
-		sdCtrl.setCameraMoveLeft(true);
+		sdCtrl.setCameraMoveRight(true);
 		break;
-	case 's':
+	case 'x':
 		gui.saveToFile("settings.xml");
 		break;
 	case 'l':
 		gui.loadFromFile("settings.xml");
 		break;
+
+	case 101: // touche e
+		sdCtrl.setCameraRollRight(true);
+		break;
+
+	//case 104: // touche h
+	//	is_key_press_h = true;
+	//	break;
+
+	//case 105: // touche i
+	//	is_key_press_i = true;
+	//	break;
+
+	//case 106: // touche j
+	//	is_key_press_j = true;
+	//	break;
+
+	//case 107: // touche k
+	//	is_key_press_k = true;
+	//	break;
+
+	case 113: // touche q
+		sdCtrl.setCameraRollLeft(true);
+		break;
+
+	case 's': // touche s
+		sdCtrl.setCameraMoveDown(true);
+		break;
+
+	//case 117: // touche u
+	//	is_key_press_u = true;
+	//	break;
+
+	case 119: // touche w
+		sdCtrl.setCameraMoveUp(true);
+		break;
+
+	//case 120: // touche x
+	//	is_key_press_x = true;
+	//	break;
+
+	//case 121: // touche y
+	//	is_key_press_y = true;
+	//	break;
+
+	//case 122: // touche z
+	//	is_key_press_z = true;
+	//	break;
 	case OF_KEY_LEFT:
 		sdCtrl.changeState(true);
 		break;
@@ -443,22 +491,48 @@ void SlimeDungeonUI::keyReleased(int key){
 		currentShapeType = "slime3d3";
 		sdCtrl.setDrawType(11);
 		break;
-	//case 102: // key f
-	//	renderer.random_color_fill();
-	//	break;
 
-	//case 114: // key r
-	//	renderer.reset();
-	//	break;
+	case 101: // touche e
+		sdCtrl.setCameraRollRight(false);
+		break;
 
-	//case 115: // key s
-	//	renderer.random_color_stroke();
-	//	break;
+		//case 104: // touche h
+		//	is_key_press_h = true;
+		//	break;
+
+		//case 105: // touche i
+		//	is_key_press_i = true;
+		//	break;
+
+		//case 106: // touche j
+		//	is_key_press_j = true;
+		//	break;
+
+		//case 107: // touche k
+		//	is_key_press_k = true;
+		//	break;
+
+	case 113: // touche q
+		sdCtrl.setCameraRollLeft(false);
+		break;
+
+	case 115: // touche s
+		sdCtrl.setCameraMoveDown(false);
+		break;
+
+		//case 117: // touche u
+		//	is_key_press_u = true;
+		//	break;
+
+	case 119: // touche w
+		sdCtrl.setCameraMoveUp(false);
+		break;
+
 	case 'a':
 		sdCtrl.setCameraMoveLeft(false);
 		break;
 	case 'd':
-		sdCtrl.setCameraMoveLeft(false);
+		sdCtrl.setCameraMoveRight(false);
 		break;
 	default:
 		break;

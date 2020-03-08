@@ -6,10 +6,6 @@ Renderer::Renderer()
 
 }
 
-void Renderer::setCameraMoveLeft(bool cameraMoveLeft)
-{
-	isCameraMoveLeft = cameraMoveLeft;
-}
 
 
 void Renderer::setup(ofxPanel *gui)
@@ -34,6 +30,23 @@ void Renderer::setup(ofxPanel *gui)
 	mousePress.x = mousePress.y = curMouse.x = curMouse.y = 0;
 	//CaptureTool
 	recordMode = false;
+
+	isCameraMoveLeft = false;
+	is_camera_move_right = false;
+	is_camera_move_up = false;
+	is_camera_move_down = false;
+	is_camera_move_forward = false;
+	is_camera_move_backward = false;
+
+	is_camera_tilt_up = false;
+	is_camera_tilt_down = false;
+	is_camera_pan_left = false;
+	is_camera_pan_right = false;
+	is_camera_roll_left = false;
+	is_camera_roll_right = false;
+
+	is_camera_fov_narrow = false;
+	is_camera_fov_wide = false;
 
 	//load les cursors
 	cursor1.load("fleche.png");
@@ -65,7 +78,38 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 		camFront.truck(-speedTranslation);
 		cameraOffsetX += -speedTranslation;
 	}
-		
+	if (is_camera_move_right) {
+		camFront.truck(speedTranslation);
+		cameraOffsetX += speedTranslation;
+	}
+	if (is_camera_move_up) {
+		camFront.boom(speedTranslation);
+		cameraOffsetY += speedTranslation;
+	}
+	if (is_camera_move_down) {
+		camFront.boom(-speedTranslation);
+		cameraOffsetY += -speedTranslation;
+	}
+
+	if (is_camera_move_forward)
+		camFront.dolly(-speedTranslation);
+	if (is_camera_move_backward)
+		camFront.dolly(speedTranslation);
+
+	if (is_camera_tilt_up)
+		camFront.tiltDeg(-speedRotation);
+	if (is_camera_tilt_down)
+		camFront.tiltDeg(speedRotation);
+
+	if (is_camera_pan_left)
+		camFront.panDeg(speedRotation);
+	if (is_camera_pan_right)
+		camFront.panDeg(-speedRotation);
+
+	if (is_camera_roll_left)
+		camFront.rollDeg(-speedRotation);
+	if (is_camera_roll_right)
+		camFront.rollDeg(speedRotation);
 
 	// Update des couleurs en temps réel (pour le sample)
 	fillColor = p_fillColor;
@@ -114,12 +158,20 @@ void Renderer::draw()
 void Renderer::windowResizedEvent(int w, int h)
 {
 	//La caméra est centré de nouveau 
-	//camFront.setPosition({ ofGetWidth() / 2, ofGetHeight() / 2, 1000 });
-	//camFront.lookAt({ ofGetWidth() / 2,ofGetHeight() / 2, 0 });
-	//camInitialPos = { ofGetWidth() / 2, ofGetHeight() / 2, 1000 };
-	cameraOffsetX -= w/2 - screenWidth/2;
-	cameraOffsetY -= h/2 - screenHeight/2;
-	//camFront.setFov(402);
+
+	cameraOffsetX = 0;
+	cameraOffsetY = 0;
+
+	//cameraOffsetX -= w/2 - screenWidth/2;
+	//cameraOffsetY -= h/2 - screenHeight/2;
+
+	if (w != (int)screenWidth && h != (int)screenHeight) {
+		float zoom = w / h;
+		camFront.setPosition({ ofGetWidth() / 2, ofGetHeight() / 2, 500 });
+		camFront.lookAt({ ofGetWidth() / 2,ofGetHeight() / 2, 0 });
+		camInitialPos = { ofGetWidth() / 2, ofGetHeight() / 2, 500 };
+		camFront.setFov(glm::degrees(2 * atanf(1 / zoom)));
+	}
 	screenWidth = w;
 	screenHeight = h;
 }
@@ -604,4 +656,35 @@ int Renderer::getSelectedShapeSize()
 string Renderer::getFirstSelectedShapeName()
 {
 	return selectedShapes.begin()->second->shapeId;
+}
+
+
+void Renderer::setCameraMoveDown(bool isMoveDown)
+{
+	is_camera_move_down = isMoveDown;
+}
+
+void Renderer::setCameraRollLeft(bool isRollLeft)
+{
+	is_camera_roll_left = isRollLeft;
+}
+
+void Renderer::setCameraRollRight(bool isRollRight)
+{
+	is_camera_roll_right = isRollRight;
+}
+
+void Renderer::setCameraMoveUp(bool isMoveUp)
+{
+	is_camera_move_up = isMoveUp;
+}
+
+void Renderer::setCameraMoveRight(bool isMoveRight)
+{
+	is_camera_move_right = isMoveRight;
+}
+
+void Renderer::setCameraMoveLeft(bool cameraMoveLeft)
+{
+	isCameraMoveLeft = cameraMoveLeft;
 }
