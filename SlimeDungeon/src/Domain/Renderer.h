@@ -15,6 +15,8 @@
 #include "Domain/Shapes/Pixel.h"
 #include "Domain/Shapes/Line.h"
 #include "Domain/Shapes/Shape3D.h"
+#include "Domain/Shapes/Box.h"
+#include "Domain/Shapes/Ball.h"
 #include "ofxGui.h"
 #include <stack>
 
@@ -68,6 +70,8 @@ public:
 	void setCameraMoveUp(bool isMoveUp);
 	void setCameraMoveRight(bool isMoveRight);
 	void setCameraMoveLeft(bool cameraMoveLeft);
+	void setCameraDollyFront(bool cameraDollyFront);
+	void setCameraDollyBack(bool cameraDollyBack);
 
 	int count;
 	int size;

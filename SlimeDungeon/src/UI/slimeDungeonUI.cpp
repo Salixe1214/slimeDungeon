@@ -100,11 +100,15 @@ void SlimeDungeonUI::setup(){
 
 	instructions.push_back("Tracez une forme avec votre souris");
 	instructions.push_back("Utiliser les chiffres pour tracer differentes formes");
+	instructions.push_back("Utiliser 9, 0 et \"-\" pour tracer des formes 3D");
+	instructions.push_back("Utiliser \"C\" pour tracer une boule");
+	instructions.push_back("Utiliser \"C\" pour tracer un cube");
 	instructions.push_back("h pour cacher l'interface");
 	instructions.push_back("x pour enregistrer les parametres");
 	instructions.push_back("l pour charger les parametres");
 	instructions.push_back("Gauche pour retourner en arriere");
 	instructions.push_back("Droite pour annuler le retour en arriere");
+	instructions.push_back("\"q\", \"w\", \"e\", \"a\", \"s\", \"d\", ctr gauche\n et alt gauche pour bouger la caméra");
 
 	light.setPosition(ofGetWidth() / 2, ofGetHeight() / 2, 1000);
 
@@ -373,6 +377,12 @@ void SlimeDungeonUI::keyPressed(int key){
 	case 101: // touche e
 		sdCtrl.setCameraRollRight(true);
 		break;
+	case OF_KEY_LEFT_CONTROL:
+		sdCtrl.setCameraDollyFront(true);
+		break;
+	case OF_KEY_LEFT_ALT:
+		sdCtrl.setCameraDollyBack(true);
+		break;
 
 	//case 104: // touche h
 	//	is_key_press_h = true;
@@ -491,6 +501,14 @@ void SlimeDungeonUI::keyReleased(int key){
 		currentShapeType = "slime3d3";
 		sdCtrl.setDrawType(11);
 		break;
+	case 'c':
+		currentShapeType = "cube";
+		sdCtrl.setDrawType(12);
+		break;
+	case 'b':
+		currentShapeType = "ball";
+		sdCtrl.setDrawType(13);
+		break;
 
 	case 101: // touche e
 		sdCtrl.setCameraRollRight(false);
@@ -533,6 +551,12 @@ void SlimeDungeonUI::keyReleased(int key){
 		break;
 	case 'd':
 		sdCtrl.setCameraMoveRight(false);
+		break;
+	case OF_KEY_LEFT_CONTROL:
+		sdCtrl.setCameraDollyFront(false);
+		break;
+	case OF_KEY_LEFT_ALT:
+		sdCtrl.setCameraDollyBack(false);
 		break;
 	default:
 		break;

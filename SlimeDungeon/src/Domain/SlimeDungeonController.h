@@ -26,6 +26,8 @@ public:
 	void setCameraMoveUp(bool isMoveUp);
 	void setCameraMoveRight(bool isMoveDown);
 	void setCameraMoveLeft(bool isCameraMoveLeft);
+	void setCameraDollyFront(bool isCameraDollyFront);
+	void setCameraDollyBack(bool isCameraDollyBack);
 
 
 	//Selection, etc.

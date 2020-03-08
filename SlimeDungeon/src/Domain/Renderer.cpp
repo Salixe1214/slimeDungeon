@@ -220,17 +220,14 @@ void Renderer::drawSample()
 		shape::Line(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
 			 ofColor(strokeColor), strokeWidth, sampleShape).draw();
 		break;
-
 	case VectorPrimitiveType::rectangle:
 		shape::Rectangle(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
 			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
 		break;
-
 	case VectorPrimitiveType::square:
 		shape::Square(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
 			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
 		break;
-
 	case VectorPrimitiveType::ellipse:
 		shape::Ellipse(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaY,
 			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
@@ -259,7 +256,14 @@ void Renderer::drawSample()
 			((deltaX + deltaY) / 2) / ((ofGetHeight() + ofGetWidth()) / 2), ofColor::white, sampleShape,
 			"ball.dae", glm::vec3({ 0, 270, 0 })).draw();
 		break;
-
+	case VectorPrimitiveType::ball:
+		Ball(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
+	case VectorPrimitiveType::cube:
+		shape::Box(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+		break;
 	default:
 		break;
 	}
@@ -393,19 +397,16 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		vecShapes.push_back(new shape::Ellipse(type, posX1, posY1, posX2, posY2,
 			fillingColor, ofColor(strokeColor), strokeWidth));
 		break;
-
 	case VectorPrimitiveType::circle:
 		vecShapes.push_back(new shape::Circle(type, posX1, posY1, posX2, posY2,
 			fillingColor, ofColor(strokeColor), strokeWidth));
 		break;
-
 	case VectorPrimitiveType::tiles:
 		if (abs(posX2 - posX1) >= tileSize && abs(posY2 - posY1) >= tileSize) {
 			vecShapes.push_back(new shape::TileShape(type, posX1, posY1, posX2, posY2,
 				fillingColor, ofColor(strokeColor), strokeWidth, tileSize));
 		}
 		break;
-
 	case VectorPrimitiveType::slime:
 		vecShapes.push_back(new shape::SlimeShape(type, posX1, posY1, posX2, posY2,
 				fillingColor, ofColor(strokeColor), strokeWidth));
@@ -422,7 +423,14 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		vecShapes.push_back(new shape::Shape3D(type, (posX1 + posX2) / 2, (posY1 + posY2) / 2, 0, 0.5,
 			fillingColor, "ball.dae"));
 		break;
-
+	case VectorPrimitiveType::cube:
+		vecShapes.push_back(new shape::Box(type, posX1, posY1, posX2, posY2,
+			fillingColor, ofColor(strokeColor), strokeWidth));
+		break;
+	case VectorPrimitiveType::ball:
+		vecShapes.push_back(new shape::Ball(type, posX1, posY1, posX2, posY2,
+			fillingColor, ofColor(strokeColor), strokeWidth));
+		break;
 	default:
 		break;
 	}
@@ -687,4 +695,14 @@ void Renderer::setCameraMoveRight(bool isMoveRight)
 void Renderer::setCameraMoveLeft(bool cameraMoveLeft)
 {
 	isCameraMoveLeft = cameraMoveLeft;
+}
+
+void Renderer::setCameraDollyFront(bool cameraDollyFront)
+{
+	is_camera_move_forward = cameraDollyFront;
+}
+
+void Renderer::setCameraDollyBack(bool cameraDollyBack)
+{
+	is_camera_move_backward = cameraDollyBack;
 }

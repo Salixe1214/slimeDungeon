@@ -92,6 +92,12 @@ void SlimeDungeonController::setDrawType(int drawType)
 	case 11:
 		ctrlRenderer.setShapeType(VectorPrimitiveType::ballFace);
 		break;
+	case 12:
+		ctrlRenderer.setShapeType(VectorPrimitiveType::cube);
+		break;
+	case 13:
+		ctrlRenderer.setShapeType(VectorPrimitiveType::ball);
+		break;
 	default:
 		ctrlRenderer.setShapeType(VectorPrimitiveType::none);
 		break;
@@ -136,6 +142,16 @@ void SlimeDungeonController::setRendererIsMousePressed(bool mouseIsPressed)
 void SlimeDungeonController::setCameraMoveLeft(bool isCameraMoveLeft)
 {
 	ctrlRenderer.setCameraMoveLeft(isCameraMoveLeft);
+}
+
+void SlimeDungeonController::setCameraDollyFront(bool isCameraDollyFront)
+{
+	ctrlRenderer.setCameraDollyFront(isCameraDollyFront);
+}
+
+void SlimeDungeonController::setCameraDollyBack(bool isCameraDollyBack)
+{
+	ctrlRenderer.setCameraDollyBack(isCameraDollyBack);
 }
 
 void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) const 
