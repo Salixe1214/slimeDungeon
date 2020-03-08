@@ -12,10 +12,11 @@ namespace shape {
 		model.loadModel(modelName, 20);
 		model.setPosition(position.x, position.y, position.z);
 		model.setScale(sizeRatio, sizeRatio, sizeRatio);
-		model.enableColors();
+		model.disableColors();
 		model.setRotation(0, rotation.x, 1, 0, 0);
 		model.setRotation(0, rotation.y, 0, 1, 0);
 		model.setRotation(0, rotation.z, 0, 0, 1);
+		mode = ofPolyRenderMode::OF_MESH_FILL;
 
 	}
 
@@ -32,8 +33,8 @@ namespace shape {
 
 	void Shape3D::draw()
 	{
-		ofColor(fillColor);
-		model.drawFaces();
+		ofSetColor(fillColor);
+		model.draw(mode);
 
 	}
 
@@ -45,6 +46,7 @@ namespace shape {
 	void Shape3D::highlight()
 	{
 		fillColor = ofColor::blueSteel;
+		mode = ofPolyRenderMode::OF_MESH_WIREFRAME;
 	}
 
 }
