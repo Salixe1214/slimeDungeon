@@ -11,6 +11,7 @@
 !IFT3100H20_TP1_Grille.xlsx
 !IFT3100H20_TP2_Grille.xlsx
 !.zip
+!SlimeDungeon/bin/data/*
 
 SlimeDungeon.vcxproj.filters
 SlimeDungeon.vcxproj
