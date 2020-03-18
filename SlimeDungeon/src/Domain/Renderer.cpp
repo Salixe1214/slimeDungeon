@@ -619,12 +619,7 @@ void Renderer::addTileShapeRow(int addedXRow, int addedYRow)
 
 void Renderer::translateSelection(float dx, float dy, float dz)
 {
-	for (auto shape : selectedShapes) {
-		shape.second->position1.x += dx;
-		shape.second->position2.x += dx;
-		shape.second->position1.y += dy;
-		shape.second->position2.y += dy;
-	}
+	for (auto shape : selectedShapes) shape.second->translate(dx, dy, dz);
 }
 
 void Renderer::rotateSelectionZ(float thetaZ)
@@ -636,24 +631,7 @@ void Renderer::rotateSelectionZ(float thetaZ)
 
 void Renderer::scaleSelection(float sx, float sy, float sz)
 {
-	float middleX, middleY; 
-	for (auto shape : selectedShapes) {
-		middleX = (shape.second->position1.x + shape.second->position2.x) / 2.0;
-		middleY = (shape.second->position1.y + shape.second->position2.y) / 2.0;
-		if (shape.second->shapeType == VectorPrimitiveType::circle ||
-			shape.second->shapeType == VectorPrimitiveType::square) {
-			shape.second->position1.x = middleX + (shape.second->position1.x - middleX) * sx;
-			shape.second->position2.x = middleX + (shape.second->position2.x - middleX) * sx;
-			shape.second->position1.y = middleY + (shape.second->position1.y - middleY) * sx;
-			shape.second->position2.y = middleY + (shape.second->position2.y - middleY) * sx;
-		}
-		else{
-		shape.second->position1.x = middleX + (shape.second->position1.x - middleX) * sx;
-		shape.second->position2.x = middleX + (shape.second->position2.x - middleX) * sx;
-		shape.second->position1.y = middleY + (shape.second->position1.y - middleY) * sy;
-		shape.second->position2.y = middleY + (shape.second->position2.y - middleY) * sy;
-		}
-	}
+	for (auto shape : selectedShapes) shape.second->scale(sx, sy, sz);
 }
 
 int Renderer::getSelectedShapeSize()

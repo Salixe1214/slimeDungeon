@@ -15,6 +15,7 @@ namespace shape {
 		void draw() override;
 		bool contains(float x, float y) override;
 		void highlight() override;
+		void scale(float sx, float sy, float sz = 0) override;
 
 	private:
 

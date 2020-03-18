@@ -43,4 +43,14 @@ namespace shape {
 		ofDrawRectangle(position1.x, position1.y, position2.x - position1.x, position2.y - position1.y);
 	}
 
+	void Square::scale(float sx, float sy, float sz)
+	{
+		float middleX = (position1.x + position2.x) / 2.0;
+		float middleY = (position1.y + position2.y) / 2.0;
+
+		position1.x = middleX + (position1.x - middleX) * sx;
+		position2.x = middleX + (position2.x - middleX) * sx;
+		position1.y = middleY + (position1.y - middleY) * sx;
+		position2.y = middleY + (position2.y - middleY) * sx;
+	}
 }

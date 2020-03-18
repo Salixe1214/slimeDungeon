@@ -33,6 +33,7 @@ namespace shape {
 		setPosition2(x2, y2);
 	}
 
+
 	bool Shape::operator== (const Shape& shape) const {
 		return this->shapeId == shape.shapeId;
 	}
@@ -41,6 +42,25 @@ namespace shape {
 		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, glm::vec3 p_rotation) :
 		Shape(p_shapeType, p_position1.x, p_position1.y, p_position2.x, p_position2.y, p_fillColor, p_strokeColor, p_strokeWidth, p_rotation)
 	{
+	}
+
+	void Shape::translate(float dx, float dy, float dz)
+	{
+		position1.x += dx;
+		position2.x += dx;
+		position1.y += dy;
+		position2.y += dy;
+	}
+
+	void Shape::scale(float sx, float sy, float sz)
+	{
+		float middleX = (position1.x + position2.x) / 2.0;
+		float middleY = (position1.y + position2.y) / 2.0;
+
+		position1.x = middleX + (position1.x - middleX) * sx;
+		position2.x = middleX + (position2.x - middleX) * sx;
+		position1.y = middleY + (position1.y - middleY) * sy;
+		position2.y = middleY + (position2.y - middleY) * sy;
 	}
 
 	void Shape::setPosition1(float x1, float y1)
@@ -54,4 +74,5 @@ namespace shape {
 		position2.x = x2;
 		position2.y = y2;
 	}
+
 }

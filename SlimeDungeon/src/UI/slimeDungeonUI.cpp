@@ -404,7 +404,7 @@ void SlimeDungeonUI::keyPressed(int key){
 		sdCtrl.setCameraRollLeft(true);
 		break;
 
-	case 's': // touche s
+	case 'w': // touche s
 		sdCtrl.setCameraMoveDown(true);
 		break;
 
@@ -412,7 +412,7 @@ void SlimeDungeonUI::keyPressed(int key){
 	//	is_key_press_u = true;
 	//	break;
 
-	case 119: // touche w
+	case 's': // touche w
 		sdCtrl.setCameraMoveUp(true);
 		break;
 

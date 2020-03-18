@@ -28,6 +28,8 @@ namespace shape {
 		virtual void draw() {};
 		virtual bool contains(float x, float y) { return false; };
 		virtual void highlight() {};
+		virtual void translate(float dx, float dy, float dz = 0);
+		virtual void scale(float sx, float sy, float sz= 0);
 		bool operator== (const Shape& shape) const;
 
 		void setPosition1(float x1, float y1);
