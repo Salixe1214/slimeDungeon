@@ -56,6 +56,9 @@ public:
 
 	void exportImg(ofImage imgToExport, string filename) const;
 
+	// -- texture
+	void setBallTextureFile(string p_ballTextureFile);
+
 
 	//Record Mode
 	void publishExitRecordModeEvent();

@@ -16,13 +16,13 @@ namespace shape {
 		sphere.setPosition(centerX, centerY, 0);
 		sphere.setRadius(diameter/2);
 
-		//if (!p_textureFile.empty()) {
-			/*loadTexture(p_textureFile);*/
-		//loadTexture("earth.jpg");
-			textureFile = "earth.jpg";
-		ofDisableArbTex();
-		ofLoadImage(texture, textureFile);
-		//}
+		if (!p_textureFile.empty()) {
+			loadTexture(p_textureFile);
+			/*loadTexture("texture/ballTexture/moltenBall.jpg");*/
+		//	textureFile = "earth.jpg";
+		//ofDisableArbTex();
+		//ofLoadImage(texture, textureFile);
+		}
 	}
 
 	//Constructeur pour les formes temporaires
@@ -38,8 +38,7 @@ namespace shape {
 		sphere.setRadius(diameter/2);
 
 		if (!p_textureFile.empty()) {
-			textureFile = "earth.jpg";
-			ofLoadImage(texture, textureFile);
+			loadTexture(p_textureFile);
 		}
 	}
 
@@ -52,7 +51,6 @@ namespace shape {
 		ofFill();
 		ofSetLineWidth(0);
 		ofSetColor(fillColor);
-
 		if (texture.isAllocated()) {
 			//ofDisableAlphaBlending();
 			//ofEnableDepthTest();
@@ -64,11 +62,11 @@ namespace shape {
 			//light.lookAt(ofVec3f(0, 0, 0));
 			//ofSpherePrimitive sp;
 			/*ofDisableArbTex();*/	
-			ofLoadImage(texture, "sporeBall.jpg");
+			//ofLoadImage(texture, "sporeBall.jpg");
 			texture.generateMipmap();
 			//texture.draw(50, 50, 50);
 
-			cout << "passed here" << endl;
+			//cout << "passed here" << endl;
 
 			//cam.begin();
 			texture.bind();
@@ -126,14 +124,20 @@ namespace shape {
 
 	void Ball::loadTexture(string p_textureFile)
 	{
+		ofDisableArbTex();
 		ofLoadImage(texture, p_textureFile);
 		textureFile = p_textureFile;
 		//if the file exists
 		//if (FILE *file = fopen(textureFile.c_str(), "r")) {
 		//	fclose(file);
+		//ofDisableArbTex();
 		//	ofLoadImage(texture, p_textureFile);
 		//	textureFile = p_textureFile;
 		//}
+	}
+	
+	void Ball::removeTexture() {
+		texture.clear();
 	}
 }
 

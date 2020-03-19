@@ -11,7 +11,10 @@ void SlimeDungeonUI::setup(){
 	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
 
-	
+	//ballScaleTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureScaleBtnPressed);
+	//ballSporeTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureSporeBtnPressed);
+	//ballMoltenTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureMoltenBtnPressed);
+
 	//Scene
 
 	// Ajout éventuel d'un affichage des éléments de la scène dans une hiérarchie
@@ -68,7 +71,7 @@ void SlimeDungeonUI::setup(){
 
 	//Draw tools
 	drawToolsGroup.setup("Draw tools");	
-	
+
 	drawToolsGroup.add(drawMode.setup("Draw mode", true));
 	drawToolsGroup.add(currentShapeType.setup("Draw : ", "pixel"));
 	drawToolsGroup.add(shapeColor2.set("Stroke color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
@@ -79,6 +82,12 @@ void SlimeDungeonUI::setup(){
 	//shapeKeyLegend.setDefaultHeight(100);
 	//drawToolsGroup.add(shapeKeyLegend.setup("Legend : \n", "1 : pixel \n 2 : line \n 3 : Rectangle \n 4 : Square \n 5 : Ellipse \n 6 : Circle"));
 	//drawToolsGroup.setDefaultHeight(tmpHeight);
+
+	ballTextureGroup.setup("Ball texture");
+	ballTextureGroup.add(ballScaleTextureBtn.setup("Scale ball", false));
+	ballTextureGroup.add(ballSporeTextureBtn.setup("Spore ball", false));
+	ballTextureGroup.add(ballMoltenTextureBtn.setup("Molten ball", false));
+	drawToolsGroup.add(&ballTextureGroup);
 
 	//Import Tool
 	importToolsGroup.setup("Import tools");
@@ -114,6 +123,7 @@ void SlimeDungeonUI::setup(){
 
 }
 
+
 void SlimeDungeonUI::setDefaultParameter() {
 	//Scene
 	scenePanelWidth = 200;
@@ -136,17 +146,65 @@ void SlimeDungeonUI::setDefaultParameter() {
 	//drawMode
 	prevDrawMode = true;
 	prevFill = true;
-
-
 	bHide = false;
+
+	ballScaleTextureFile = "texture/ballTexture/scaleBall.jpg";
+	ballSporeTextureFile = "texture/ballTexture/sporeBall.jpg";
+	ballMoltenTextureFile = "texture/ballTexture/moltenBall.jpg";
 }
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::exit(){
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	deleteShapeBtn.removeListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
+	importImageBtn.removeListener(this, &SlimeDungeonUI::importImageBtnPressed);
+	//ballScaleTextureBtn.removeListener(this, &SlimeDungeonUI::ballTextureScaleBtnPressed);
+	//ballSporeTextureBtn.removeListener(this, &SlimeDungeonUI::ballTextureSporeBtnPressed);
+	//ballMoltenTextureBtn.removeListener(this, &SlimeDungeonUI::ballTextureMoltenBtnPressed);
+
 	sdCtrl.publishExitEvent();
 }
+
+//void SlimeDungeonUI::ballTextureScaleBtnPressed(bool &ballScaleTextureBtnPressed) {
+//	
+//	cout << "Scale " << ballScaleTextureBtnPressed << endl;
+//	if (ballScaleTextureBtnPressed) {
+//		sdCtrl.setBallTextureFile("");
+//		ballScaleTextureBtn = false;
+//	}
+//	else {
+//		sdCtrl.setBallTextureFile(ballScaleTextureFile);
+//		ballScaleTextureBtn = true;
+//	}
+//	ballSporeTextureBtn = false;
+//	ballMoltenTextureBtn = false;
+//
+//}
+//
+//ballScaleTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureScaleBtnPressed);
+//ballSporeTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureSporeBtnPressed);
+//ballMoltenTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureMoltenBtnPressed);
+//
+//void SlimeDungeonUI::ballTextureSporeBtnPressed(bool &ballSporeTextureBtnPressed) {
+//	cout << "Spore " << ballSporeTextureBtnPressed << endl;
+//	if (ballSporeTextureBtnPressed) sdCtrl.setBallTextureFile("");
+//	else sdCtrl.setBallTextureFile(ballSporeTextureFile);
+//	ballScaleTextureBtn = false;
+//	ballMoltenTextureBtn = false;
+//	ballScaleTextureBtn.
+//}
+//
+//void SlimeDungeonUI::ballTextureMoltenBtnPressed(bool &ballMoltenTextureBtnPressed) {
+//	cout << "Molten " << ballMoltenTextureBtnPressed << endl;
+//	if (ballMoltenTextureBtnPressed) sdCtrl.setBallTextureFile("");
+//	else {
+//		sdCtrl.setBallTextureFile(ballMoltenTextureFile);
+//	}
+//	ballScaleTextureBtn = false;
+//	ballSporeTextureBtn = false;
+//
+//}
+
 
 
 void SlimeDungeonUI::deleteShapeBtnPressed() {
@@ -233,15 +291,19 @@ void SlimeDungeonUI::update() {
 	}
 	else hierarchy = "No shape selected";
 
+	//--texture
+	updateBallTexture();
+
 	//Drag les images a l'interieure de la window
 	//Check width
+
 	//Change selected Shape color
 	if (prevFillColorScene != fillColorScene || prevStrokeColorScene != strokeColorScene) {
 		sdCtrl.setSelectionColor(ofColor(fillColorScene), ofColor(strokeColorScene));
 		prevFillColorScene = fillColorScene;
 		prevStrokeColorScene = strokeColorScene;
 	}
-	
+
 	//Transform selected shapes
 	if (!sdCtrl.isSelectedShapeEmpty()) {
 		//Change selected shapes border
@@ -300,7 +362,53 @@ void SlimeDungeonUI::update() {
 	}
 }
 
-	
+void SlimeDungeonUI::updateBallTexture() {
+
+	//Scale has change
+	if (ballScaleTextureActive != ballScaleTextureBtn) {
+		if (ballScaleTextureBtn) {
+			ballScaleTextureActive = true;
+			sdCtrl.setBallTextureFile(ballScaleTextureFile);
+		}
+		else {
+			ballScaleTextureActive = false;
+			sdCtrl.setBallTextureFile("");
+		}
+		ballSporeTextureActive = false;
+		ballSporeTextureBtn = false;
+		ballMoltenTextureActive = false;
+		ballMoltenTextureBtn = false;
+	}
+
+	else if (ballSporeTextureActive != ballSporeTextureBtn) {
+		if (ballSporeTextureBtn) {
+			ballSporeTextureActive = true;
+			sdCtrl.setBallTextureFile(ballSporeTextureFile);
+		}
+		else {
+			ballSporeTextureActive = false;
+			sdCtrl.setBallTextureFile("");
+		}
+		ballScaleTextureActive = false;
+		ballScaleTextureBtn = false;
+		ballMoltenTextureActive = false;
+		ballMoltenTextureBtn = false;
+	}
+	else if (ballMoltenTextureActive != ballMoltenTextureBtn) {
+		if (ballMoltenTextureBtn) {
+			ballMoltenTextureActive = true;
+			sdCtrl.setBallTextureFile(ballMoltenTextureFile);
+		}
+		else {
+			ballMoltenTextureActive = false;
+			sdCtrl.setBallTextureFile("");
+		}
+		ballScaleTextureActive = false;
+		ballScaleTextureBtn = false;
+		ballSporeTextureActive = false;
+		ballSporeTextureBtn = false;
+	}
+}
 	
 
 //--------------------------------------------------------------

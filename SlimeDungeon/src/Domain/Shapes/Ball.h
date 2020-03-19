@@ -18,6 +18,7 @@ namespace shape {
 		void scale(float sx, float sy, float sz = 0) override;
 
 		void loadTexture(string p_textureFile);
+		void removeTexture();
 
 
 		ofSpherePrimitive sphere;

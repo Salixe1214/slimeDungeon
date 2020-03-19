@@ -34,7 +34,13 @@ namespace shape {
 	void Shape3D::draw()
 	{
 		ofSetColor(fillColor);
+		//ofTexture texture;
+		//ofDisableArbTex();
+		//ofLoadImage(texture, "texture/ballTexture/slimeBall.jpg");
+		//texture.generateMipmap();
+		//texture.bind();
 		model.draw(mode);
+		//texture.unbind();
 
 	}
 

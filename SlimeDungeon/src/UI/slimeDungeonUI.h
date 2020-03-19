@@ -38,6 +38,24 @@ public:
 	bool prevDrawMode;
 	ofxTextField currentShapeType;
 	ofxTextField shapeKeyLegend;
+
+	// --Ball texture --
+	ofxGuiGroup ballTextureGroup;
+	ofxToggle ballScaleTextureBtn;
+	ofxToggle ballSporeTextureBtn;
+	ofxToggle ballMoltenTextureBtn;
+	bool ballScaleTextureActive;
+	bool ballSporeTextureActive;
+	bool ballMoltenTextureActive;
+	string ballScaleTextureFile;
+	string ballSporeTextureFile;
+	string ballMoltenTextureFile;
+	
+	void updateBallTexture();
+	//void ballTextureScaleBtnPressed(bool &earthTextureBtnPressed);
+	//void ballTextureSporeBtnPressed(bool &earthTextureBtnPressed);
+	//void ballTextureMoltenBtnPressed(bool &earthTextureBtnPressed);
+	
 	
 
 	//ImportTools--------------------------------------------

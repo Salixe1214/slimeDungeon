@@ -129,13 +129,15 @@ public:
 	void setDrawMode(bool drawMode);
 	void setShapeType(VectorPrimitiveType newShapeType);
 
-	// Fonctions inspirées des exemples du cours (Module 2/Ex04)
 	void addVectorShape(VectorPrimitiveType);
 
 	void drawZone(float x1, float y1, float x2, float y2) const;
 	void drawCursor(float x, float y) const;
 	void removeLastAddedVectorShape();
 
+	// --texture
+	string ballTextureFile;
+	void setBallTextureFile(string p_ballTextureFile);
 
 	//Vector primitive
 	unsigned char strokeColorR, strokeColorG, strokeColorB, strokeColorA;

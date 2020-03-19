@@ -20,8 +20,13 @@ void Renderer::setup(ofxPanel *gui)
 	camInitialPos = {ofGetWidth() / 2, ofGetHeight() / 2, 1000};
 	fillShape = true;
 
+	//texture --
+	ballTextureFile = "";
+	//--
+
 	strokeWidthDefault = 4;
 	strokeWidth = 4;//----
+
 	screenHeight = ofGetHeight();
 	screenWidth = ofGetWidth();
 	cameraOffsetX = 0.0;
@@ -347,6 +352,11 @@ void Renderer::removeLastAddedVectorShape(){
 
 }
 
+void Renderer::setBallTextureFile(string p_ballTextureFile)
+{
+	ballTextureFile = p_ballTextureFile;
+}
+
 void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 {
 	shapeType = newShapeType;
@@ -429,7 +439,7 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		break;
 	case VectorPrimitiveType::ball:
 		vecShapes.push_back(new shape::Ball(type, posX1, posY1, posX2, posY2,
-			fillingColor, ofColor(strokeColor), strokeWidth));
+			fillingColor, ofColor(strokeColor), strokeWidth, ballTextureFile));
 		break;
 	default:
 		break;
