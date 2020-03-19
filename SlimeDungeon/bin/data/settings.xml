@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Toolbox>
+	<Fond_exterieur>0, 255, 0, 255</Fond_exterieur>
+	<Fond_interieur>0, 0, 0, 255</Fond_interieur>
+	<Screen_size>1024x768</Screen_size>
+	<Draw_tools>
+		<Draw_mode>1</Draw_mode>
+		<Draw_:_>rectangle</Draw_:_>
+		<Stroke_color>110, 100, 140, 255</Stroke_color>
+		<Remplir>1</Remplir>
+		<Fill_color>110, 100, 140, 255</Fill_color>
+		<Epaisseur_du_trait>4</Epaisseur_du_trait>
+		<Tile_size>50</Tile_size>
+	</Draw_tools>
+	<Capture_tools>
+		<Partial_Screenshot>0</Partial_Screenshot>
+	</Capture_tools>
+	<Import_tools />
+</Toolbox>
