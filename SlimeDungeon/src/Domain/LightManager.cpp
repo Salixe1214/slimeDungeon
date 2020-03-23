@@ -30,8 +30,8 @@ void LightManager::setup(glm::vec3 camInitialPos, glm::vec3 initialOrientation)
 	glm::vec3 lightPos = camInitialPos;
 	setAmbientColorLight(ofColor(127, 127, 127));
 	lightPos.z -= 500;
-	lightPos.x -= ofGetWidth() / 7;
-	lightPos.y -= ofGetHeight() / 5;
+	lightPos.x += ofGetWidth() / 7;
+	lightPos.y += ofGetHeight() / 5;
 	addDirectionalLight(lightPos, initialOrientation);
 
 	lightPos = camInitialPos;
@@ -39,9 +39,9 @@ void LightManager::setup(glm::vec3 camInitialPos, glm::vec3 initialOrientation)
 	addPonctualLight(lightPos);
 
 	lightPos = camInitialPos;
-	lightPos.z = initialOrientation.z + 100;
-	lightPos.y -= ofGetHeight() / 5;
-	addSpotLight(lightPos, initialOrientation);
+	lightPos.z = camInitialPos.z * 0.1;
+	lightPos.y -= ofGetHeight() /5;
+	addSpotLight(lightPos, initialOrientation, 500, 0.1);
 	
 	isAmbientLightActive = true;
 	isDirLightActive = true;
@@ -189,10 +189,8 @@ void LightManager::addSpotLight(glm::vec3 pos, glm::vec3 orientation, float spot
 	light.setDiffuseColor(diffuseColor);
 	light.setSpecularColor(specularColor);
 	light.setOrientation(orientation);
-	light.setSpotConcentration(spotConcentration);
-	light.setSpotlightCutOff(spotCutoff);
 	light.setPosition(pos);
-	light.setSpotlight();
+	light.setSpotlight(spotCutoff, spotConcentration);
 	string idSpot = "spot" + std::to_string(idSpotLight);
 	spotLightVec.push_back(spotLight(idSpot, light));
 	idSpotLight++;

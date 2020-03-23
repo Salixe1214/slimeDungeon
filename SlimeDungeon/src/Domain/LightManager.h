@@ -29,14 +29,14 @@ public:
 							ofColor specularColor = ofColor(191, 191, 191));
 	void addPonctualLight(glm::vec3 pos, ofColor diffuseColor = ofColor(255, 255, 255), 
 							ofColor specularColor = ofColor(191, 191, 191));
-	void addSpotLight(glm::vec3 pos, glm::vec3 orientation, float spotCutoff = 30, float spotConcentration = 2,
+	void addSpotLight(glm::vec3 pos, glm::vec3 orientation, float spotCutoff = 500, float spotConcentration = 0.1,
 		ofColor diffuseColor = ofColor(191, 191, 191), ofColor specularColor = ofColor(191, 191, 191));
 
 	void configureDirectionalLight(string dirId, glm::vec3 pos, glm::vec3 orientation, ofColor diffuseColor = ofColor(31, 255, 31),
 							ofColor specularColor = ofColor(191, 191, 191));
 	void configurePonctualLight(string ponctId, glm::vec3 pos, ofColor diffuseCol = ofColor(191, 191, 191),
 								ofColor specularColor = ofColor(191, 191, 191));
-	void configureSpotLight(string spotId, glm::vec3 pos, glm::vec3 orientation, float spotCutoff = 30, float spotConcentration = 2,
+	void configureSpotLight(string spotId, glm::vec3 pos, glm::vec3 orientation, float spotCutoff = 250, float spotConcentration = 1,
 							ofColor diffuseColor= ofColor(191, 191, 191), ofColor specularColor = ofColor(191, 191, 191));
 
 	void setDrawLightGizmo(bool p_drawLightGizmo);
