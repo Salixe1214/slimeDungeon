@@ -1,15 +1,17 @@
 #include "Renderer.h"
 
-
 Renderer::Renderer()
 {
-
+	lightManager = LightManager::getLightManager();
 }
 
 
 
-void Renderer::setup(ofxPanel *gui)
+void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 {
+	ofSetFrameRate(60);
+	ofSetSphereResolution(32);
+
 	// Ajout des paramètres de dessin au gui
 	gui->getGroup("Draw tools").add(strokeWidth.set("Epaisseur du trait", 4, 1, 10));
 	gui->getGroup("Draw tools").add(tileSize.set("Tile size", 50, 1, 300));
@@ -17,7 +19,7 @@ void Renderer::setup(ofxPanel *gui)
 	//color = p_userColor;
 	mouseIsPressed = false;
 	isDrawing = true;
-	camInitialPos = {ofGetWidth() / 2, ofGetHeight() / 2, 1000};
+	camInitialPos = p_camInitialPos;
 	fillShape = true;
 
 	//texture --
@@ -71,7 +73,6 @@ void Renderer::setup(ofxPanel *gui)
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
 					  ofParameter<ofColor> p_strokeColor)
 {
-
 	timeCurrent = ofGetElapsedTimef();
 	timeElapsed = timeCurrent - timeLast;
 	timeLast = timeCurrent;
@@ -91,7 +92,7 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 		camFront.boom(speedTranslation);
 		cameraOffsetY += speedTranslation;
 	}
-	if (is_camera_move_down) {
+	if (is_camera_move_down) {;
 		camFront.boom(-speedTranslation);
 		cameraOffsetY += -speedTranslation;
 	}
@@ -150,8 +151,13 @@ void Renderer::draw()
 	}
 	
 	camFront.begin();
+	lightManager->lightOn();
+	lightManager->draw();
+
 	drawShapes();
 	highlightSelectedShape();
+
+	lightManager->lightOff();
 	camFront.end();
 
 	drawSample();

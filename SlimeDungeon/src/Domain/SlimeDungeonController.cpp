@@ -3,12 +3,14 @@
 
 SlimeDungeonController::SlimeDungeonController()
 {
-
+	lightManager = LightManager::getLightManager();
 }
 
 void SlimeDungeonController::publishSetupEvent(ofxPanel *gui)
 {
-	ctrlRenderer.setup(gui);
+	glm::vec3 camInitialPos = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 1000);
+	lightManager->setup(camInitialPos);
+	ctrlRenderer.setup(gui, camInitialPos);
 }
 
 void SlimeDungeonController::publishExitEvent()
@@ -38,6 +40,9 @@ bool SlimeDungeonController::isSelectedShapeEmpty()
 
 void SlimeDungeonController::rendererDraw(ofParameter<ofColor> fillColor, ofParameter<ofColor> strokeColor)
 {
+	//lightManager->draw(); TODO Not sure yet where is best to put this.
+	lightManager->update();
+
 	ctrlRenderer.draw();
 	ctrlRenderer.update(fillColor, strokeColor);
 }
@@ -253,4 +258,29 @@ void SlimeDungeonController::rotateSelectionZ(float thetaZ)
 void SlimeDungeonController::scaleSelection(float sx, float sy, float sz)
 {
 	ctrlRenderer.scaleSelection(sx, sy, sz);
+}
+
+void SlimeDungeonController::setDrawLightGizmo(bool drawLightGizmo)
+{
+	lightManager->setDrawLightGizmo(drawLightGizmo);
+}
+
+void SlimeDungeonController::setAmbientLightActive(bool isAmbientLightActive)
+{
+	lightManager->setAmbientLightActive(isAmbientLightActive);
+}
+
+void SlimeDungeonController::setDirLightActive(bool isDirLightActive)
+{
+	lightManager->setDirLightActive(isDirLightActive);
+}
+
+void SlimeDungeonController::setPonctLightActive(bool isPonctLightActive)
+{
+	lightManager->setPonctLightActive(isPonctLightActive);
+}
+
+void SlimeDungeonController::setSpotLightActive(bool isSpotLightActive)
+{
+	lightManager->setSpotLightActive(isSpotLightActive);
 }

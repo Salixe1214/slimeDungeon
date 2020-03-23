@@ -11,9 +11,12 @@ void SlimeDungeonUI::setup(){
 	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
 
-	//ballScaleTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureScaleBtnPressed);
-	//ballSporeTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureSporeBtnPressed);
-	//ballMoltenTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureMoltenBtnPressed);
+	drawLightGizmoBtn.addListener(this, &SlimeDungeonUI::drawLightGizmoBtnPressed);
+	activeAmbientLightBtn.addListener(this, &SlimeDungeonUI::activeAmbientLightBtnPressed);
+	activeDirLightBtn.addListener(this, &SlimeDungeonUI::activeDirLightBtnPressed);
+	activePonctLightBtn.addListener(this, &SlimeDungeonUI::activePonctLightBtnPressed);
+	activeSpotLightBtn.addListener(this, &SlimeDungeonUI::activeSpotLightBtnPressed);
+
 
 	//Scene
 
@@ -58,8 +61,19 @@ void SlimeDungeonUI::setup(){
 
 	transformToolsGroup.add(&scalingToolsGroup);
 
-
 	scene.add(&transformToolsGroup);
+
+	//Lighting
+	lightingGroup.setup("Lighting tools");
+	
+	lightingGroup.add(activeAmbientLightBtn.setup("Ambient Light On/Off", true));
+	lightingGroup.add(activeDirLightBtn.setup("Directionnal Light On/Off", true));
+	lightingGroup.add(activePonctLightBtn.setup("Ponctual Light On/Off", true));
+	lightingGroup.add(activeSpotLightBtn.setup("Spotlight On/Off", true));
+	lightingGroup.add(drawLightGizmoBtn.setup("Draw Lights gizmo", true));
+
+	scene.add(&lightingGroup);
+
 
 	//gui
 	gui.setup("Toolbox"); 
@@ -158,53 +172,34 @@ void SlimeDungeonUI::exit(){
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	deleteShapeBtn.removeListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.removeListener(this, &SlimeDungeonUI::importImageBtnPressed);
-	//ballScaleTextureBtn.removeListener(this, &SlimeDungeonUI::ballTextureScaleBtnPressed);
-	//ballSporeTextureBtn.removeListener(this, &SlimeDungeonUI::ballTextureSporeBtnPressed);
-	//ballMoltenTextureBtn.removeListener(this, &SlimeDungeonUI::ballTextureMoltenBtnPressed);
+	activeAmbientLightBtn.removeListener(this, &SlimeDungeonUI::activeAmbientLightBtnPressed);
+	activeDirLightBtn.removeListener(this, &SlimeDungeonUI::activeDirLightBtnPressed);
+	activePonctLightBtn.removeListener(this, &SlimeDungeonUI::activePonctLightBtnPressed);
+	activeSpotLightBtn.removeListener(this, &SlimeDungeonUI::activeSpotLightBtnPressed);
+	drawLightGizmoBtn.removeListener(this, &SlimeDungeonUI::drawLightGizmoBtnPressed);
 
 	sdCtrl.publishExitEvent();
 }
 
-//void SlimeDungeonUI::ballTextureScaleBtnPressed(bool &ballScaleTextureBtnPressed) {
-//	
-//	cout << "Scale " << ballScaleTextureBtnPressed << endl;
-//	if (ballScaleTextureBtnPressed) {
-//		sdCtrl.setBallTextureFile("");
-//		ballScaleTextureBtn = false;
-//	}
-//	else {
-//		sdCtrl.setBallTextureFile(ballScaleTextureFile);
-//		ballScaleTextureBtn = true;
-//	}
-//	ballSporeTextureBtn = false;
-//	ballMoltenTextureBtn = false;
-//
-//}
-//
-//ballScaleTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureScaleBtnPressed);
-//ballSporeTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureSporeBtnPressed);
-//ballMoltenTextureBtn.addListener(this, &SlimeDungeonUI::ballTextureMoltenBtnPressed);
-//
-//void SlimeDungeonUI::ballTextureSporeBtnPressed(bool &ballSporeTextureBtnPressed) {
-//	cout << "Spore " << ballSporeTextureBtnPressed << endl;
-//	if (ballSporeTextureBtnPressed) sdCtrl.setBallTextureFile("");
-//	else sdCtrl.setBallTextureFile(ballSporeTextureFile);
-//	ballScaleTextureBtn = false;
-//	ballMoltenTextureBtn = false;
-//	ballScaleTextureBtn.
-//}
-//
-//void SlimeDungeonUI::ballTextureMoltenBtnPressed(bool &ballMoltenTextureBtnPressed) {
-//	cout << "Molten " << ballMoltenTextureBtnPressed << endl;
-//	if (ballMoltenTextureBtnPressed) sdCtrl.setBallTextureFile("");
-//	else {
-//		sdCtrl.setBallTextureFile(ballMoltenTextureFile);
-//	}
-//	ballScaleTextureBtn = false;
-//	ballSporeTextureBtn = false;
-//
-//}
+void SlimeDungeonUI::drawLightGizmoBtnPressed(bool &drawLightGizmoPressed) {
+	sdCtrl.setDrawLightGizmo(drawLightGizmoPressed);
+}
 
+void SlimeDungeonUI::activeAmbientLightBtnPressed(bool &activeAmbientLightPressed) {
+	sdCtrl.setAmbientLightActive(activeAmbientLightPressed);
+}
+
+void SlimeDungeonUI::activeDirLightBtnPressed(bool &activeDirLightPressed) {
+	sdCtrl.setDirLightActive(activeDirLightPressed);
+}
+
+void SlimeDungeonUI::activePonctLightBtnPressed(bool &activePonctLightPressed) {
+	sdCtrl.setPonctLightActive(activePonctLightPressed);
+}
+
+void SlimeDungeonUI::activeSpotLightBtnPressed(bool &activeSpotLightPressed) {
+	sdCtrl.setSpotLightActive(activeSpotLightPressed);
+}
 
 
 void SlimeDungeonUI::deleteShapeBtnPressed() {
@@ -475,6 +470,13 @@ void SlimeDungeonUI::keyPressed(int key){
 	case 'd':
 		sdCtrl.setCameraMoveRight(true);
 		break;
+	case 'w': // touche w
+		sdCtrl.setCameraMoveDown(true);
+		break;
+
+	case 's': // touche s
+		sdCtrl.setCameraMoveUp(true);
+		break;
 	case 'x':
 		gui.saveToFile("settings.xml");
 		break;
@@ -512,17 +514,11 @@ void SlimeDungeonUI::keyPressed(int key){
 		sdCtrl.setCameraRollLeft(true);
 		break;
 
-	case 'w': // touche s
-		sdCtrl.setCameraMoveDown(true);
-		break;
-
 	//case 117: // touche u
 	//	is_key_press_u = true;
 	//	break;
 
-	case 's': // touche w
-		sdCtrl.setCameraMoveUp(true);
-		break;
+
 
 	//case 120: // touche x
 	//	is_key_press_x = true;
@@ -622,44 +618,22 @@ void SlimeDungeonUI::keyReleased(int key){
 		sdCtrl.setCameraRollRight(false);
 		break;
 
-		//case 104: // touche h
-		//	is_key_press_h = true;
-		//	break;
-
-		//case 105: // touche i
-		//	is_key_press_i = true;
-		//	break;
-
-		//case 106: // touche j
-		//	is_key_press_j = true;
-		//	break;
-
-		//case 107: // touche k
-		//	is_key_press_k = true;
-		//	break;
-
 	case 113: // touche q
 		sdCtrl.setCameraRollLeft(false);
 		break;
-
-	case 115: // touche s
-		sdCtrl.setCameraMoveDown(false);
-		break;
-
-		//case 117: // touche u
-		//	is_key_press_u = true;
-		//	break;
-
-	case 119: // touche w
-		sdCtrl.setCameraMoveUp(false);
-		break;
-
 	case 'a':
 		sdCtrl.setCameraMoveLeft(false);
 		break;
 	case 'd':
 		sdCtrl.setCameraMoveRight(false);
 		break;
+	case 's': // touche s
+		sdCtrl.setCameraMoveUp(false);
+		break;
+	case 'w': // touche w
+		sdCtrl.setCameraMoveDown(false);
+		break;
+
 	case OF_KEY_LEFT_CONTROL:
 		sdCtrl.setCameraDollyFront(false);
 		break;

@@ -24,14 +24,64 @@ LightManager * LightManager::getLightManager() {
 	return lightManager;
 }
 
+
+void LightManager::setup(glm::vec3 camInitialPos, glm::vec3 initialOrientation)
+{
+	glm::vec3 lightPos = camInitialPos;
+	setAmbientColorLight(ofColor(127, 127, 127));
+	lightPos.z -= 500;
+	lightPos.x -= ofGetWidth() / 7;
+	lightPos.y -= ofGetHeight() / 5;
+	addDirectionalLight(lightPos, initialOrientation);
+
+	lightPos = camInitialPos;
+	lightPos.z -= 500;
+	addPonctualLight(lightPos);
+
+	lightPos = camInitialPos;
+	lightPos.z = initialOrientation.z + 100;
+	lightPos.y -= ofGetHeight() / 5;
+	addSpotLight(lightPos, initialOrientation);
+	
+	isAmbientLightActive = true;
+	isDirLightActive = true;
+	isPonctLightActive = true;
+	isSpotLightActive = true;
+	
+	drawLightGizmo = true;
+}
+
+void LightManager::update()
+{
+
+}
+
+void LightManager::draw()
+{
+	if (drawLightGizmo) {
+		ofPushMatrix();
+		if (isDirLightActive)
+			for (auto light : dirLightVec) light.dirLight.draw();
+		if (isPonctLightActive)
+			for (auto light : ponctLightVec) light.ponctLight.draw();
+		if (isSpotLightActive)
+			for (auto light : spotLightVec) light.spotlight.draw();
+		ofPopMatrix();
+	}
+
+}
+
 void LightManager::lightOn()
 {
-	ofSetGlobalAmbientColor(ambientColorLight);
-	for (auto light : dirLightVec) light.dirLight.enable();
-	for (auto light : ponctLightVec) light.ponctLight.enable();
-	for (auto light : spotLightVec) light.spotlight.enable();
-	
-
+	ofEnableLighting();
+	if (isAmbientLightActive)	
+		ofSetGlobalAmbientColor(ambientColorLight);
+	if (isDirLightActive)	
+		for (auto light : dirLightVec) light.dirLight.enable();
+	if (isPonctLightActive)
+		for (auto light : ponctLightVec) light.ponctLight.enable();
+	if (isSpotLightActive)
+		for (auto light : spotLightVec) light.spotlight.enable();
 }
 
 void LightManager::ambientLightOn()
@@ -41,6 +91,7 @@ void LightManager::ambientLightOn()
 
 void LightManager::selectedLightOn(string idLight)
 {
+	ofEnableLighting();
 	for (auto light : dirLightVec) {
 		if (light.idDirL == idLight) {
 			light.dirLight.enable();
@@ -65,9 +116,10 @@ void LightManager::selectedLightOn(string idLight)
 void LightManager::lightOff()
 {
 	ofSetGlobalAmbientColor(ofColor(0, 0, 0));
-	for (auto light : dirLightVec) light.dirLight.enable();
-	for (auto light : ponctLightVec) light.ponctLight.enable();
-	for (auto light : spotLightVec) light.spotlight.enable();
+	for (auto light : dirLightVec) light.dirLight.disable();
+	for (auto light : ponctLightVec) light.ponctLight.disable();
+	for (auto light : spotLightVec) light.spotlight.disable();
+	ofDisableLighting();
 }
 
 void LightManager::ambientLightOff()
@@ -96,34 +148,6 @@ void LightManager::selectedLightOff(string idLight)
 		}
 	}
 	cout << "La lumière " << idLight << " est introuvable" << endl;
-}
-
-void LightManager::setup(glm::vec3 camInitialPos)
-{
-	//cout << "setup" << endl;
-	setAmbientColorLight(ofColor(127, 127, 127));
-	addDirectionalLight(camInitialPos, glm::vec3(0, 0, 0));
-	addPonctualLight(camInitialPos);
-	addSpotLight(camInitialPos, glm::vec3(0,0,0));
-}
-
-void LightManager::update()
-{
-
-}
-
-void LightManager::draw()
-{
-	ofPushMatrix();
-
-	// afficher un repère visuel pour les lumières
-	//if (is_active_light_point)
-		for (auto light : dirLightVec) light.dirLight.draw();	
-	//if (is_active_light_directional)
-		for (auto light : ponctLightVec) light.ponctLight.draw();
-	//if (is_active_light_spot)
-		for (auto light : spotLightVec) light.spotlight.draw();
-	ofPopMatrix();
 }
 
 
@@ -155,7 +179,6 @@ void LightManager::addPonctualLight(glm::vec3 pos, ofColor diffuseColor, ofColor
 	light.setPointLight();
 	string idPonct = "ponct" + std::to_string(idPonctLight);
 	ponctLightVec.push_back(ponctualLight(idPonct, light));
-	cout << "added ponctLight id :" << idPonctLight << endl;
 	idPonctLight++;
 }
 
@@ -177,7 +200,7 @@ void LightManager::addSpotLight(glm::vec3 pos, glm::vec3 orientation, float spot
 
 void LightManager::configureDirectionalLight(string dirId, glm::vec3 pos, glm::vec3 orientation, ofColor diffuseColor, ofColor specularColor)
 {
-	for (int i = 0; i < dirLightVec.size(); i++) {
+	for (unsigned int i = 0; i < dirLightVec.size(); i++) {
 		if (dirLightVec.at(i).idDirL == dirId) {
 			dirLightVec.at(i).dirLight.setDiffuseColor(diffuseColor);
 			dirLightVec.at(i).dirLight.setSpecularColor(specularColor);
@@ -191,7 +214,7 @@ void LightManager::configureDirectionalLight(string dirId, glm::vec3 pos, glm::v
 
 void LightManager::configurePonctualLight(string ponctId, glm::vec3 pos, ofColor diffuseColor, ofColor specularColor)
 {
-	for (int i = 0; i < ponctLightVec.size(); i++) {
+	for (unsigned int i = 0; i < ponctLightVec.size(); i++) {
 		if (ponctLightVec.at(i).idPonctL == ponctId) {
 			ponctLightVec.at(i).ponctLight.setDiffuseColor(diffuseColor);
 			ponctLightVec.at(i).ponctLight.setSpecularColor(specularColor);
@@ -205,7 +228,7 @@ void LightManager::configurePonctualLight(string ponctId, glm::vec3 pos, ofColor
 void LightManager::configureSpotLight(string spotId, glm::vec3 pos, glm::vec3 orientation, float spotCutoff,
 										float spotConcentration, ofColor diffuseColor, ofColor specularColor)
 {
-	for (int i = 0; i < spotLightVec.size(); i++) {
+	for (unsigned int i = 0; i < spotLightVec.size(); i++) {
 		if (spotLightVec.at(i).idSpotL == spotId) {
 			spotLightVec.at(i).spotlight.setDiffuseColor(diffuseColor);
 			spotLightVec.at(i).spotlight.setSpecularColor(specularColor);
@@ -217,5 +240,30 @@ void LightManager::configureSpotLight(string spotId, glm::vec3 pos, glm::vec3 or
 		}
 	}
 	cout << "Le spotlight " << spotId <<  " est inexistant" << endl;
+}
+
+void LightManager::setDrawLightGizmo(bool p_drawLightGizmo)
+{
+	drawLightGizmo = p_drawLightGizmo;
+}
+
+void LightManager::setAmbientLightActive(bool p_isAmbientLightActive)
+{
+	isAmbientLightActive = p_isAmbientLightActive;
+}
+
+void LightManager::setDirLightActive(bool p_isDirLightActive)
+{
+	isDirLightActive = p_isDirLightActive;
+}
+
+void LightManager::setPonctLightActive(bool p_isPonctLightActive)
+{
+	isPonctLightActive = p_isPonctLightActive;
+}
+
+void LightManager::setSpotLightActive(bool p_isSpotLightActive)
+{
+	isSpotLightActive = p_isSpotLightActive;
 }
 

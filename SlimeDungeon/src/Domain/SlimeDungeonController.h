@@ -1,5 +1,6 @@
 #include "ofMain.h"
 #include "Domain/Renderer.h"
+#include "Domain/LightManager.h"
 
 
 #pragma once
@@ -47,6 +48,13 @@ public:
 	void rotateSelectionZ(float thetaZ);
 	void scaleSelection(float sx, float sy, float sz=1);
 
+	//Light
+	void setDrawLightGizmo(bool drawLightGizmo);
+	void setAmbientLightActive(bool isAmbientLightActive);
+	void setDirLightActive(bool isDirLightActive);
+	void setPonctLightActive(bool isPonctLightActive);
+	void setSpotLightActive(bool isSpotLightActive);
+
 	//Draw ---------------
 	void rendererDraw(ofParameter<ofColor>, ofParameter<ofColor>);
 	void setDrawMode(bool drawMode);
@@ -76,6 +84,7 @@ public:
 
 private:
 	Renderer ctrlRenderer;
+	LightManager* lightManager;
 	
 };
 

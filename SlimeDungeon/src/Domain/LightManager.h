@@ -8,6 +8,13 @@ class LightManager
 public:
 	static LightManager* getLightManager();
 	static LightManager* lightManager;
+	bool isAmbientLightActive, isDirLightActive, isPonctLightActive, isSpotLightActive;
+	bool drawLightGizmo;
+
+	void setup(glm::vec3 camInitialPos = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 1000),
+				glm::vec3 initialOrientation = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 0));
+	void update();
+	void draw();
 
 	void lightOn();
 	void ambientLightOn();
@@ -32,9 +39,11 @@ public:
 	void configureSpotLight(string spotId, glm::vec3 pos, glm::vec3 orientation, float spotCutoff = 30, float spotConcentration = 2,
 							ofColor diffuseColor= ofColor(191, 191, 191), ofColor specularColor = ofColor(191, 191, 191));
 
-	void setup(glm::vec3 camInitialPos = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 1000));
-	void update();
-	void draw();
+	void setDrawLightGizmo(bool p_drawLightGizmo);
+	void setAmbientLightActive(bool p_isAmbientLightActive);
+	void setDirLightActive(bool p_isDirLightActive);
+	void setPonctLightActive(bool p_isPonctLightActive);
+	void setSpotLightActive(bool p_isSpotLightActive);
 
 	LightManager(const LightManager&) = delete;
 	LightManager& operator=(const LightManager&) = delete;

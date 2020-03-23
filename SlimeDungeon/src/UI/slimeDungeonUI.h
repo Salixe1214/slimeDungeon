@@ -109,6 +109,8 @@ public:
 	ofxButton deleteShapeBtn;
 	void deleteShapeBtnPressed();
 
+
+
 	//Transform selectedShape 
 	ofxGuiGroup transformToolsGroup;
 	ofParameter<ofColor> fillColorScene, strokeColorScene;
@@ -134,6 +136,20 @@ public:
 	ofxToggle keepScaleProportion;
 	ofParameter<float> scaleX, scaleY;
 	float prevScaleX, prevScaleY;
+
+	//Lighting
+	ofxGuiGroup lightingGroup;
+	ofxToggle drawLightGizmoBtn;
+	ofxToggle activeAmbientLightBtn;
+	ofxToggle activeDirLightBtn;
+	ofxToggle activePonctLightBtn;
+	ofxToggle activeSpotLightBtn;
+
+	void drawLightGizmoBtnPressed(bool &drawLightGizmoPressed);
+	void activeAmbientLightBtnPressed(bool &activeAmbientLightPressed);
+	void activeDirLightBtnPressed(bool &activeDirLightPressed);
+	void activePonctLightBtnPressed(bool &activePonctLightPressed);
+	void activeSpotLightBtnPressed(bool &activeSpotLightPressed);
 
 	//Panel
 	ofxPanel gui;

@@ -5,7 +5,8 @@
 
 #pragma once
 #include "ofMain.h"
-//#include "Domain/Shapes/Shape.h"
+#include "Domain/LightManager.h"
+
 #include "Domain/Shapes/TileShape.h"
 #include "Domain/Shapes/SlimeShape.h"
 #include "Domain/Shapes/Circle.h"
@@ -26,7 +27,13 @@ class Renderer
 {
 public:
 	Renderer();
+	void setup(ofxPanel*, glm::vec3 camInitialPos = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 1000));
+	void update(ofParameter<ofColor>, ofParameter<ofColor>);
+	void exit();
 
+	void draw();
+
+	LightManager* lightManager;
 	VectorPrimitiveType shapeType;
 	std::vector<Shape*> vecShapes;
 	std::stack<Shape*> pastVecShapes;
@@ -88,12 +95,6 @@ public:
 
 	ofImage imageImport(const string filename);
 	void exportImg(ofImage imgToExport, string filename) const;
-	
-	void setup(ofxPanel*);
-	void update(ofParameter<ofColor>, ofParameter<ofColor>);
-	void exit();
-
-	void draw();
 
 	void windowResizedEvent(int w, int h);
 
