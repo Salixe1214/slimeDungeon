@@ -1,0 +1,221 @@
+#include "LightManager.h"
+
+LightManager *LightManager::lightManager = nullptr;
+int LightManager::idDirLight = 1;
+int LightManager::idPonctLight = 1;
+int LightManager::idSpotLight = 1;
+
+LightManager::LightManager() {
+}
+
+
+LightManager::~LightManager(){
+	dirLightVec.clear();
+	ponctLightVec.clear();
+	spotLightVec.clear();
+}
+
+
+LightManager * LightManager::getLightManager() {
+	
+	if (!lightManager) {
+		lightManager = new LightManager();
+	}
+	return lightManager;
+}
+
+void LightManager::lightOn()
+{
+	ofSetGlobalAmbientColor(ambientColorLight);
+	for (auto light : dirLightVec) light.dirLight.enable();
+	for (auto light : ponctLightVec) light.ponctLight.enable();
+	for (auto light : spotLightVec) light.spotlight.enable();
+	
+
+}
+
+void LightManager::ambientLightOn()
+{
+	ofSetGlobalAmbientColor(ambientColorLight);
+}
+
+void LightManager::selectedLightOn(string idLight)
+{
+	for (auto light : dirLightVec) {
+		if (light.idDirL == idLight) {
+			light.dirLight.enable();
+			return;
+		}
+	}
+	for (auto light : ponctLightVec) {
+		if (light.idPonctL == idLight) {
+			light.ponctLight.enable();
+			return;
+		}
+	}
+	for (auto light : spotLightVec) {
+		if (light.idSpotL == idLight) {
+			light.spotlight.enable();
+			return;
+		}
+	}
+	cout << "La lumière " << idLight << " est introuvable" << endl;
+}
+
+void LightManager::lightOff()
+{
+	ofSetGlobalAmbientColor(ofColor(0, 0, 0));
+	for (auto light : dirLightVec) light.dirLight.enable();
+	for (auto light : ponctLightVec) light.ponctLight.enable();
+	for (auto light : spotLightVec) light.spotlight.enable();
+}
+
+void LightManager::ambientLightOff()
+{
+	ofSetGlobalAmbientColor(ofColor(0, 0, 0));
+}
+
+void LightManager::selectedLightOff(string idLight)
+{
+	for (auto light : dirLightVec) {
+		if (light.idDirL == idLight) {
+			light.dirLight.disable();
+			return;
+		}
+	}
+	for (auto light : ponctLightVec) {
+		if (light.idPonctL == idLight) {
+			light.ponctLight.disable();
+			return;
+		}
+	}
+	for (auto light : spotLightVec) {
+		if (light.idSpotL == idLight) {
+			light.spotlight.disable();
+			return;
+		}
+	}
+	cout << "La lumière " << idLight << " est introuvable" << endl;
+}
+
+void LightManager::setup(glm::vec3 camInitialPos)
+{
+	//cout << "setup" << endl;
+	setAmbientColorLight(ofColor(127, 127, 127));
+	addDirectionalLight(camInitialPos, glm::vec3(0, 0, 0));
+	addPonctualLight(camInitialPos);
+	addSpotLight(camInitialPos, glm::vec3(0,0,0));
+}
+
+void LightManager::update()
+{
+
+}
+
+void LightManager::draw()
+{
+	ofPushMatrix();
+
+	// afficher un repère visuel pour les lumières
+	//if (is_active_light_point)
+		for (auto light : dirLightVec) light.dirLight.draw();	
+	//if (is_active_light_directional)
+		for (auto light : ponctLightVec) light.ponctLight.draw();
+	//if (is_active_light_spot)
+		for (auto light : spotLightVec) light.spotlight.draw();
+	ofPopMatrix();
+}
+
+
+void LightManager::setAmbientColorLight(ofColor ambiantColor)
+{
+	ambientColorLight = ambiantColor;
+}
+
+void LightManager::addDirectionalLight(glm::vec3 pos, glm::vec3 orientation, ofColor diffuseColor,
+										ofColor specularColor)
+{
+	ofLight light;
+	light.setDiffuseColor(diffuseColor);
+	light.setSpecularColor(specularColor);
+	light.setOrientation(orientation);
+	light.setPosition(pos);
+	light.setDirectional();
+	string idDir = "dir" + std::to_string(idDirLight);
+	dirLightVec.push_back(directionalLight(idDir, light));
+	idDirLight++;
+}
+
+void LightManager::addPonctualLight(glm::vec3 pos, ofColor diffuseColor, ofColor specularColor)
+{
+	ofLight light;
+	light.setDiffuseColor(diffuseColor);
+	light.setSpecularColor(specularColor);
+	light.setPosition(pos);
+	light.setPointLight();
+	string idPonct = "ponct" + std::to_string(idPonctLight);
+	ponctLightVec.push_back(ponctualLight(idPonct, light));
+	cout << "added ponctLight id :" << idPonctLight << endl;
+	idPonctLight++;
+}
+
+void LightManager::addSpotLight(glm::vec3 pos, glm::vec3 orientation, float spotCutoff, 
+								float spotConcentration, ofColor diffuseColor, ofColor specularColor)
+{
+	ofLight light;
+	light.setDiffuseColor(diffuseColor);
+	light.setSpecularColor(specularColor);
+	light.setOrientation(orientation);
+	light.setSpotConcentration(spotConcentration);
+	light.setSpotlightCutOff(spotCutoff);
+	light.setPosition(pos);
+	light.setSpotlight();
+	string idSpot = "spot" + std::to_string(idSpotLight);
+	spotLightVec.push_back(spotLight(idSpot, light));
+	idSpotLight++;
+}
+
+void LightManager::configureDirectionalLight(string dirId, glm::vec3 pos, glm::vec3 orientation, ofColor diffuseColor, ofColor specularColor)
+{
+	for (int i = 0; i < dirLightVec.size(); i++) {
+		if (dirLightVec.at(i).idDirL == dirId) {
+			dirLightVec.at(i).dirLight.setDiffuseColor(diffuseColor);
+			dirLightVec.at(i).dirLight.setSpecularColor(specularColor);
+			dirLightVec.at(i).dirLight.setOrientation(orientation);
+			dirLightVec.at(i).dirLight.setPosition(pos);
+			return;
+		}
+	}
+	cout << "La dirLight " << dirId << " est inexistant" << endl;
+}
+
+void LightManager::configurePonctualLight(string ponctId, glm::vec3 pos, ofColor diffuseColor, ofColor specularColor)
+{
+	for (int i = 0; i < ponctLightVec.size(); i++) {
+		if (ponctLightVec.at(i).idPonctL == ponctId) {
+			ponctLightVec.at(i).ponctLight.setDiffuseColor(diffuseColor);
+			ponctLightVec.at(i).ponctLight.setSpecularColor(specularColor);
+			ponctLightVec.at(i).ponctLight.setPosition(pos);
+			return;
+		}
+	}
+	cout << "La ponctLight " << ponctId << " est inexistante" << endl;
+}
+
+void LightManager::configureSpotLight(string spotId, glm::vec3 pos, glm::vec3 orientation, float spotCutoff,
+										float spotConcentration, ofColor diffuseColor, ofColor specularColor)
+{
+	for (int i = 0; i < spotLightVec.size(); i++) {
+		if (spotLightVec.at(i).idSpotL == spotId) {
+			spotLightVec.at(i).spotlight.setDiffuseColor(diffuseColor);
+			spotLightVec.at(i).spotlight.setSpecularColor(specularColor);
+			spotLightVec.at(i).spotlight.setOrientation(orientation);
+			spotLightVec.at(i).spotlight.setSpotConcentration(spotConcentration);
+			spotLightVec.at(i).spotlight.setSpotlightCutOff(spotCutoff);
+			spotLightVec.at(i).spotlight.setPosition(pos);
+			return;
+		}
+	}
+	cout << "Le spotlight " << spotId <<  " est inexistant" << endl;
+}
+
