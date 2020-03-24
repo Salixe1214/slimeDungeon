@@ -20,6 +20,7 @@ namespace shape {
 	private:
 		ofxAssimpModelLoader model;
 		ofPolyRenderMode mode;
+		ofTexture texture;
 	};
 }
 

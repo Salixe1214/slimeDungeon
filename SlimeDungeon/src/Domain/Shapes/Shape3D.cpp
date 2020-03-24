@@ -18,6 +18,9 @@ namespace shape {
 		model.setRotation(0, rotation.z, 0, 0, 1);
 		mode = ofPolyRenderMode::OF_MESH_FILL;
 
+		ofDisableArbTex();
+		ofLoadImage(texture, "texture/ballTexture/moltenBall.jpg");
+
 	}
 
 	Shape3D::Shape3D(VectorPrimitiveType p_shapeType, float x, float y, float z, float sizeRatio,
@@ -35,12 +38,10 @@ namespace shape {
 	{
 		ofSetColor(fillColor);
 		//ofTexture texture;
-		//ofDisableArbTex();
-		//ofLoadImage(texture, "texture/ballTexture/slimeBall.jpg");
 		//texture.generateMipmap();
-		//texture.bind();
+		texture.bind();
 		model.draw(mode);
-		//texture.unbind();
+		texture.unbind();
 
 	}
 
