@@ -5,6 +5,7 @@ namespace shape {
 		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, glm::vec3 p_rotation)
 		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
 	{
+		image = p_image;
 		static int numImage;
 		numImage++;
 		shapeId = "Image" + std::to_string(numImage);
@@ -15,6 +16,7 @@ namespace shape {
 	void Image::draw()
 	{
 		ofNoFill();
+		ofSetColor(ofColor::white);
 		ofSetLineWidth(0);
 		image.draw(position1.x, position1.y);
 	}
