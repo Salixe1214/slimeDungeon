@@ -7,7 +7,7 @@
 class Cubemap
 {
 public:
-	Cubemap(int p_boxSize = 750);
+	Cubemap(int p_boxSize = 1500);
 	void draw();
 
 private:
