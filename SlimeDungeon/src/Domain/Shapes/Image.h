@@ -6,7 +6,7 @@ namespace shape {
 	class Image : public Shape
 	{
 	public:
-		Image(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofImage p_image, ofPoint p_position, ofColor p_fillColor, ofColor p_strokeColor,
+		Image(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofImage p_image, ofColor p_fillColor, ofColor p_strokeColor,
 			float p_strokeWidth, glm::vec3 p_rotation = { 0,0,0 });
 
 		ofImage image;

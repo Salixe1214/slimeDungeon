@@ -160,7 +160,7 @@ void Renderer::draw()
 	drawShapes();
 
 	// Cubemap
-	paysage.draw();
+	//paysage.draw();
 
 	highlightSelectedShape();
 
@@ -397,7 +397,6 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		if (curMouse.y - mousePress.y < 0) posY2 = posY1 - sideLength;
 		else posY2 = posY1 + sideLength;
 	}
-
 	switch (type)
 	{
 	case VectorPrimitiveType::pixel:
@@ -464,6 +463,21 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		delete pastVecShapes.top();
 		pastVecShapes.pop();
 	}
+}
+
+void Renderer::addImageShape(ofImage image, ofPoint imgPoint) {
+	ofColor fillingColor;
+	float posX1 = mousePress.x + cameraOffsetX;
+	float posX2 = curMouse.x + cameraOffsetX;
+	float posY1 = mousePress.y + cameraOffsetY;
+	float posY2 = curMouse.y + cameraOffsetY;
+	fillingColor = fillColor;
+
+	posX1 = imgPoint.x;
+	posY1 = imgPoint.y;
+	posX2 = posX1 + image.getWidth();
+	posY2 = posY1 + image.getHeight();
+	vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1, posY1, posX2, posY2, image, fillingColor, ofColor(strokeColor), strokeWidth));
 }
 
 void Renderer::drawZone(float x1, float y1, float x2, float y2) const

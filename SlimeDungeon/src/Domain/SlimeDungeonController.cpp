@@ -114,6 +114,10 @@ void SlimeDungeonController::addShape()
 	ctrlRenderer.addVectorShape(ctrlRenderer.shapeType);
 }
 
+void SlimeDungeonController::addImage(ofImage image, ofPoint imgPoint) {
+	ctrlRenderer.addImageShape(image, imgPoint);
+}
+
 void SlimeDungeonController::setFill(bool fill)
 {
 	ctrlRenderer.setFill(fill);

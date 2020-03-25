@@ -18,6 +18,7 @@
 #include "Domain/Shapes/Shape3D.h"
 #include "Domain/Shapes/Box.h"
 #include "Domain/Shapes/Ball.h"
+#include "Domain/Shapes/Image.h"
 #include "ofxGui.h"
 #include <stack>
 
@@ -132,7 +133,8 @@ public:
 	void setDrawMode(bool drawMode);
 	void setShapeType(VectorPrimitiveType newShapeType);
 
-	void addVectorShape(VectorPrimitiveType);
+	void addVectorShape(VectorPrimitiveType type);
+	void addImageShape(ofImage image, ofPoint imgPoint);
 
 	void drawZone(float x1, float y1, float x2, float y2) const;
 	void drawCursor(float x, float y) const;

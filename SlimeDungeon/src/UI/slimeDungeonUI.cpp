@@ -434,13 +434,13 @@ void SlimeDungeonUI::draw(){
 	
 	
 	//draw l'image qui a ete drag dans la window
-	float dx = dragPt.x;
-	float dy = dragPt.y;
+	//float dx = dragPt.x;
+	//float dy = dragPt.y;
 
-	for (unsigned int k = 0; k < draggedImages.size(); k++) {
-		ofSetColor(ofColor::white);
-		draggedImages.at(k).first.draw(draggedImages.at(k).second.x, draggedImages.at(k).second.y);
-	}
+	//for (unsigned int k = 0; k < draggedImages.size(); k++) {
+	//	ofSetColor(ofColor::white);
+	//	draggedImages.at(k).first.draw(draggedImages.at(k).second.x, draggedImages.at(k).second.y);
+	//}
 
 	ofSetColor(0);
 	ofDrawBitmapString("drag image files into this window", 10, ofGetHeight() - 20);
@@ -749,9 +749,9 @@ void SlimeDungeonUI::dragEvent(ofDragInfo info) {
 		dragPt = info.position;
 		//draggedImages.assign(info.files.size(), ofImage());
 		draggedImages.push_back(std::make_pair(ofImage(info.files.at(0)), dragPt));
-		for (unsigned int k = 0; k < draggedImages.size(); k++) {
-			draggedImages.at(k).first.draw(dragPt.x, dragPt.y);
-		}
+		ofImage dragImage = ofImage(info.files.at(0));
+		//dragImage.draw(dragPt.x, dragPt.y);
+		sdCtrl.addImage(ofImage(info.files.at(0)), dragPt);
 	}
 }
 

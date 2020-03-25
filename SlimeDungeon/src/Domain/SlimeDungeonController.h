@@ -60,6 +60,7 @@ public:
 	void setDrawMode(bool drawMode);
 	void setDrawType(int drawType);
 	void addShape();
+	void addImage(ofImage image, ofPoint imgPoint);
 	void setFill(bool fill);
 
 	void exportImg(ofImage imgToExport, string filename) const;

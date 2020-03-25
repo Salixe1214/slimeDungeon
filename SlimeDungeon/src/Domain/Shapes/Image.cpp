@@ -1,14 +1,13 @@
 #include "Image.h"
 namespace shape {
 
-	Image::Image(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofImage p_image, ofPoint p_position,
+	Image::Image(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofImage p_image,
 		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, glm::vec3 p_rotation)
 		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
 	{
 		static int numImage;
 		numImage++;
 		shapeId = "Image" + std::to_string(numImage);
-		
 	}
 
 	

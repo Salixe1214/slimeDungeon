@@ -2,7 +2,7 @@
 #include "ofMain.h"
 namespace shape {
 	enum class VectorPrimitiveType { none, pixel, line, rectangle, square, ellipse, circle, slime, 
-									tiles, slime3d, monster3d, ballFace, cube, ball}; //TODO rename
+									tiles, slime3d, monster3d, ballFace, cube, ball, image}; //TODO rename
 
 	class Shape
 	{
