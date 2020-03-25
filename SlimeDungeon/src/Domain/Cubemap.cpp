@@ -2,8 +2,6 @@
 
 Cubemap::Cubemap(int p_boxSize): m_boxSize(p_boxSize)
 {
-	ofDisableAlphaBlending();
-	ofEnableDepthTest();
 	ofDisableArbTex();
 
 	setPositions();
@@ -34,9 +32,11 @@ Cubemap::Cubemap(int p_boxSize): m_boxSize(p_boxSize)
 
 void Cubemap::draw()
 {
+	ofDisableAlphaBlending();
 	for (unsigned int i = 0; i < 6; i++) {
 		faces[i].draw(positions[i][0], positions[i][1], positions[i][2], positions[i][3]);
 	}
+	ofEnableAlphaBlending();
 }
 
 void Cubemap::setPositions()

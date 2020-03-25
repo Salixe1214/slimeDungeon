@@ -151,6 +151,7 @@ void Renderer::draw()
 		restorePrevStrokeState();
 	}
 	
+	ofEnableDepthTest();
 	camFront.begin();
 
 	lightManager->lightOn();
@@ -164,6 +165,7 @@ void Renderer::draw()
 	highlightSelectedShape();
 
 	lightManager->lightOff();
+	ofDisableDepthTest();
 	camFront.end();
 
 	drawSample();
