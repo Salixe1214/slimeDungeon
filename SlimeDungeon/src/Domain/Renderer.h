@@ -21,6 +21,8 @@
 #include "ofxGui.h"
 #include <stack>
 
+#include "Cubemap.h"
+
 using namespace shape;
 
 class Renderer
@@ -162,6 +164,9 @@ public:
 
 	// Color Picker
 	ofParameter<ofColor> *color;
+
+	// Cubemap
+	Cubemap paysage;
 
 private:
 	void drawShapes();

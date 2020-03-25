@@ -133,6 +133,7 @@ void Renderer::exit() {
 
 void Renderer::draw()
 {	
+
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
 
@@ -151,10 +152,15 @@ void Renderer::draw()
 	}
 	
 	camFront.begin();
+
 	lightManager->lightOn();
 	lightManager->draw();
 
 	drawShapes();
+
+	// Cubemap
+	paysage.draw();
+
 	highlightSelectedShape();
 
 	lightManager->lightOff();
