@@ -160,7 +160,7 @@ void Renderer::draw()
 	drawShapes();
 
 	// Cubemap
-	//paysage.draw();
+	paysage.draw();
 
 	highlightSelectedShape();
 
