@@ -12,7 +12,6 @@ namespace shape {
 		model.loadModel(modelName, 20);
 		model.setPosition(position.x, position.y, position.z);
 		model.setScale(sizeRatio, sizeRatio, sizeRatio);
-		model.disableColors();
 		model.setRotation(0, rotation.x, 1, 0, 0);
 		model.setRotation(0, rotation.y, 0, 1, 0);
 		model.setRotation(0, rotation.z, 0, 0, 1);
@@ -36,12 +35,12 @@ namespace shape {
 
 	void Shape3D::draw()
 	{
+		model.disableMaterials();
 		ofSetColor(fillColor);
-		//ofTexture texture;
 		//texture.generateMipmap();
-		texture.bind();
+		//texture.bind();
 		model.draw(mode);
-		texture.unbind();
+		//texture.unbind();
 
 	}
 
