@@ -477,7 +477,7 @@ void Renderer::addImageShape(ofImage image, ofPoint imgPoint) {
 	posY1 = imgPoint.y;
 	posX2 = posX1 + image.getWidth();
 	posY2 = posY1 + image.getHeight();
-	vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1, posY1, posX2, posY2, image, fillingColor, ofColor(strokeColor), strokeWidth));
+	//vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1, posY1, posX2, posY2, image, fillingColor, ofColor(strokeColor), strokeWidth));
 }
 
 void Renderer::drawZone(float x1, float y1, float x2, float y2) const
