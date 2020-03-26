@@ -64,7 +64,7 @@ void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 	// Camera
 	speedDelta = 250.0f;
 	camFront.setPosition(camInitialPos); //TODO changer la position de départ
-	camFront.lookAt({ ofGetWidth() / 2,ofGetHeight() / 2, 0 });
+	camFront.lookAt({ 0, 0, 0 });
 	camFront.setVFlip(true);
 	camFront.setFov(402);
 
@@ -186,9 +186,9 @@ void Renderer::windowResizedEvent(int w, int h)
 
 	if (w != (int)screenWidth && h != (int)screenHeight) {
 		float zoom = w / h;
-		camFront.setPosition({ ofGetWidth() / 2, ofGetHeight() / 2, 500 });
-		camFront.lookAt({ ofGetWidth() / 2,ofGetHeight() / 2, 0 });
-		camInitialPos = { ofGetWidth() / 2, ofGetHeight() / 2, 500 };
+		camFront.setPosition({ 0, 0, 500 });
+		camFront.lookAt({ 0,0, 0 });
+		camInitialPos = {0, 0, 500 };
 		camFront.setFov(glm::degrees(2 * atanf(1 / zoom)));
 	}
 	screenWidth = w;

@@ -133,7 +133,7 @@ void SlimeDungeonUI::setup(){
 	instructions.push_back("Droite pour annuler le retour en arriere");
 	instructions.push_back("\"q\", \"w\", \"e\", \"a\", \"s\", \"d\", ctr gauche\n et alt gauche pour bouger la camera");
 
-	light.setPosition(ofGetWidth() / 2, ofGetHeight() / 2, 1000);
+	light.setPosition(0, 0, 1000);
 
 }
 
@@ -525,6 +525,9 @@ void SlimeDungeonUI::keyPressed(int key){
 		break;
 	case OF_KEY_RIGHT:
 		sdCtrl.changeState(false);
+		break;
+	case OF_KEY_TAB:
+		sdCtrl.resetCam();
 		break;
 	default:
 		break;

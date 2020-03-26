@@ -8,7 +8,7 @@ SlimeDungeonController::SlimeDungeonController()
 
 void SlimeDungeonController::publishSetupEvent(ofxPanel *gui)
 {
-	glm::vec3 camInitialPos = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 1000);
+	glm::vec3 camInitialPos = glm::vec3(0, 0, 1000);
 	lightManager->setup(camInitialPos);
 	ctrlRenderer.setup(gui, camInitialPos);
 }
@@ -161,6 +161,12 @@ void SlimeDungeonController::setCameraDollyFront(bool isCameraDollyFront)
 void SlimeDungeonController::setCameraDollyBack(bool isCameraDollyBack)
 {
 	ctrlRenderer.setCameraDollyBack(isCameraDollyBack);
+}
+
+void SlimeDungeonController::resetCam()
+{
+	ctrlRenderer.camFront.setPosition(0, 0, 1000);
+	ctrlRenderer.camFront.lookAt(glm::vec3(0, 0, 0));
 }
 
 void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) const 
