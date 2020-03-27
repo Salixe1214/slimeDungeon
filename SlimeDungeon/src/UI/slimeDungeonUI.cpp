@@ -133,7 +133,7 @@ void SlimeDungeonUI::setup(){
 	instructions.push_back("Droite pour annuler le retour en arriere");
 	instructions.push_back("\"q\", \"w\", \"e\", \"a\", \"s\", \"d\", ctr gauche\n et alt gauche pour bouger la camera");
 
-	light.setPosition(ofGetWidth() / 2, ofGetHeight() / 2, 1000);
+	light.setPosition(0, 0, 1000);
 
 }
 
@@ -526,6 +526,9 @@ void SlimeDungeonUI::keyPressed(int key){
 	case OF_KEY_RIGHT:
 		sdCtrl.changeState(false);
 		break;
+	case OF_KEY_TAB:
+		sdCtrl.resetCam();
+		break;
 	default:
 		break;
 	}
@@ -648,10 +651,9 @@ void SlimeDungeonUI::mouseDragged(int x, int y, int button){
 	sdCtrl.setCurMouse(ofPoint(x,y));
 }
 
-//--------------------------------------------------------------
+// Appellé quand un bouton de la souris est enfoncé
 void SlimeDungeonUI::mousePressed(int x, int y, int button){
-	float dx = dragPt.x;
-	float dy = dragPt.y;
+
 	distance.x = mouseX - dragPt.x;
 	distance.y = mouseY - dragPt.y;
 

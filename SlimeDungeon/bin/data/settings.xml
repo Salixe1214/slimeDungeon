@@ -5,7 +5,7 @@
 	<Screen_size>1024x768</Screen_size>
 	<Draw_tools>
 		<Draw_mode>1</Draw_mode>
-		<Draw_:_>ball</Draw_:_>
+		<Draw_:_>pixel</Draw_:_>
 		<Stroke_color>110, 100, 140, 255</Stroke_color>
 		<Remplir>1</Remplir>
 		<Fill_color>110, 100, 140, 255</Fill_color>
