@@ -655,7 +655,7 @@ void SlimeDungeonUI::mouseDragged(int x, int y, int button){
 void SlimeDungeonUI::mousePressed(int x, int y, int button){
 
 	distance.x = mouseX - dragPt.x;
-	distance.y = mouseY;// - dragPt.y;
+	distance.y = mouseY - dragPt.y;
 
 	curMouse = ofPoint(x, y);
 	mousePress = ofPoint(x, y);

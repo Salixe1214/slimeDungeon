@@ -9,6 +9,7 @@ Renderer::Renderer()
 
 void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 {
+	offsetAngle = 0;
 	ofSetFrameRate(60);
 	ofSetSphereResolution(32);
 
@@ -91,7 +92,7 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 		camFront.boom(speedTranslation);
 		cameraOffsetY += speedTranslation;
 	}
-	if (is_camera_move_down) {;
+	if (is_camera_move_down) {
 		camFront.boom(-speedTranslation);
 		cameraOffsetY += -speedTranslation;
 	}
@@ -111,10 +112,14 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 	if (is_camera_pan_right)
 		camFront.panDeg(-speedRotation);
 
-	if (is_camera_roll_left)
+	if (is_camera_roll_left) {
 		camFront.rollDeg(-speedRotation);
-	if (is_camera_roll_right)
+		offsetAngle += -speedRotation;
+	}
+	if (is_camera_roll_right) {
 		camFront.rollDeg(speedRotation);
+		offsetAngle += speedRotation;
+	}
 
 	// Update des couleurs en temps réel (pour le sample)
 	fillColor = p_fillColor;
@@ -170,7 +175,7 @@ void Renderer::draw()
 	}
 
 	drawSample();
-	
+
 	drawCursor(curMouse.x, curMouse.y);
 
 }
@@ -382,11 +387,24 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 {
 	ofColor fillingColor;
 
-	float posX1 = mousePress.x + cameraOffsetX - ofGetWidth()/2;
-	float posX2 = curMouse.x + cameraOffsetX - ofGetWidth() / 2;
-	float posY1 = mousePress.y +cameraOffsetY - ofGetHeight()/2;
-	float posY2 = curMouse.y +cameraOffsetY - ofGetHeight() / 2;
-	
+	float _posX1 = mousePress.x - ofGetWidth() / 2;
+	float _posX2 = curMouse.x - ofGetWidth() / 2;
+	float _posY1 = mousePress.y - ofGetHeight() / 2;
+	float _posY2 = curMouse.y - ofGetHeight() / 2;
+
+	// rotation
+	float posX1 = _posX1 * cos(glm::radians(offsetAngle)) - _posY1 * sin(glm::radians(offsetAngle));
+	float posX2 = _posX2 *cos(glm::radians(offsetAngle)) - _posY2 * sin(glm::radians(offsetAngle));
+	float posY1 = _posX1 * sin(glm::radians(offsetAngle)) + _posY1 * cos(glm::radians(offsetAngle));
+	float posY2 = _posX2 *sin(glm::radians(offsetAngle)) + _posY2 * cos(glm::radians(offsetAngle));
+
+	posX1 = posX1 + cameraOffsetX;
+	posX2 = posX2 + cameraOffsetX;
+	posY1 = posY1 + cameraOffsetY;
+	posY2 = posY2 + cameraOffsetY;
+
+
+
 	if (fillShape) fillingColor = fillColor;
 	else fillingColor = ofColor(0, 0, 0, 0); //Composante avec transparence maximale
 	
@@ -410,7 +428,7 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 
 	case VectorPrimitiveType::rectangle:
 		vecShapes.push_back(new shape::Rectangle(type, posX1, posY1, posX2, posY2,
-			fillingColor, ofColor(strokeColor), strokeWidth));
+			fillingColor, ofColor(strokeColor), strokeWidth, glm::vec3(0,0,offsetAngle)));
 		break;
 	case VectorPrimitiveType::square:
 		vecShapes.push_back(new shape::Square(type, posX1, posY1, posX2, posY2,
@@ -522,6 +540,11 @@ void Renderer::drawCursor(float x, float y) const
 			cursor1.draw(x - 20, y - 20, 40, 40);
 		}
 	}
+	int preX = x - ofGetWidth() / 2;
+	int preY = y - ofGetHeight() / 2;
+	string x_print = to_string(preX*cos(glm::radians(offsetAngle)) - preY*sin(glm::radians(offsetAngle)));
+	string y_print = to_string(preX * sin(glm::radians(offsetAngle)) + preY * cos(glm::radians(offsetAngle)));
+	ofDrawBitmapString(x_print + "\n" + y_print, x + 45, y + 45);
 	
 }
 

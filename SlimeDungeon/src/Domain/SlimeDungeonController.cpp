@@ -173,6 +173,7 @@ void SlimeDungeonController::resetCam()
 	// Reset les offsets pour calculer la position des formes a dessiner
 	ctrlRenderer.cameraOffsetX = 0;
 	ctrlRenderer.cameraOffsetY = 0;
+	ctrlRenderer.offsetAngle = 0;
 }
 
 void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) const 

@@ -67,7 +67,7 @@ public:
 	float speedRotation;
 	glm::vec3 camInitialPos;
 	int screenHeight, screenWidth;
-	float cameraOffsetX, cameraOffsetY;
+	float cameraOffsetX, cameraOffsetY, offsetAngle;
 
 	float timeCurrent;
 	float timeLast;
