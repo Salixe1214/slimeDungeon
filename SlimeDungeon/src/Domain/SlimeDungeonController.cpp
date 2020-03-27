@@ -165,8 +165,12 @@ void SlimeDungeonController::setCameraDollyBack(bool isCameraDollyBack)
 
 void SlimeDungeonController::resetCam()
 {
+	// Recentre la caméra
 	ctrlRenderer.camFront.setPosition(0, 0, 1000);
+	// Recentre la vue de la caméra
 	ctrlRenderer.camFront.lookAt(glm::vec3(0, 0, 0));
+
+	// Reset les offsets pour calculer la position des formes a dessiner
 	ctrlRenderer.cameraOffsetX = 0;
 	ctrlRenderer.cameraOffsetY = 0;
 }
