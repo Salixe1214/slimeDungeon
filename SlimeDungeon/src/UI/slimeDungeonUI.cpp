@@ -651,12 +651,11 @@ void SlimeDungeonUI::mouseDragged(int x, int y, int button){
 	sdCtrl.setCurMouse(ofPoint(x,y));
 }
 
-//--------------------------------------------------------------
+// Appellé quand un bouton de la souris est enfoncé
 void SlimeDungeonUI::mousePressed(int x, int y, int button){
-	float dx = dragPt.x;
-	float dy = dragPt.y;
+
 	distance.x = mouseX - dragPt.x;
-	distance.y = mouseY - dragPt.y;
+	distance.y = mouseY;// - dragPt.y;
 
 	curMouse = ofPoint(x, y);
 	mousePress = ofPoint(x, y);

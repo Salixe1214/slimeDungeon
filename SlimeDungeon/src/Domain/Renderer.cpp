@@ -67,7 +67,6 @@ void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 	camFront.lookAt({ 0, 0, 0 });
 	camFront.setVFlip(true);
 	camFront.setFov(402);
-
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -132,7 +131,25 @@ void Renderer::exit() {
 }
 
 void Renderer::draw()
-{	
+{
+
+	ofEnableDepthTest();
+	camFront.begin();
+
+	lightManager->lightOn();
+	lightManager->draw();
+
+	// Cubemap
+	paysage.draw();
+
+	highlightSelectedShape();
+
+	camFront.end();
+
+	drawShapes();
+
+	lightManager->lightOff();
+	ofDisableDepthTest();
 
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
@@ -150,23 +167,6 @@ void Renderer::draw()
 		else drawZone(mousePress.x, mousePress.y, curMouse.x, curMouse.y);
 		restorePrevStrokeState();
 	}
-	
-	ofEnableDepthTest();
-	camFront.begin();
-
-	lightManager->lightOn();
-	lightManager->draw();
-
-	drawShapes();
-
-	// Cubemap
-	paysage.draw();
-
-	highlightSelectedShape();
-
-	lightManager->lightOff();
-	ofDisableDepthTest();
-	camFront.end();
 
 	drawSample();
 	
@@ -384,8 +384,8 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 	//float cameraOffsetY = camFront.getPosition().y - camInitialPos.y;
 	float posX1 = mousePress.x + cameraOffsetX;
 	float posX2 = curMouse.x + cameraOffsetX;
-	float posY1 = mousePress.y + cameraOffsetY;
-	float posY2 = curMouse.y + cameraOffsetY;
+	float posY1 = mousePress.y +cameraOffsetY;
+	float posY2 = curMouse.y +cameraOffsetY;
 	
 	if (fillShape) fillingColor = fillColor;
 	else fillingColor = ofColor(0, 0, 0, 0); //Composante avec transparence maximale
