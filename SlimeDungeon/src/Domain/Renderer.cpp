@@ -144,12 +144,13 @@ void Renderer::draw()
 
 	highlightSelectedShape();
 
-	camFront.end();
-
 	drawShapes();
 
-	lightManager->lightOff();
 	ofDisableDepthTest();
+
+	camFront.end();
+
+	lightManager->lightOff();
 
 	if(recordMode) drawRecordModeBorder();
 	// afficher la zone de sélection
@@ -380,12 +381,11 @@ void Renderer::setShapeType(VectorPrimitiveType newShapeType)
 void Renderer::addVectorShape(VectorPrimitiveType type)
 {
 	ofColor fillingColor;
-	//float cameraOffsetX = camFront.getPosition().x - camInitialPos.x;
-	//float cameraOffsetY = camFront.getPosition().y - camInitialPos.y;
-	float posX1 = mousePress.x + cameraOffsetX;
-	float posX2 = curMouse.x + cameraOffsetX;
-	float posY1 = mousePress.y +cameraOffsetY;
-	float posY2 = curMouse.y +cameraOffsetY;
+
+	float posX1 = mousePress.x + cameraOffsetX - ofGetWidth()/2;
+	float posX2 = curMouse.x + cameraOffsetX - ofGetWidth() / 2;
+	float posY1 = mousePress.y +cameraOffsetY - ofGetHeight()/2;
+	float posY2 = curMouse.y +cameraOffsetY - ofGetHeight() / 2;
 	
 	if (fillShape) fillingColor = fillColor;
 	else fillingColor = ofColor(0, 0, 0, 0); //Composante avec transparence maximale
