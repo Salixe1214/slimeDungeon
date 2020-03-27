@@ -42,7 +42,7 @@ public:
 	std::stack<Shape*> pastVecShapes;
 	std::unordered_map<std::string, Shape*> selectedShapes;
 
-	ofCamera camFront;
+	ofCamera camFront, camFig;
 	bool isCameraMoveLeft;
 	bool is_camera_move_right;
 	bool is_camera_move_up;
@@ -67,7 +67,7 @@ public:
 	float speedRotation;
 	glm::vec3 camInitialPos;
 	int screenHeight, screenWidth;
-	float cameraOffsetX, cameraOffsetY;
+	float cameraOffsetX, cameraOffsetY, offsetAngle;
 
 	float timeCurrent;
 	float timeLast;
