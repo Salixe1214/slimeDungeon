@@ -167,6 +167,8 @@ void SlimeDungeonController::resetCam()
 {
 	ctrlRenderer.camFront.setPosition(0, 0, 1000);
 	ctrlRenderer.camFront.lookAt(glm::vec3(0, 0, 0));
+	ctrlRenderer.cameraOffsetX = 0;
+	ctrlRenderer.cameraOffsetY = 0;
 }
 
 void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) const 
