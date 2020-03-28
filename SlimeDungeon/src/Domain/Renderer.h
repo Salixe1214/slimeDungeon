@@ -169,6 +169,10 @@ public:
 
 	// Cubemap
 	Cubemap paysage;
+	
+	
+
+
 
 private:
 	void drawShapes();

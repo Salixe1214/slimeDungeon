@@ -68,6 +68,8 @@ void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 	camFront.lookAt({ 0, 0, 0 });
 	camFront.setVFlip(true);
 	camFront.setFov(402);
+
+	
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -495,7 +497,7 @@ void Renderer::addImageShape(ofImage image, ofPoint imgPoint) {
 	posY1 = imgPoint.y;
 	posX2 = posX1 + image.getWidth();
 	posY2 = posY1 + image.getHeight();
-	//vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1, posY1, posX2, posY2, image, fillingColor, ofColor(strokeColor), strokeWidth));
+	vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1 - 500, posY1 - 500, posX2 - 500, posY2 - 500, image, fillingColor, ofColor(strokeColor), strokeWidth));
 }
 
 void Renderer::drawZone(float x1, float y1, float x2, float y2) const
@@ -526,7 +528,7 @@ void Renderer::drawCursor(float x, float y) const
 	else if (mouseIsPressed) {
 		cursor3.draw(x - 20, y - 20, 40, 40);
 	}else{
-		if ( /*mouseOverGUI*/(curMouse.x > 0 && curMouse.x < 230 && curMouse.y > 0 && curMouse.y < 390) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 450)) {
+		if ( /*mouseOverGUI*/(curMouse.x > 0 && curMouse.x < 230 && curMouse.y > 0 && curMouse.y < 500) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 650)) {
 			ofShowCursor();
 		}
 		else if(partialScreenPressed){

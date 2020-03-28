@@ -2,7 +2,7 @@
 <Toolbox>
 	<Fond_exterieur>0, 255, 0, 255</Fond_exterieur>
 	<Fond_interieur>0, 0, 0, 255</Fond_interieur>
-	<Screen_size>1024x768</Screen_size>
+	<Screen_size>1680x987</Screen_size>
 	<Draw_tools>
 		<Draw_mode>1</Draw_mode>
 		<Draw_:_>pixel</Draw_:_>
