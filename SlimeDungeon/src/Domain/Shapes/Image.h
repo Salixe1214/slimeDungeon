@@ -11,6 +11,7 @@ namespace shape {
 		
 		//shader d'image
 		ofShader gaussianBlur;
+		ofShader shader;
 		ofImage image;
 		void draw() override;
 		bool contains(float x, float y) override;

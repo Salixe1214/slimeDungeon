@@ -11,6 +11,7 @@ namespace shape {
 		shapeId = "Image" + std::to_string(numImage);
 		//shader d'image
 		gaussianBlur.load("gaussianBlur.glsl");
+		shader.load("image_filter_330_vs.glsl", "image_filter_330_fs.glsl");
 		
 	}
 
@@ -18,20 +19,26 @@ namespace shape {
 
 	void Image::draw()
 	{
-		gaussianBlur.begin();
+		
+		shader.begin();
+		shader.setUniformTexture("image", image.getTexture(), 1);
+		shader.setUniform3f("tint", 159.0f, 178.0f, 0.0f);
+		shader.setUniform1f("factor", 0.618f);
+		/*gaussianBlur.begin();
 		gaussianBlur.setUniformTexture("texture", image.getTexture(), 1);
 		gaussianBlur.setUniform1i("kernelSize", 32);
 		gaussianBlur.setUniform1f("strength", 7.0);
 		gaussianBlur.setUniform1i("horizontalPass", 1);
-		
+		gaussianBlur.setUniform1i("horizontalPass", 0);*/
 		
 		ofNoFill();
 		ofSetColor(ofColor::white);
 		ofSetLineWidth(0);
 		
 		image.draw(position1.x, position1.y);
-		gaussianBlur.end();
-		//image.draw(position1.x + 500, position1.y);
+		shader.end();
+		//gaussianBlur.end();
+		image.draw(position1.x + 500, position1.y);
 	}
 
 	bool Image::contains(float x, float y)
