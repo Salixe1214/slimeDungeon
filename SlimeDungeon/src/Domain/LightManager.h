@@ -12,7 +12,7 @@ public:
 	bool drawLightGizmo;
 
 	void setup(glm::vec3 camInitialPos = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 1000),
-				glm::vec3 initialOrientation = glm::vec3(ofGetWidth() / 2, ofGetHeight() / 2, 0));
+				glm::vec3 initialOrientation = glm::vec3(0, 0, 0));
 	void update();
 	void draw();
 
@@ -29,7 +29,7 @@ public:
 							ofColor specularColor = ofColor(191, 191, 191));
 	void addPonctualLight(glm::vec3 pos, ofColor diffuseColor = ofColor(255, 255, 255), 
 							ofColor specularColor = ofColor(191, 191, 191));
-	void addSpotLight(glm::vec3 pos, glm::vec3 orientation, float spotCutoff = 500, float spotConcentration = 0.1,
+	void addSpotLight(glm::vec3 pos, glm::vec3 lookAt, float spotCutoff = 500, float spotConcentration = 0.1,
 		ofColor diffuseColor = ofColor(191, 191, 191), ofColor specularColor = ofColor(191, 191, 191));
 
 	void configureDirectionalLight(string dirId, glm::vec3 pos, glm::vec3 orientation, ofColor diffuseColor = ofColor(31, 255, 31),
@@ -44,6 +44,14 @@ public:
 	void setDirLightActive(bool p_isDirLightActive);
 	void setPonctLightActive(bool p_isPonctLightActive);
 	void setSpotLightActive(bool p_isSpotLightActive);
+
+	//editLights
+	void setActiveLightDiffuseColor(ofColor diffuseColor);
+	void setActiveLightSpecularColor(ofColor specularColor);
+	void translateActiveLightPosX(float dx);
+	void translateActiveLightPosY(float dy);
+	void translateActiveLightPosZ(float dz);
+
 
 	LightManager(const LightManager&) = delete;
 	LightManager& operator=(const LightManager&) = delete;

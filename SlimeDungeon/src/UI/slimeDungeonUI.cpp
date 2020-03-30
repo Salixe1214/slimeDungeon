@@ -72,8 +72,25 @@ void SlimeDungeonUI::setup(){
 	lightingGroup.add(activeSpotLightBtn.setup("Spotlight On/Off", true));
 	lightingGroup.add(drawLightGizmoBtn.setup("Draw Lights gizmo", true));
 
-	scene.add(&lightingGroup);
+	//Edit Lighting
+	editLightingGroup.setup("Edit Lighting");
 
+	editLightingGroup.add(activeLightPosX.set("Active Lights dx", 0, -100, 100));
+	editLightingGroup.add(activeLightPosY.set("Active Lights dy", 0, -100, 100));
+	editLightingGroup.add(activeLightPosZ.set("Active Lights dz", 0, -100, 100));
+
+	editLightingGroup.add(activeLightDiffuseColor.set("Lights diffuse Color", ofColor(255, 255, 255), ofColor(0, 0), ofColor(255, 255)));
+	editLightingGroup.add(activeLightSpecularColor.set("Lights specular Color", ofColor(191, 191, 191), ofColor(0, 0), ofColor(255, 255)));
+	
+	//Ambient Light specific
+	editLightingGroup.add(activeAmbiantLightColor.set("Ambient Lights Color", ofColor(127, 127, 127), ofColor(0, 0), ofColor(255, 255)));
+
+	//Spot Light Specific
+	editLightingGroup.add(spotCutoff.set("Spot cutoff", 500, 0, 1000));
+	editLightingGroup.add(spotConcentration.set("Spot Concentration", 0.1, 0, 100));
+
+	scene.add(&lightingGroup);
+	scene.add(&editLightingGroup);
 
 	//gui
 	gui.setup("Toolbox"); 
@@ -157,6 +174,21 @@ void SlimeDungeonUI::setDefaultParameter() {
 	//Scale
 	prevScaleX = prevScaleY = 1.0f;
 
+
+	//Lighting
+	prevActiveLightPosX = 0.0;
+	prevActiveLightPosY = 0.0;
+	prevActiveLightPosZ = 0.0;
+	prevActiveLightDiffuseColor = ofColor(255, 255, 255);
+	prevActiveLightSpecularColor = ofColor(191, 191, 191);
+
+	//Ambient Light Specific
+	prevActiveAmbientLightColor = ofColor(127, 127, 127);
+
+	//Spot Light specific
+	prevSpotCutOff = 500.0;
+	prevSpotConcentration = 0.1;
+
 	//drawMode
 	prevDrawMode = true;
 	prevFill = true;
@@ -183,6 +215,9 @@ void SlimeDungeonUI::exit(){
 
 void SlimeDungeonUI::drawLightGizmoBtnPressed(bool &drawLightGizmoPressed) {
 	sdCtrl.setDrawLightGizmo(drawLightGizmoPressed);
+	prevActiveLightPosX = activeLightPosX = 0.0;
+	prevActiveLightPosY = activeLightPosY = 0.0;
+	prevActiveLightPosZ = activeLightPosZ = 0.0;
 }
 
 void SlimeDungeonUI::activeAmbientLightBtnPressed(bool &activeAmbientLightPressed) {
@@ -354,6 +389,39 @@ void SlimeDungeonUI::update() {
 		scaleX = prevScaleX = 1.0f;
 		scaleY = prevScaleY = 1.0f;
 
+	}
+
+	//Edit Lighting
+	bool aLightIsActive = activeSpotLightBtn || activeDirLightBtn || activePonctLightBtn;
+	if (aLightIsActive) {
+		if (prevActiveLightDiffuseColor != activeLightDiffuseColor) {
+			sdCtrl.setActiveLightDiffuseColor(activeLightDiffuseColor);
+			prevActiveLightDiffuseColor = activeLightDiffuseColor;
+		}
+
+		if (prevActiveLightSpecularColor != activeLightSpecularColor) {
+			sdCtrl.setActiveLightSpecularColor(activeLightSpecularColor);
+			prevActiveLightSpecularColor = activeLightSpecularColor;
+		}
+
+		if (prevActiveLightPosX != activeLightPosX) {
+			sdCtrl.translateActiveLightPosX(activeLightPosX - prevActiveLightPosX);
+			prevActiveLightPosX = activeLightPosX;
+		}
+		if (prevActiveLightPosY != activeLightPosY) {
+			sdCtrl.translateActiveLightPosY(activeLightPosY - prevActiveLightPosY);
+			prevActiveLightPosY = activeLightPosY;
+		}
+		if (prevActiveLightPosZ != activeLightPosZ) {
+			sdCtrl.translateActiveLightPosZ(activeLightPosZ - prevActiveLightPosZ);
+			prevActiveLightPosZ = activeLightPosZ;
+		}
+	}
+	if (activeAmbientLightBtn) {
+		if (prevActiveAmbientLightColor != activeAmbiantLightColor) {
+			sdCtrl.setActiveAmbientLightColor(activeAmbiantLightColor);
+			prevActiveAmbientLightColor = activeAmbiantLightColor;
+		}
 	}
 }
 

@@ -56,6 +56,15 @@ public:
 	void setPonctLightActive(bool isPonctLightActive);
 	void setSpotLightActive(bool isSpotLightActive);
 
+	//edit Lighting
+	void setActiveLightDiffuseColor(ofColor diffuseColor);
+	void setActiveLightSpecularColor(ofColor specularColor);
+	void setActiveAmbientLightColor(ofColor ambiantColor);
+	void translateActiveLightPosX(float dx);
+	void translateActiveLightPosY(float dy);
+	void translateActiveLightPosZ(float dz);
+
+
 	//Draw ---------------
 	void rendererDraw(ofParameter<ofColor>, ofParameter<ofColor>);
 	void setDrawMode(bool drawMode);

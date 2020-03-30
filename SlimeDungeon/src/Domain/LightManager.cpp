@@ -53,7 +53,6 @@ void LightManager::setup(glm::vec3 camInitialPos, glm::vec3 initialOrientation)
 
 void LightManager::update()
 {
-
 }
 
 void LightManager::draw()
@@ -65,7 +64,10 @@ void LightManager::draw()
 		if (isPonctLightActive)
 			for (auto light : ponctLightVec) light.ponctLight.draw();
 		if (isSpotLightActive)
-			for (auto light : spotLightVec) light.spotlight.draw();
+			for (auto light : spotLightVec) {
+				//cout << "Drawing spot " << light.spotlight.getPosition().x << endl;
+				light.spotlight.draw();
+			}
 		ofPopMatrix();
 	}
 
@@ -165,6 +167,7 @@ void LightManager::addDirectionalLight(glm::vec3 pos, glm::vec3 orientation, ofC
 	light.setOrientation(orientation);
 	light.setPosition(pos);
 	light.setDirectional();
+	//light.lookAt(orientation);
 	string idDir = "dir" + std::to_string(idDirLight);
 	dirLightVec.push_back(directionalLight(idDir, light));
 	idDirLight++;
@@ -182,15 +185,16 @@ void LightManager::addPonctualLight(glm::vec3 pos, ofColor diffuseColor, ofColor
 	idPonctLight++;
 }
 
-void LightManager::addSpotLight(glm::vec3 pos, glm::vec3 orientation, float spotCutoff, 
+void LightManager::addSpotLight(glm::vec3 pos, glm::vec3 lookAt, float spotCutoff, 
 								float spotConcentration, ofColor diffuseColor, ofColor specularColor)
 {
 	ofLight light;
 	light.setDiffuseColor(diffuseColor);
 	light.setSpecularColor(specularColor);
-	light.setOrientation(orientation);
+	//light.setOrientation(orientation);
 	light.setPosition(pos);
 	light.setSpotlight(spotCutoff, spotConcentration);
+	light.lookAt(lookAt);
 	string idSpot = "spot" + std::to_string(idSpotLight);
 	spotLightVec.push_back(spotLight(idSpot, light));
 	idSpotLight++;
@@ -265,3 +269,214 @@ void LightManager::setSpotLightActive(bool p_isSpotLightActive)
 	isSpotLightActive = p_isSpotLightActive;
 }
 
+void LightManager::setActiveLightDiffuseColor(ofColor diffuseColor)
+{
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+				light.ponctLight.setDiffuseColor(diffuseColor);
+		}
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+				light.dirLight.setDiffuseColor(diffuseColor);
+		}
+	}
+
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+				light.spotlight.setDiffuseColor(diffuseColor);
+		}
+	}
+}
+
+void LightManager::setActiveLightSpecularColor(ofColor specularColor)
+{
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+			light.ponctLight.setSpecularColor(specularColor);
+		}
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+			light.dirLight.setSpecularColor(specularColor);
+		}
+	}
+
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+			light.spotlight.setSpecularColor(specularColor);
+		}
+	}
+}
+
+void LightManager::translateActiveLightPosX(float dx)
+{
+	ofPushMatrix();
+	ofLight ligh;
+	glm::vec3 pos;
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+			pos = light.ponctLight.getPosition();
+			pos.x += dx;
+			ligh.setPosition(pos);
+			ligh.setDiffuseColor(light.ponctLight.getDiffuseColor());
+			ligh.setSpecularColor(light.ponctLight.getSpecularColor());
+			//light.dirLight.setPosition(pos);
+		}
+		ponctLightVec.clear();
+		addPonctualLight(ligh.getPosition(),ligh.getDiffuseColor(), ligh.getSpecularColor());
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+			pos = light.dirLight.getPosition();
+			pos.x += dx;
+			ligh.setPosition(pos);
+			ligh.setOrientation(light.dirLight.getOrientationEulerDeg());
+			ligh.setDiffuseColor(light.dirLight.getDiffuseColor());
+			ligh.setSpecularColor(light.dirLight.getSpecularColor());
+			//light.dirLight.setPosition(pos);
+		}
+		dirLightVec.clear();
+		addDirectionalLight(ligh.getPosition(), { 0,0,0 }, ligh.getDiffuseColor(), ligh.getSpecularColor());
+	}
+	
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+			/*cout << "reached here dx " << dx << endl;*/
+			pos = light.spotlight.getPosition();
+			pos.x += dx;
+			ligh.setPosition(pos);
+
+			ligh.setOrientation(light.spotlight.getOrientationEulerDeg());
+			ligh.setDiffuseColor(light.spotlight.getDiffuseColor());
+			ligh.setSpecularColor(light.spotlight.getSpecularColor());
+			ligh.setSpotlight(light.spotlight.getSpotlightCutOff(), light.spotlight.getSpotConcentration());
+			//cout << "posx before " << light.spotlight.getPosition().x << endl;
+			//light.spotlight.setPosition(pos);
+			//light.setSpot(ligh);
+			//light.spotlight = ligh;
+			//light.spotlight.setGlobalPosition(pos);
+			//cout << "posx after " << light.spotlight.getPosition().x << endl;
+		}
+		//TODO this is ugly. Pourquoi je ne peux pas changer la position??
+		spotLightVec.clear();
+		addSpotLight(ligh.getPosition(), { 0,0,0 }, ligh.getSpotlightCutOff(), ligh.getSpotConcentration(),
+			ligh.getDiffuseColor(), ligh.getSpecularColor());
+		
+	}
+	ofPopMatrix();
+}
+void LightManager::translateActiveLightPosY(float dy)
+{
+	ofPushMatrix();
+	ofLight ligh;
+	glm::vec3 pos;
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+			pos = light.ponctLight.getPosition();
+			pos.y += dy;
+			ligh.setPosition(pos);
+			ligh.setDiffuseColor(light.ponctLight.getDiffuseColor());
+			ligh.setSpecularColor(light.ponctLight.getSpecularColor());
+			//light.dirLight.setPosition(pos);
+		}
+		ponctLightVec.clear();
+		addPonctualLight(ligh.getPosition(), ligh.getDiffuseColor(), ligh.getSpecularColor());
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+			pos = light.dirLight.getPosition();
+			pos.y += dy;
+			ligh.setPosition(pos);
+			ligh.setOrientation(light.dirLight.getOrientationEuler());
+			ligh.setDiffuseColor(light.dirLight.getDiffuseColor());
+			ligh.setSpecularColor(light.dirLight.getSpecularColor());
+			//light.dirLight.setPosition(pos);
+		}
+		dirLightVec.clear();
+		addDirectionalLight(ligh.getPosition(), { 0,0,0 }, ligh.getDiffuseColor(), ligh.getSpecularColor());
+	}
+
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+			/*cout << "reached here dx " << dx << endl;*/
+			pos = light.spotlight.getPosition();
+			pos.y += dy;
+			ligh.setPosition(pos);
+
+			ligh.setOrientation(light.spotlight.getOrientationEuler());
+			ligh.setDiffuseColor(light.spotlight.getDiffuseColor());
+			ligh.setSpecularColor(light.spotlight.getSpecularColor());
+			ligh.setSpotlight(light.spotlight.getSpotlightCutOff(), light.spotlight.getSpotConcentration());
+			//cout << "posx before " << light.spotlight.getPosition().x << endl;
+			//light.spotlight.setPosition(pos);
+			//light.setSpot(ligh);
+			//light.spotlight = ligh;
+			//light.spotlight.setGlobalPosition(pos);
+			//cout << "posx after " << light.spotlight.getPosition().x << endl;
+		}
+		//TODO this is ugly. Pourquoi je ne peux pas changer la position??
+		spotLightVec.clear();
+		addSpotLight(ligh.getPosition(), { 0,0,0 }, ligh.getSpotlightCutOff(), ligh.getSpotConcentration(),
+			ligh.getDiffuseColor(), ligh.getSpecularColor());
+
+	}
+	ofPopMatrix();
+}
+void LightManager::translateActiveLightPosZ(float dz)
+{
+	ofPushMatrix();
+	ofLight ligh;
+	glm::vec3 pos;
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+			pos = light.ponctLight.getPosition();
+			pos.z += dz;
+			ligh.setPosition(pos);
+			ligh.setDiffuseColor(light.ponctLight.getDiffuseColor());
+			ligh.setSpecularColor(light.ponctLight.getSpecularColor());
+			//light.dirLight.setPosition(pos);
+		}
+		ponctLightVec.clear();
+		addPonctualLight(ligh.getPosition(), ligh.getDiffuseColor(), ligh.getSpecularColor());
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+			pos = light.dirLight.getPosition();
+			pos.z += dz;
+			ligh.setPosition(pos);
+			ligh.setOrientation(light.dirLight.getOrientationEuler());
+			ligh.setDiffuseColor(light.dirLight.getDiffuseColor());
+			ligh.setSpecularColor(light.dirLight.getSpecularColor());
+			//light.dirLight.setPosition(pos);
+		}
+		dirLightVec.clear();
+		addDirectionalLight(ligh.getPosition(), { 0,0,0 }, ligh.getDiffuseColor(), ligh.getSpecularColor());
+	}
+
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+			/*cout << "reached here dx " << dx << endl;*/
+			pos = light.spotlight.getPosition();
+			pos.z += dz;
+			ligh.setPosition(pos);
+
+			ligh.setOrientation(light.spotlight.getOrientationEulerDeg());
+			ligh.setDiffuseColor(light.spotlight.getDiffuseColor());
+			ligh.setSpecularColor(light.spotlight.getSpecularColor());
+			ligh.setSpotlight(light.spotlight.getSpotlightCutOff(), light.spotlight.getSpotConcentration());
+			//cout << "posx before " << light.spotlight.getPosition().x << endl;
+			//light.spotlight.setPosition(pos);
+			//light.setSpot(ligh);
+			//light.spotlight = ligh;
+			//light.spotlight.setGlobalPosition(pos);
+			//cout << "posx after " << light.spotlight.getPosition().x << endl;
+		}
+		//TODO this is ugly. Pourquoi je ne peux pas changer la position??
+		spotLightVec.clear();
+		addSpotLight(ligh.getPosition(), { 0,0,0 }, ligh.getSpotlightCutOff(), ligh.getSpotConcentration(),
+			ligh.getDiffuseColor(), ligh.getSpecularColor());
+
+	}
+	ofPopMatrix();
+}

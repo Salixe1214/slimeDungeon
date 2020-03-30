@@ -301,3 +301,33 @@ void SlimeDungeonController::setSpotLightActive(bool isSpotLightActive)
 {
 	lightManager->setSpotLightActive(isSpotLightActive);
 }
+
+void SlimeDungeonController::setActiveLightDiffuseColor(ofColor diffuseColor)
+{
+	lightManager->setActiveLightDiffuseColor(diffuseColor);
+}
+
+void SlimeDungeonController::setActiveLightSpecularColor(ofColor specularColor)
+{
+	lightManager->setActiveLightSpecularColor(specularColor);
+}
+
+void SlimeDungeonController::setActiveAmbientLightColor(ofColor ambiantColor)
+{
+	lightManager->setAmbientColorLight(ambiantColor);
+}
+
+void SlimeDungeonController::translateActiveLightPosX(float dx)
+{
+	lightManager->translateActiveLightPosX(dx);
+}
+
+void SlimeDungeonController::translateActiveLightPosY(float dy)
+{
+	lightManager->translateActiveLightPosY(dy);
+}
+
+void SlimeDungeonController::translateActiveLightPosZ(float dz)
+{
+	lightManager->translateActiveLightPosZ(dz);
+}

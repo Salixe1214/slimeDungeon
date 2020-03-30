@@ -151,6 +151,22 @@ public:
 	void activePonctLightBtnPressed(bool &activePonctLightPressed);
 	void activeSpotLightBtnPressed(bool &activeSpotLightPressed);
 
+	//Edit Lighting
+	ofxGuiGroup editLightingGroup;
+	ofParameter<float> activeLightPosX, activeLightPosY, activeLightPosZ;
+	float prevActiveLightPosX, prevActiveLightPosY, prevActiveLightPosZ;
+	ofParameter<ofColor> activeLightDiffuseColor, activeLightSpecularColor;
+	ofColor prevActiveLightDiffuseColor, prevActiveLightSpecularColor;
+	
+	//Ambiant Light Specific
+	ofParameter<ofColor> activeAmbiantLightColor;
+	ofColor prevActiveAmbientLightColor;
+
+	//Spot Light Specific
+	ofParameter<float> spotCutoff, spotConcentration;
+	float prevSpotCutOff, prevSpotConcentration;
+
+
 	//Panel
 	ofxPanel gui;
 	ofxPanel scene;
