@@ -38,6 +38,21 @@ namespace shape {
 		image.draw(position1.x, position1.y);
 		shader.end();
 		//gaussianBlur.end();
+		
+		
+		int numPix = image.getWidth() * image.getHeight();
+		for (size_t i = 0; i < numPix; i++)
+		{
+			ofColor colorTmp;
+			colorTmp = image.getColor(i);
+			colorTmp.setBrightness(50);
+			image.setColor(i,colorTmp);
+		}
+		
+
+		
+		
+		
 		image.draw(position1.x + 500, position1.y);
 	}
 
