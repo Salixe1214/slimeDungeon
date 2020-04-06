@@ -69,7 +69,9 @@ void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 	camFront.setVFlip(true);
 	camFront.setFov(402);
 
-	
+	//Material
+	activeMaterialName = "";
+	initMaterialList();
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -127,6 +129,44 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 	fillColor = p_fillColor;
 	strokeColor = p_strokeColor;
 }
+
+void Renderer::initMaterialList()
+{
+	ofMaterial tmpMaterial;
+	string materialName = "Dark";
+
+	tmpMaterial.setAmbientColor(ofColor(10, 10, 10));
+	tmpMaterial.setDiffuseColor(ofColor(30, 30, 30));
+	tmpMaterial.setEmissiveColor(ofColor(0, 0, 0));
+	tmpMaterial.setSpecularColor(ofColor(10, 10, 10));
+	tmpMaterial.setShininess(1.0f);
+	materialList.insert(std::make_pair(materialName, tmpMaterial));
+
+	materialName = "Sparkling";
+
+	tmpMaterial.setAmbientColor(ofColor(200, 200, 200));
+	tmpMaterial.setDiffuseColor(ofColor(200, 200, 200));
+	tmpMaterial.setEmissiveColor(ofColor(0, 0, 0));
+	tmpMaterial.setSpecularColor(ofColor(200, 200, 200));
+	tmpMaterial.setShininess(6.0f);
+	materialList.insert(std::make_pair(materialName, tmpMaterial));
+
+	materialName = "Plain";
+
+	tmpMaterial.setAmbientColor(ofColor(191, 191, 191));
+	tmpMaterial.setDiffuseColor(ofColor(10, 0, 10));
+	tmpMaterial.setEmissiveColor(ofColor(0, 0, 0));
+	tmpMaterial.setSpecularColor(ofColor(150, 150, 150));
+	tmpMaterial.setShininess(3.0f);
+	materialList.insert(std::make_pair(materialName, tmpMaterial));
+}
+
+void Renderer::setActiveMaterialName(string p_activeMaterialName)
+{
+	activeMaterialName = p_activeMaterialName;
+}
+
+
 
 void Renderer::exit() {
 	while (!pastVecShapes.empty())
@@ -405,6 +445,10 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 	posY1 = posY1 + cameraOffsetY;
 	posY2 = posY2 + cameraOffsetY;
 
+	ofMaterial newShapeMaterial;
+	if (!activeMaterialName.empty()) {
+		newShapeMaterial = materialList.find(activeMaterialName)->second;
+	}
 
 
 	if (fillShape) fillingColor = fillColor;
@@ -456,23 +500,23 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		break;
 	case VectorPrimitiveType::slime3d:
 		vecShapes.push_back(new shape::Shape3D(type, (posX1 + posX2)/2, (posY1 + posY2)/2, 0, 0.5, 
-			fillingColor, "slime1.dae"));
+			fillingColor, "slime1.dae", newShapeMaterial));
 		break;
 	case VectorPrimitiveType::monster3d:
 		vecShapes.push_back(new shape::Shape3D(type, (posX1 + posX2) / 2, (posY1 + posY2) / 2, 0, 0.5,
-			fillingColor, "monster.dae"));
+			fillingColor, "monster.dae", newShapeMaterial));
 		break;
 	case VectorPrimitiveType::ballFace:
 		vecShapes.push_back(new shape::Shape3D(type, (posX1 + posX2) / 2, (posY1 + posY2) / 2, 0, 0.5,
-			fillingColor, "ball.dae"));
+			fillingColor, "ball.dae", newShapeMaterial));
 		break;
 	case VectorPrimitiveType::cube:
 		vecShapes.push_back(new shape::Box(type, posX1, posY1, posX2, posY2,
-			fillingColor, ofColor(strokeColor), strokeWidth));
+			fillingColor, ofColor(strokeColor), strokeWidth, newShapeMaterial));
 		break;
 	case VectorPrimitiveType::ball:
 		vecShapes.push_back(new shape::Ball(type, posX1, posY1, posX2, posY2,
-			fillingColor, ofColor(strokeColor), strokeWidth, ballTextureFile));
+			fillingColor, ofColor(strokeColor), strokeWidth, newShapeMaterial, ballTextureFile));
 		break;
 	default:
 		break;

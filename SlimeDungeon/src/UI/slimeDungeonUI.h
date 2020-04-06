@@ -39,6 +39,18 @@ public:
 	ofxTextField currentShapeType;
 	ofxTextField shapeKeyLegend;
 
+	// --Shape Material
+	ofxGuiGroup materialGroup;
+	ofxToggle darkMaterialBtn;
+	ofxToggle sparklingMaterialBtn;
+	ofxToggle plainMaterialBtn;
+
+	//void oneMaterialBtnPressed(string materialName, bool materialBtnPressed);
+	void darkMaterialBtnPressed(bool &darkMaterialBtnPressed);
+	void sparklingMaterialBtnPressed(bool &sparklingMaterialBtnPressed);
+	void plainMaterialBtnPressed(bool &plainMaterialBtnPressed);
+
+
 	// --Ball texture --
 	ofxGuiGroup ballTextureGroup;
 	ofxToggle ballScaleTextureBtn;

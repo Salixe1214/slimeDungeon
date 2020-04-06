@@ -6,18 +6,6 @@ void SlimeDungeonUI::setup(){
 
 	setDefaultParameter();
 
-	//Listeners
-	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
-	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
-	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
-
-	drawLightGizmoBtn.addListener(this, &SlimeDungeonUI::drawLightGizmoBtnPressed);
-	activeAmbientLightBtn.addListener(this, &SlimeDungeonUI::activeAmbientLightBtnPressed);
-	activeDirLightBtn.addListener(this, &SlimeDungeonUI::activeDirLightBtnPressed);
-	activePonctLightBtn.addListener(this, &SlimeDungeonUI::activePonctLightBtnPressed);
-	activeSpotLightBtn.addListener(this, &SlimeDungeonUI::activeSpotLightBtnPressed);
-
-
 	//Scene
 
 	// Ajout éventuel d'un affichage des éléments de la scène dans une hiérarchie
@@ -109,10 +97,14 @@ void SlimeDungeonUI::setup(){
 	drawToolsGroup.add(filled.set("Remplir", true));
 	drawToolsGroup.add(shapeColor1.set("Fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 
-	//int tmpHeight = drawToolsGroup.getHeight(); TODO permettre à la légende de s'afficher dans une seule boîte
-	//shapeKeyLegend.setDefaultHeight(100);
-	//drawToolsGroup.add(shapeKeyLegend.setup("Legend : \n", "1 : pixel \n 2 : line \n 3 : Rectangle \n 4 : Square \n 5 : Ellipse \n 6 : Circle"));
-	//drawToolsGroup.setDefaultHeight(tmpHeight);
+
+
+	materialGroup.setup("Shape material");
+	materialGroup.add(darkMaterialBtn.setup("Dark", false));
+	materialGroup.add(sparklingMaterialBtn.setup("Sparkling", false));
+	materialGroup.add(plainMaterialBtn.setup("Plain", false));
+
+	drawToolsGroup.add(&materialGroup);
 
 	ballTextureGroup.setup("Ball texture");
 	ballTextureGroup.add(ballScaleTextureBtn.setup("Scale ball", false));
@@ -152,6 +144,23 @@ void SlimeDungeonUI::setup(){
 
 	light.setPosition(0, 0, 1000);
 
+	//Listeners
+	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
+	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
+	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
+
+	drawLightGizmoBtn.addListener(this, &SlimeDungeonUI::drawLightGizmoBtnPressed);
+	activeAmbientLightBtn.addListener(this, &SlimeDungeonUI::activeAmbientLightBtnPressed);
+	activeDirLightBtn.addListener(this, &SlimeDungeonUI::activeDirLightBtnPressed);
+	activePonctLightBtn.addListener(this, &SlimeDungeonUI::activePonctLightBtnPressed);
+	activeSpotLightBtn.addListener(this, &SlimeDungeonUI::activeSpotLightBtnPressed);
+
+	//darkMaterialBtn.addListener(this, &SlimeDungeonUI::oneMaterialBtnPressed);
+	//sparklingMaterialBtn.addListener(this, &SlimeDungeonUI::oneMaterialBtnPressed);
+	//plainMaterialBtn.addListener(this, &SlimeDungeonUI::oneMaterialBtnPressed);
+	darkMaterialBtn.addListener(this, &SlimeDungeonUI::darkMaterialBtnPressed);
+	sparklingMaterialBtn.addListener(this, &SlimeDungeonUI::sparklingMaterialBtnPressed);
+	plainMaterialBtn.addListener(this, &SlimeDungeonUI::plainMaterialBtnPressed);
 }
 
 
@@ -210,8 +219,53 @@ void SlimeDungeonUI::exit(){
 	activeSpotLightBtn.removeListener(this, &SlimeDungeonUI::activeSpotLightBtnPressed);
 	drawLightGizmoBtn.removeListener(this, &SlimeDungeonUI::drawLightGizmoBtnPressed);
 
+	darkMaterialBtn.removeListener(this, &SlimeDungeonUI::darkMaterialBtnPressed);
+	sparklingMaterialBtn.removeListener(this, &SlimeDungeonUI::sparklingMaterialBtnPressed);
+	plainMaterialBtn.removeListener(this, &SlimeDungeonUI::plainMaterialBtnPressed);
+
 	sdCtrl.publishExitEvent();
 }
+
+
+//void SlimeDungeonUI::oneMaterialBtnPressed(string materialName, bool materialBtnPressed) {
+//
+//	if (materialBtnPressed) {
+//		for (auto materialBtn : materialBtns) {
+//			materialBtn = false;
+//		}
+//		cout << materialName<< " turned on" << endl;
+//		//sdCtrl.setActiveMaterialName(materialName);
+//	}
+//}
+
+void SlimeDungeonUI::darkMaterialBtnPressed(bool &darkMaterialBtnPressed) {
+	if (darkMaterialBtnPressed) {
+		sparklingMaterialBtn = false;
+		plainMaterialBtn = false;
+		sdCtrl.setActiveMaterialName(darkMaterialBtn.getName());
+	}
+	else sdCtrl.setActiveMaterialName("");
+}
+
+void SlimeDungeonUI::sparklingMaterialBtnPressed(bool &sparklingMaterialBtnPressed) {
+	if (sparklingMaterialBtnPressed) {
+		darkMaterialBtn = false;
+		plainMaterialBtn = false;
+		sdCtrl.setActiveMaterialName(sparklingMaterialBtn.getName());
+	}
+	else sdCtrl.setActiveMaterialName("");
+}
+
+void SlimeDungeonUI::plainMaterialBtnPressed(bool &plainMaterialBtnPressed) {
+	if (plainMaterialBtnPressed) {
+		darkMaterialBtn = false;
+		sparklingMaterialBtn = false;
+		sdCtrl.setActiveMaterialName(plainMaterialBtn.getName());
+	}
+	else sdCtrl.setActiveMaterialName("");
+}
+
+
 
 void SlimeDungeonUI::drawLightGizmoBtnPressed(bool &drawLightGizmoPressed) {
 	sdCtrl.setDrawLightGizmo(drawLightGizmoPressed);

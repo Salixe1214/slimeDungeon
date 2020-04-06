@@ -17,9 +17,16 @@ namespace shape {
 		model.setRotation(0, rotation.z, 0, 0, 1);
 		mode = ofPolyRenderMode::OF_MESH_FILL;
 
-		ofDisableArbTex();
-		ofLoadImage(texture, "texture/ballTexture/moltenBall.jpg");
+		//ofDisableArbTex();
+		//ofLoadImage(texture, "texture/ballTexture/moltenBall.jpg");
 
+	}
+
+	Shape3D::Shape3D(VectorPrimitiveType p_shapeType, float x, float y, float z, float sizeRatio, ofColor p_fillColor, string modelName, ofMaterial p_material, glm::vec3 p_rotation)
+		:Shape3D(p_shapeType, x, y, z, sizeRatio,
+			p_fillColor, modelName, p_rotation)
+	{
+		setMaterial(p_material);
 	}
 
 	Shape3D::Shape3D(VectorPrimitiveType p_shapeType, float x, float y, float z, float sizeRatio,
@@ -36,11 +43,13 @@ namespace shape {
 	void Shape3D::draw()
 	{
 		model.disableMaterials();
+		shapeMaterial.begin();
 		ofSetColor(fillColor);
 		//texture.generateMipmap();
 		//texture.bind();
 		model.draw(mode);
 		//texture.unbind();
+		shapeMaterial.end();
 
 	}
 

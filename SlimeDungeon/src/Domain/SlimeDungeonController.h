@@ -75,6 +75,9 @@ public:
 
 	void exportImg(ofImage imgToExport, string filename) const;
 
+	// -- Material
+	void setActiveMaterialName(string activeMaterialName);
+
 	// -- texture
 	void setBallTextureFile(string p_ballTextureFile);
 

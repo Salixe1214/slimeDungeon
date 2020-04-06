@@ -26,6 +26,14 @@ namespace shape {
 	}
 
 	Shape::Shape(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
+					ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, 
+						ofMaterial p_material, glm::vec3 p_rotation): shapeMaterial(p_material)
+	{
+		Shape(p_shapeType, x1, y1, x2, y2,
+			 p_fillColor, p_strokeColor, p_strokeWidth, p_rotation);
+	}
+
+	Shape::Shape(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
 		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool filterX2Y2, glm::vec3 p_rotation) :
 		shapeType(p_shapeType), fillColor(p_fillColor), strokeColor(p_strokeColor), strokeWidth(p_strokeWidth), rotation(p_rotation)
 	{
@@ -61,6 +69,11 @@ namespace shape {
 		position2.x = middleX + (position2.x - middleX) * sx;
 		position1.y = middleY + (position1.y - middleY) * sy;
 		position2.y = middleY + (position2.y - middleY) * sy;
+	}
+
+	void Shape::setMaterial(ofMaterial newMaterial)
+	{
+		shapeMaterial = newMaterial;
 	}
 
 	void Shape::setPosition1(float x1, float y1)

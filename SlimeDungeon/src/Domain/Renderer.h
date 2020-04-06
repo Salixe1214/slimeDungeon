@@ -140,6 +140,13 @@ public:
 	void drawCursor(float x, float y) const;
 	void removeLastAddedVectorShape();
 
+	//Material
+	std::unordered_map<std::string, ofMaterial> materialList;
+	string activeMaterialName;
+	void initMaterialList();
+	void setActiveMaterialName(string p_activeMaterialName);
+
+
 	// --texture
 	string ballTextureFile;
 	void setBallTextureFile(string p_ballTextureFile);

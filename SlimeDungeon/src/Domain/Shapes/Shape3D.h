@@ -8,6 +8,9 @@ namespace shape {
 	public:
 		Shape3D(VectorPrimitiveType p_shapeType, float x, float y, float z, float sizeRatio, 
 			ofColor p_fillColor, string modelName, glm::vec3 p_rotation = { 0,0,0 });
+
+		Shape3D(VectorPrimitiveType p_shapeType, float x, float y, float z, float sizeRatio,
+			ofColor p_fillColor, string modelName, ofMaterial p_material, glm::vec3 p_rotation = { 0,0,0 });
 		Shape3D(VectorPrimitiveType p_shapeType, float x, float y, float z, float sizeRatio, 
 			ofColor p_fillColor,  bool sampleShape, string modelName, glm::vec3 p_rotation = { 0, 270,0 });
 

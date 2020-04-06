@@ -18,11 +18,16 @@ namespace shape {
 
 		if (!p_textureFile.empty()) {
 			loadTexture(p_textureFile);
-			/*loadTexture("texture/ballTexture/moltenBall.jpg");*/
-		//	textureFile = "earth.jpg";
-		//ofDisableArbTex();
-		//ofLoadImage(texture, textureFile);
 		}
+	}
+
+	Ball::Ball(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth,
+		ofMaterial p_material, string p_textureFile, glm::vec3 p_rotation) :
+		Ball(p_shapeType, x1, y1, x2, y2,
+			p_fillColor, p_strokeColor, p_strokeWidth, p_textureFile, p_rotation)
+	{
+		setMaterial(p_material);
 	}
 
 	//Constructeur pour les formes temporaires
@@ -47,36 +52,24 @@ namespace shape {
 		float centerX = position1.x + (position2.x - position1.x) / 2;
 		float diameter = position2.x - position1.x;
 		float centerY = position1.y + (position2.y - position1.y) / 2;
-
+		
 		ofFill();
 		ofSetLineWidth(0);
 		ofSetColor(fillColor);
 		if (texture.isAllocated()) {
-			//ofDisableAlphaBlending();
-			//ofEnableDepthTest();
-			//ofLight light;
-			//ofEasyCam cam;
-			//cam.setPosition(100, 100, -200);
-			//light.enable();
-			//light.setPosition(ofVec3f(100, 100, 200));
-			//light.lookAt(ofVec3f(0, 0, 0));
-			//ofSpherePrimitive sp;
-			/*ofDisableArbTex();*/	
-			//ofLoadImage(texture, "sporeBall.jpg");
+
 			texture.generateMipmap();
-			//texture.draw(50, 50, 50);
-
-			//cout << "passed here" << endl;
-
-			//cam.begin();
+			shapeMaterial.begin();
 			texture.bind();
 			sphere.draw();
 			texture.unbind();
-			//cam.end();
+			shapeMaterial.end();
 		}
 		else {
 			//fill
+			shapeMaterial.begin();
 			sphere.draw();
+			shapeMaterial.end();
 
 			//Line
 			ofSetLineWidth(strokeWidth);

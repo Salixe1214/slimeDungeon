@@ -181,6 +181,11 @@ void SlimeDungeonController::exportImg(ofImage imgToExport, string filename) con
 	ctrlRenderer.exportImg(imgToExport, filename);
 }
 
+void SlimeDungeonController::setActiveMaterialName(string activeMaterialName)
+{
+	ctrlRenderer.setActiveMaterialName(activeMaterialName);
+}
+
 void SlimeDungeonController::setBallTextureFile(string p_ballTextureFile)
 {
 	ctrlRenderer.setBallTextureFile(p_ballTextureFile);
