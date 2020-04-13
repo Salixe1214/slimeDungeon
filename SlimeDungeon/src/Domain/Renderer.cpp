@@ -191,7 +191,7 @@ void Renderer::draw()
 	lightManager->draw();
 
 	// Cubemap
-	//paysage.draw();
+	paysage.draw();
 
 	highlightSelectedShape();
 
@@ -803,23 +803,6 @@ void Renderer::addEmptyCatmullRom()
 	CatmullRomSpline catRom = CatmullRomSpline();
 	catRomSplines.insert(std::make_pair(catRom.getId(), catRom));
 	setActiveCatRomSplineId(catRom.getId());
-
-	//TODO remove
-	//curMouse = ofPoint(-50, -50);
-	//addActiveCatmullRomPoint();
-	//curMouse = ofPoint(55, 200);
-	//addActiveCatmullRomPoint();
-	//curMouse = ofPoint(150, 155);
-	//addActiveCatmullRomPoint();
-	//curMouse = ofPoint(250, 0);
-	//addActiveCatmullRomPoint();
-	//curMouse = ofPoint(225, -50);
-	//addActiveCatmullRomPoint();
-	//curMouse = ofPoint(175, -100);
-	//addActiveCatmullRomPoint();
-	
-	//catmullRomShow = true; 
-
 }
 
 void Renderer::addCatmullRom(std::vector<ofPoint> ctrlPt)
