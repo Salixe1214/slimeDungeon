@@ -94,6 +94,14 @@ public:
 	void setRendererIsMousePressed(bool mouseIsPressed);
 
 
+	//Catmull-Rom
+	void setCatRomShow(bool catRomShow);
+	void addEmptyCatRom();
+	string getActiveCatRomId();
+	void addCatRomPt();
+	void nextCatRomSpline();
+	void deleteActiveCatRomSpline();
+
 
 
 private:

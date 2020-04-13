@@ -97,8 +97,7 @@ void SlimeDungeonUI::setup(){
 	drawToolsGroup.add(filled.set("Remplir", true));
 	drawToolsGroup.add(shapeColor1.set("Fill color", ofColor(110, 100, 140), ofColor(0, 0), ofColor(255, 255)));
 
-
-
+	//Material
 	materialGroup.setup("Shape material");
 	materialGroup.add(darkMaterialBtn.setup("Dark", false));
 	materialGroup.add(sparklingMaterialBtn.setup("Sparkling", false));
@@ -106,11 +105,25 @@ void SlimeDungeonUI::setup(){
 
 	drawToolsGroup.add(&materialGroup);
 
+	//Texture
 	ballTextureGroup.setup("Ball texture");
 	ballTextureGroup.add(ballScaleTextureBtn.setup("Scale ball", false));
 	ballTextureGroup.add(ballSporeTextureBtn.setup("Spore ball", false));
 	ballTextureGroup.add(ballMoltenTextureBtn.setup("Molten ball", false));
 	drawToolsGroup.add(&ballTextureGroup);
+
+
+	//Spline
+	catRomGroup.setup("Catmull-Rom spline");
+
+	catRomGroup.add(catRomShowBtn.setup("Show spline", true));
+	catRomGroup.add(catRomEditBtn.setup("Edit spline", false));
+	catRomGroup.add(activeCatRomSpline.setup("Active spline id", noSplineMsg));
+	catRomGroup.add(catRomNextSplineBtn.setup("Next spline"));
+	catRomGroup.add(catRomAddSplineBtn.setup("Add new spline"));
+	catRomGroup.add(catRomDeleteSplineBtn.setup("Delete active spline"));
+
+	drawToolsGroup.add(&catRomGroup);
 
 	//Import Tool
 	importToolsGroup.setup("Import tools");
@@ -135,6 +148,7 @@ void SlimeDungeonUI::setup(){
 	instructions.push_back("Utiliser 9, 0 et \"-\" pour tracer des formes 3D");
 	instructions.push_back("Utiliser \"b\" pour tracer une boule");
 	instructions.push_back("Utiliser \"c\" pour tracer un cube");
+	instructions.push_back("Utiliser p pour activer le traçage d'une spline de Catmull-Rom");
 	instructions.push_back("h pour cacher l'interface");
 	instructions.push_back("x pour enregistrer les parametres");
 	instructions.push_back("l pour charger les parametres");
@@ -149,6 +163,16 @@ void SlimeDungeonUI::setup(){
 	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
 
+
+	//catRom
+	catRomEditBtn.addListener(this, &SlimeDungeonUI::catRomEditBtnPressed);
+	catRomShowBtn.addListener(this, &SlimeDungeonUI::catRomShowBtnPressed);
+	catRomNextSplineBtn.addListener(this, &SlimeDungeonUI::nextSplineBtnPressed);
+	catRomAddSplineBtn.addListener(this, &SlimeDungeonUI::addSplineBtnPressed);
+	catRomDeleteSplineBtn.addListener(this, &SlimeDungeonUI::deleteSplineBtnPressed);
+
+
+	//Light
 	drawLightGizmoBtn.addListener(this, &SlimeDungeonUI::drawLightGizmoBtnPressed);
 	activeAmbientLightBtn.addListener(this, &SlimeDungeonUI::activeAmbientLightBtnPressed);
 	activeDirLightBtn.addListener(this, &SlimeDungeonUI::activeDirLightBtnPressed);
@@ -203,6 +227,10 @@ void SlimeDungeonUI::setDefaultParameter() {
 	prevFill = true;
 	bHide = false;
 
+	//Catmull-Rom spline
+	noSplineMsg = "No Spline";
+
+	//Texture
 	ballScaleTextureFile = "texture/ballTexture/scaleBall.jpg";
 	ballSporeTextureFile = "texture/ballTexture/sporeBall.jpg";
 	ballMoltenTextureFile = "texture/ballTexture/moltenBall.jpg";
@@ -213,6 +241,13 @@ void SlimeDungeonUI::exit(){
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	deleteShapeBtn.removeListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.removeListener(this, &SlimeDungeonUI::importImageBtnPressed);
+
+	catRomEditBtn.removeListener(this, &SlimeDungeonUI::catRomEditBtnPressed);
+	catRomShowBtn.removeListener(this, &SlimeDungeonUI::catRomShowBtnPressed);
+	catRomNextSplineBtn.removeListener(this, &SlimeDungeonUI::nextSplineBtnPressed);
+	catRomAddSplineBtn.removeListener(this, &SlimeDungeonUI::addSplineBtnPressed);
+	catRomDeleteSplineBtn.removeListener(this, &SlimeDungeonUI::deleteSplineBtnPressed);
+
 	activeAmbientLightBtn.removeListener(this, &SlimeDungeonUI::activeAmbientLightBtnPressed);
 	activeDirLightBtn.removeListener(this, &SlimeDungeonUI::activeDirLightBtnPressed);
 	activePonctLightBtn.removeListener(this, &SlimeDungeonUI::activePonctLightBtnPressed);
@@ -224,6 +259,41 @@ void SlimeDungeonUI::exit(){
 	plainMaterialBtn.removeListener(this, &SlimeDungeonUI::plainMaterialBtnPressed);
 
 	sdCtrl.publishExitEvent();
+}
+
+void SlimeDungeonUI::catRomEditBtnPressed(bool &isCatRomEditBtnPressed) {
+	if (isCatRomEditBtnPressed) {
+		drawMode = false;
+		prevDrawMode = false;
+	}
+}
+
+void SlimeDungeonUI::catRomShowBtnPressed(bool &isCatRomShowBtnPressed) {
+	sdCtrl.setCatRomShow(isCatRomShowBtnPressed);
+}
+
+void SlimeDungeonUI::addSplineBtnPressed()
+{
+	sdCtrl.addEmptyCatRom();
+	string tmp = sdCtrl.getActiveCatRomId();
+	if (tmp.empty()) activeCatRomSpline = noSplineMsg;
+	else activeCatRomSpline = tmp;
+}
+
+void SlimeDungeonUI::nextSplineBtnPressed()
+{
+	sdCtrl.nextCatRomSpline();
+	string tmp = sdCtrl.getActiveCatRomId();
+	if (tmp.empty()) activeCatRomSpline = noSplineMsg;
+	else activeCatRomSpline = tmp;
+}
+
+void SlimeDungeonUI::deleteSplineBtnPressed()
+{
+	sdCtrl.deleteActiveCatRomSpline();
+	string tmp = sdCtrl.getActiveCatRomId();
+	if (tmp.empty()) activeCatRomSpline = noSplineMsg;
+	else activeCatRomSpline = tmp;
 }
 
 
@@ -363,7 +433,9 @@ void SlimeDungeonUI::update() {
 	if (drawMode != prevDrawMode) {
 		sdCtrl.setDrawMode(drawMode);
 		prevDrawMode = drawMode;
+		catRomEditBtn = false;
 	}
+
 	if (filled != prevFill) {
 		sdCtrl.setFill(filled);
 		prevFill = filled;
@@ -754,6 +826,9 @@ void SlimeDungeonUI::keyReleased(int key){
 	case OF_KEY_LEFT_ALT:
 		sdCtrl.setCameraDollyBack(false);
 		break;
+	case 'p':
+		catRomEditBtn = !catRomEditBtn;
+		break;
 	default:
 		break;
 	}
@@ -825,6 +900,9 @@ void SlimeDungeonUI::mouseReleased(int x, int y, int button){
 		if (drawMode) {
 			sdCtrl.addShape();
 		}
+		else if (catRomEditBtn) {
+			sdCtrl.addCatRomPt();
+		}
 		else {
 			sdCtrl.checkClickInShape();
 		}
@@ -864,7 +942,7 @@ void SlimeDungeonUI::dragEvent(ofDragInfo info) {
 	}
 }
 
-	//--------------------------------------------------------------
+//--------------------------------------------------------------
 	bool SlimeDungeonUI::hasImgExtension(ofFile file) {
 		string fileExt = ofToLower(file.getExtension());
 		return (fileExt == "png");//|| fileExt == "jpg");

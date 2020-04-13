@@ -336,3 +336,34 @@ void SlimeDungeonController::translateActiveLightPosZ(float dz)
 {
 	lightManager->translateActiveLightPosZ(dz);
 }
+
+void SlimeDungeonController::setCatRomShow(bool catRomShow)
+{
+	ctrlRenderer.setCatmullRomShow(catRomShow);
+}
+
+void SlimeDungeonController::addEmptyCatRom()
+{
+	ctrlRenderer.addEmptyCatmullRom();
+}
+
+string SlimeDungeonController::getActiveCatRomId()
+{
+	return ctrlRenderer.getActiveCatRomSplineId();
+}
+
+void SlimeDungeonController::addCatRomPt()
+{
+	ctrlRenderer.addActiveCatmullRomPoint();
+}
+
+void SlimeDungeonController::nextCatRomSpline()
+{
+	ctrlRenderer.nextCatRomSpline();
+}
+
+void SlimeDungeonController::deleteActiveCatRomSpline()
+{
+	ctrlRenderer.deleteActiveCatRomSpline();
+}
+

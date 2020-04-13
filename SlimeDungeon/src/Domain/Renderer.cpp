@@ -72,6 +72,10 @@ void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 	//Material
 	activeMaterialName = "";
 	initMaterialList();
+
+	//Catmull-rom
+	catmullRomShow = true;
+	activeCatRomSplineId = "";
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -187,11 +191,12 @@ void Renderer::draw()
 	lightManager->draw();
 
 	// Cubemap
-	paysage.draw();
+	//paysage.draw();
 
 	highlightSelectedShape();
 
 	drawShapes();
+	if (catmullRomShow) drawCatmullRomSplines();
 
 	ofDisableDepthTest();
 
@@ -790,4 +795,97 @@ void Renderer::setCameraDollyFront(bool cameraDollyFront)
 void Renderer::setCameraDollyBack(bool cameraDollyBack)
 {
 	is_camera_move_backward = cameraDollyBack;
+}
+
+
+void Renderer::addEmptyCatmullRom()
+{
+	CatmullRomSpline catRom = CatmullRomSpline();
+	catRomSplines.insert(std::make_pair(catRom.getId(), catRom));
+	setActiveCatRomSplineId(catRom.getId());
+
+	//TODO remove
+	//curMouse = ofPoint(-50, -50);
+	//addActiveCatmullRomPoint();
+	//curMouse = ofPoint(55, 200);
+	//addActiveCatmullRomPoint();
+	//curMouse = ofPoint(150, 155);
+	//addActiveCatmullRomPoint();
+	//curMouse = ofPoint(250, 0);
+	//addActiveCatmullRomPoint();
+	//curMouse = ofPoint(225, -50);
+	//addActiveCatmullRomPoint();
+	//curMouse = ofPoint(175, -100);
+	//addActiveCatmullRomPoint();
+	
+	//catmullRomShow = true; 
+
+}
+
+void Renderer::addCatmullRom(std::vector<ofPoint> ctrlPt)
+{
+	CatmullRomSpline catRom = CatmullRomSpline(ctrlPt);
+	catRomSplines.insert(std::make_pair(catRom.getId(), catRom));
+	setActiveCatRomSplineId(catRom.getId());
+}
+
+void Renderer::drawCatmullRomSplines()
+{
+	for (auto cRSplines: catRomSplines) {
+		cRSplines.second.draw();
+	}
+}
+
+void Renderer::addActiveCatmullRomPoint()
+{
+	float _posX = curMouse.x - ofGetWidth() / 2;
+	float _posY = curMouse.y - ofGetHeight() / 2;
+
+	// rotation
+	float posX = _posX * cos(glm::radians(offsetAngle)) - _posY * sin(glm::radians(offsetAngle));
+	float posY = _posX * sin(glm::radians(offsetAngle)) + _posY * cos(glm::radians(offsetAngle));
+
+	posX = posX + cameraOffsetX;
+	posY = posY + cameraOffsetY;
+	if (!catRomSplines.empty()) {
+		catRomSplines.find(activeCatRomSplineId)->second.addPoint(posX, posY);
+	}
+}
+
+void Renderer::setCatmullRomShow(bool p_catmullRomShow)
+{
+	catmullRomShow = p_catmullRomShow;
+}
+
+
+void Renderer::setActiveCatRomSplineId(string p_activeCatRomSplineId)
+{
+	if (!catRomSplines.empty()) {
+		activeCatRomSplineId = p_activeCatRomSplineId;
+		catRomSplineIt = catRomSplines.find(p_activeCatRomSplineId);
+	}
+}
+
+string Renderer::getActiveCatRomSplineId()
+{
+	return activeCatRomSplineId;
+}
+
+void Renderer::deleteActiveCatRomSpline()
+{
+	if (!catRomSplines.empty()) {
+		catRomSplines.erase(activeCatRomSplineId);
+		catRomSplineIt = catRomSplines.begin();
+		if (catRomSplines.empty()) activeCatRomSplineId = "";
+		else activeCatRomSplineId = catRomSplineIt->first;
+	}
+}
+
+void Renderer::nextCatRomSpline()
+{
+	if (!catRomSplines.empty()) {
+		catRomSplineIt++;
+		if (catRomSplineIt == catRomSplines.end()) catRomSplineIt = catRomSplines.begin();
+		activeCatRomSplineId = catRomSplineIt->first;
+	}
 }

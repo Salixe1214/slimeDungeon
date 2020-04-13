@@ -19,6 +19,7 @@
 #include "Domain/Shapes/Box.h"
 #include "Domain/Shapes/Ball.h"
 #include "Domain/Shapes/Image.h"
+#include "Domain/CatmullRomSpline.h"
 #include "ofxGui.h"
 #include <stack>
 
@@ -177,6 +178,21 @@ public:
 	// Cubemap
 	Cubemap paysage;
 	
+	//Catmull-Rom
+	std::unordered_map<string, CatmullRomSpline> catRomSplines;
+	std::unordered_map<string, CatmullRomSpline>::iterator catRomSplineIt;
+	string activeCatRomSplineId;
+	bool catmullRomShow;
+
+	void addEmptyCatmullRom();
+	void addCatmullRom(std::vector <ofPoint> ctrlPt);
+	void drawCatmullRomSplines();
+	void addActiveCatmullRomPoint();
+	void setCatmullRomShow(bool p_catmullRomShow);
+	void setActiveCatRomSplineId(string p_activeCatRomSplineId);
+	string getActiveCatRomSplineId();
+	void deleteActiveCatRomSpline();
+	void nextCatRomSpline();
 	
 
 

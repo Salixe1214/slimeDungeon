@@ -178,6 +178,23 @@ public:
 	ofParameter<float> spotCutoff, spotConcentration;
 	float prevSpotCutOff, prevSpotConcentration;
 
+	//Catmull-Rom
+	bool catRomEdit;
+	string noSplineMsg;
+	ofxGuiGroup catRomGroup;
+	ofxToggle catRomEditBtn;
+	ofxToggle catRomShowBtn;
+	ofxTextField activeCatRomSpline;
+	ofxButton catRomNextSplineBtn;
+	ofxButton catRomAddSplineBtn;
+	ofxButton catRomDeleteSplineBtn;
+
+	void catRomShowBtnPressed(bool &isCatRomShowBtnPressed);
+	void catRomEditBtnPressed(bool &isCatRomEditBtnPressed);
+	void addSplineBtnPressed();
+	void nextSplineBtnPressed();
+	void deleteSplineBtnPressed();
+	
 
 	//Panel
 	ofxPanel gui;
