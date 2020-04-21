@@ -63,9 +63,9 @@ void SlimeDungeonUI::setup(){
 	//Edit Lighting
 	editLightingGroup.setup("Edit Lighting");
 
-	editLightingGroup.add(activeLightPosX.set("Active Lights dx", 0, -100, 100));
-	editLightingGroup.add(activeLightPosY.set("Active Lights dy", 0, -100, 100));
-	editLightingGroup.add(activeLightPosZ.set("Active Lights dz", 0, -100, 100));
+	editLightingGroup.add(activeLightPosX.set("Active Lights dx", 0, -500, 500));
+	editLightingGroup.add(activeLightPosY.set("Active Lights dy", 0, -500, 500));
+	editLightingGroup.add(activeLightPosZ.set("Active Lights dz", 0, -500, 500));
 
 	editLightingGroup.add(activeLightDiffuseColor.set("Lights diffuse Color", ofColor(255, 255, 255), ofColor(0, 0), ofColor(255, 255)));
 	editLightingGroup.add(activeLightSpecularColor.set("Lights specular Color", ofColor(191, 191, 191), ofColor(0, 0), ofColor(255, 255)));
