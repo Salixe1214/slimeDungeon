@@ -201,6 +201,11 @@ public:
 	ofxPanel scene;
 
 
+	ofShader mapTon;
+	ofImage screen;
+	bool screenB;
+
+
 
 private:
 	SlimeDungeonController sdCtrl;

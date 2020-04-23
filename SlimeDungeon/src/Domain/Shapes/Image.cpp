@@ -9,9 +9,9 @@ namespace shape {
 		static int numImage;
 		numImage++;
 		shapeId = "Image" + std::to_string(numImage);
-		//shader d'image
-		gaussianBlur.load("gaussianBlur.glsl");
-		shader.load("image_filter_330_vs.glsl", "image_filter_330_fs.glsl");
+		// shader d'image
+		//gaussianBlur.load("gaussianBlur.glsl");
+		shader.load("mapage_tonale_330_vs.glsl", "mapage_tonale_330_fs.glsl"/*"image_filter_330_vs.glsl", "image_filter_330_fs.glsl"*/);
 		
 	}
 
@@ -22,8 +22,8 @@ namespace shape {
 		
 		shader.begin();
 		shader.setUniformTexture("image", image.getTexture(), 1);
-		shader.setUniform3f("tint", 159.0f, 178.0f, 0.0f);
-		shader.setUniform1f("factor", 0.618f);
+		// shader.setUniform3f("tint", 159.0f, 178.0f, 0.0f);
+		// shader.setUniform1f("factor", 0.618f);
 		/*gaussianBlur.begin();
 		gaussianBlur.setUniformTexture("texture", image.getTexture(), 1);
 		gaussianBlur.setUniform1i("kernelSize", 32);

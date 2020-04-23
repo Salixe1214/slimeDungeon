@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::setup(){
+	screenB = false;
 	ofSetVerticalSync(true);
 
 	setDefaultParameter();
@@ -185,6 +186,8 @@ void SlimeDungeonUI::setup(){
 	darkMaterialBtn.addListener(this, &SlimeDungeonUI::darkMaterialBtnPressed);
 	sparklingMaterialBtn.addListener(this, &SlimeDungeonUI::sparklingMaterialBtnPressed);
 	plainMaterialBtn.addListener(this, &SlimeDungeonUI::plainMaterialBtnPressed);
+
+	mapTon.load("mapage_tonale_330_vs.glsl", "mapage_tonale_330_fs.glsl");
 }
 
 
@@ -549,6 +552,7 @@ void SlimeDungeonUI::update() {
 			prevActiveAmbientLightColor = activeAmbiantLightColor;
 		}
 	}
+
 }
 
 void SlimeDungeonUI::updateBallTexture() {
@@ -602,6 +606,11 @@ void SlimeDungeonUI::updateBallTexture() {
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::draw(){
+	
+	if (screenB) {
+		mapTon.begin();
+		mapTon.setUniformTexture("image", screen.getTexture(), 1);
+	}
 	light.enable();
     ofBackgroundGradient(backColor2, backColor1);
 
@@ -637,6 +646,7 @@ void SlimeDungeonUI::draw(){
 			ofDrawBitmapString(instructions[i], 10, gui.getHeight() + 30 + ( i * 12));
 		}
 	}
+	mapTon.end();
 }
 
 //--------------------------------------------------------------
@@ -725,6 +735,11 @@ void SlimeDungeonUI::keyPressed(int key){
 		break;
 	case 't':
 		sdCtrl.switchShaders();
+		break;
+	/*case 'm':
+		screen.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
+		screenB = true;
+		break;*/
 	default:
 		break;
 	}
