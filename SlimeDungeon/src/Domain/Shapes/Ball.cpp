@@ -2,7 +2,7 @@
 
 namespace shape {
 	Ball::Ball(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, string p_textureFile,
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool p_shade, string p_textureFile,
 		glm::vec3 p_rotation)
 		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth, p_rotation)
 	{
@@ -19,20 +19,25 @@ namespace shape {
 		if (!p_textureFile.empty()) {
 			loadTexture(p_textureFile);
 		}
+
+		mapage_tonale.load("mapage_tonale_330_vs.glsl", "mapage_tonale_330_fs.glsl");
+		shade = p_shade;
 	}
 
 	Ball::Ball(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth,
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool p_shade,
 		ofMaterial p_material, string p_textureFile, glm::vec3 p_rotation) :
 		Ball(p_shapeType, x1, y1, x2, y2,
-			p_fillColor, p_strokeColor, p_strokeWidth, p_textureFile, p_rotation)
+			p_fillColor, p_strokeColor, p_strokeWidth, p_shade, p_textureFile, p_rotation)
 	{
 		setMaterial(p_material);
+		mapage_tonale.load("mapage_tonale_330_vs.glsl", "mapage_tonale_330_fs.glsl");
+		shade = p_shade;
 	}
 
 	//Constructeur pour les formes temporaires
 	Ball::Ball(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool sampleShape, 
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool p_shade, bool sampleShape,
 		string p_textureFile, glm::vec3 p_rotation)
 		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth, p_rotation)
 	{
@@ -45,6 +50,8 @@ namespace shape {
 		if (!p_textureFile.empty()) {
 			loadTexture(p_textureFile);
 		}
+		mapage_tonale.load("mapage_tonale_330_vs.glsl", "mapage_tonale_330_fs.glsl");
+		shade = p_shade;
 	}
 
 	void Ball::draw()
@@ -56,14 +63,24 @@ namespace shape {
 		ofFill();
 		ofSetLineWidth(0);
 		ofSetColor(fillColor);
-		if (texture.isAllocated()) {
 
-			texture.generateMipmap();
+		if (shade) {
+			mapage_tonale.begin();
+		}
+		else {
 			shapeMaterial.begin();
+		}
+
+		if (texture.isAllocated()) {
+			mapage_tonale.setUniformTexture("image", texture, 1);
+
+			//texture.generateMipmap();
+
+
 			texture.bind();
 			sphere.draw();
 			texture.unbind();
-			shapeMaterial.end();
+			
 		}
 		else {
 			//fill
@@ -77,6 +94,9 @@ namespace shape {
 			ofNoFill();
 			sphere.draw();
 		}
+		mapage_tonale.end();
+
+		shapeMaterial.end();
 
 	}
 

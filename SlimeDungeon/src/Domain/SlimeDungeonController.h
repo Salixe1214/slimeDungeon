@@ -31,6 +31,8 @@ public:
 	void setCameraDollyBack(bool isCameraDollyBack);
 	void resetCam();
 
+	void switchShaders();
+
 
 	//Selection, etc.
 	void checkClickInShape();

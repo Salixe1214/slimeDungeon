@@ -2,10 +2,10 @@
 <Toolbox>
 	<Fond_exterieur>0, 255, 0, 255</Fond_exterieur>
 	<Fond_interieur>0, 0, 0, 255</Fond_interieur>
-	<Screen_size>1680x987</Screen_size>
+	<Screen_size>1920x1027</Screen_size>
 	<Draw_tools>
 		<Draw_mode>1</Draw_mode>
-		<Draw_:_>pixel</Draw_:_>
+		<Draw_:_>ball</Draw_:_>
 		<Stroke_color>110, 100, 140, 255</Stroke_color>
 		<Remplir>1</Remplir>
 		<Fill_color>110, 100, 140, 255</Fill_color>
@@ -16,6 +16,16 @@
 			<Spore_ball>0</Spore_ball>
 			<Molten_ball>0</Molten_ball>
 		</Ball_texture>
+		<Shape_material>
+			<Dark>0</Dark>
+			<Sparkling>1</Sparkling>
+			<Plain>0</Plain>
+		</Shape_material>
+		<Catmull-Rom_spline>
+			<Show_spline>1</Show_spline>
+			<Edit_spline>0</Edit_spline>
+			<Active_spline_id>catmullRom5</Active_spline_id>
+		</Catmull-Rom_spline>
 	</Draw_tools>
 	<Capture_tools>
 		<Partial_Screenshot>0</Partial_Screenshot>

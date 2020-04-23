@@ -367,3 +367,7 @@ void SlimeDungeonController::deleteActiveCatRomSpline()
 	ctrlRenderer.deleteActiveCatRomSpline();
 }
 
+void SlimeDungeonController::switchShaders() {
+	ctrlRenderer.shade = !ctrlRenderer.shade;
+}
+

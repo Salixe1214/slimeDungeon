@@ -723,6 +723,8 @@ void SlimeDungeonUI::keyPressed(int key){
 	case OF_KEY_TAB:
 		sdCtrl.resetCam();
 		break;
+	case 't':
+		sdCtrl.switchShaders();
 	default:
 		break;
 	}

@@ -62,6 +62,8 @@ public:
 	bool is_camera_fov_wide;
 
 
+	bool shade;
+
 
 	float speedDelta;
 	float speedTranslation;

@@ -9,6 +9,7 @@ Renderer::Renderer()
 
 void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 {
+	shade = true;
 	offsetAngle = 0;
 	ofSetFrameRate(60);
 	ofSetSphereResolution(32);
@@ -330,7 +331,7 @@ void Renderer::drawSample()
 		break;
 	case VectorPrimitiveType::ball:
 		Ball(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, shade, sampleShape).draw();
 		break;
 	case VectorPrimitiveType::cube:
 		shape::Box(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
@@ -521,7 +522,7 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		break;
 	case VectorPrimitiveType::ball:
 		vecShapes.push_back(new shape::Ball(type, posX1, posY1, posX2, posY2,
-			fillingColor, ofColor(strokeColor), strokeWidth, newShapeMaterial, ballTextureFile));
+			fillingColor, ofColor(strokeColor), strokeWidth, shade, newShapeMaterial, ballTextureFile));
 		break;
 	default:
 		break;
