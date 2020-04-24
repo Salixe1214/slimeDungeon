@@ -12,6 +12,7 @@ namespace shape {
 		//shader d'image
 		ofShader gaussianBlur;
 		ofShader shader;
+		ofShader tonalMapping;
 		ofImage image;
 		void draw() override;
 		bool contains(float x, float y) override;
