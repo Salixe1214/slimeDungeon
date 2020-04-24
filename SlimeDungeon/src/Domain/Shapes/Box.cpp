@@ -11,7 +11,7 @@ namespace shape {
 		shapeId = "box" + std::to_string(numBox);
 		doShade = p_doShade;
 		noiseText.load("noise_330_vs.glsl", "noise_330_fs.glsl");
-		pixels.allocate(x2 - x1, y2 - y1, OF_PIXELS_RGBA);
+		pixels.allocate(abs(x2 - x1), abs(y2 - y1), OF_PIXELS_RGBA);
 		texture.allocate(pixels);
 	}
 
