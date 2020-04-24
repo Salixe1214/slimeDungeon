@@ -335,7 +335,7 @@ void Renderer::drawSample()
 		break;
 	case VectorPrimitiveType::cube:
 		shape::Box(shapeType, origineX, origineY, origineX + deltaX, origineY + deltaX,
-			ofColor(fillColor), ofColor(strokeColor), strokeWidth, sampleShape).draw();
+			ofColor(fillColor), ofColor(strokeColor), strokeWidth, shade, sampleShape).draw();
 		break;
 	default:
 		break;
@@ -518,7 +518,7 @@ void Renderer::addVectorShape(VectorPrimitiveType type)
 		break;
 	case VectorPrimitiveType::cube:
 		vecShapes.push_back(new shape::Box(type, posX1, posY1, posX2, posY2,
-			fillingColor, ofColor(strokeColor), strokeWidth, newShapeMaterial));
+			fillingColor, ofColor(strokeColor), strokeWidth, shade, newShapeMaterial));
 		break;
 	case VectorPrimitiveType::ball:
 		vecShapes.push_back(new shape::Ball(type, posX1, posY1, posX2, posY2,
