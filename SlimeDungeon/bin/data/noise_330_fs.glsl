@@ -4,6 +4,7 @@
 
 // attributs uniformes
 uniform sampler2D image;
+uniform float u_time;
 
 // attribut en entrée
 in vec2 surface_texcoord;
@@ -34,8 +35,8 @@ vec2 truchetPattern(in vec2 _st, in float _index){
 void main() {
     vec2 st = surface_texcoord.xy/vec2(1.0, 1.0).xy;
     st *= 10.0;
-    // st = (st-vec2(5.0))*(abs(sin(u_time*0.2))*5.);
-    // st.x += u_time*3.0;
+    st = (st-vec2(5.0))*(abs(sin(u_time*0.2))*5.);
+    st.x += u_time*3.0;
 
     vec2 ipos = floor(st);  // integer
     vec2 fpos = fract(st);  // fraction

@@ -38,6 +38,7 @@ namespace shape {
 		ofSetColor(fillColor);
 		if (doShade) {
 			noiseText.begin();
+			noiseText.setUniform1f("u_time", ofGetElapsedTimef());
 			texture.bind();
 			ofDrawBox((position1.x + position2.x) / 2, (position1.y + position2.y) / 2, 0, position2.x - position1.x);
 			texture.unbind();
