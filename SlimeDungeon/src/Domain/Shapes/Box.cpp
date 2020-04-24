@@ -37,6 +37,7 @@ namespace shape {
 		ofSetLineWidth(0);
 		ofSetColor(fillColor);
 		if (doShade) {
+			// Si les shaders sont activés (touche t)
 			noiseText.begin();
 			noiseText.setUniform1f("u_time", ofGetElapsedTimef());
 			texture.bind();
@@ -45,6 +46,7 @@ namespace shape {
 			noiseText.end();
 		}
 		else {
+			// Si les shaders sont désactivés (touche t)
 			shapeMaterial.begin();
 			ofDrawBox((position1.x + position2.x) / 2, (position1.y + position2.y) / 2, 0, position2.x - position1.x);
 			shapeMaterial.end();
