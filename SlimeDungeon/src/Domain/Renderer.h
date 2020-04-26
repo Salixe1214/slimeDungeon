@@ -24,6 +24,7 @@
 #include <stack>
 
 #include "Cubemap.h"
+#include "Domain\BezierSurface.h"
 
 using namespace shape;
 
@@ -195,6 +196,8 @@ public:
 	string getActiveCatRomSplineId();
 	void deleteActiveCatRomSpline();
 	void nextCatRomSpline();
+
+	BezierSurface bs;
 	
 
 
