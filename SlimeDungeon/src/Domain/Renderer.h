@@ -197,7 +197,9 @@ public:
 	void deleteActiveCatRomSpline();
 	void nextCatRomSpline();
 
+	// Surface de Bezier
 	BezierSurface bs;
+	bool dessinerBS;
 	
 
 

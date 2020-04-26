@@ -367,6 +367,38 @@ void SlimeDungeonController::deleteActiveCatRomSpline()
 	ctrlRenderer.deleteActiveCatRomSpline();
 }
 
+void SlimeDungeonController::communiquerBS(bool b, int c, int p, int d, bool m)
+{
+	ctrlRenderer.dessinerBS = b;
+	ctrlRenderer.bs.selectedCurve = c;
+	ctrlRenderer.bs.selectedPoint = p;
+	if (m) {
+		switch (d)
+		{
+		case 0: // +x
+			ctrlRenderer.bs.ctrPoints[c][p].x += 10;
+			break;
+		case 1: // -x
+			ctrlRenderer.bs.ctrPoints[c][p].x -= 10;
+			break;
+		case 2: // +y
+			ctrlRenderer.bs.ctrPoints[c][p].y += 10;
+			break;
+		case 3: // -y
+			ctrlRenderer.bs.ctrPoints[c][p].y -= 10;
+			break;
+		case 4: // +z
+			ctrlRenderer.bs.ctrPoints[c][p].z += 10;
+			break;
+		case 5: // -z
+			ctrlRenderer.bs.ctrPoints[c][p].z -= 10;
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 void SlimeDungeonController::switchShaders() {
 	ctrlRenderer.shade = !ctrlRenderer.shade;
 }

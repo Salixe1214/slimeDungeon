@@ -9,7 +9,7 @@ BezierSurface::BezierSurface()
 	shader.load("noise_330_vs.glsl", "noise_330_fs.glsl");
 
 	// Resolution de la courbe
-	resolution = 100;
+	resolution = 16;
 
 	// Initialisation des points de controle
 	controlPointsInitialized();
@@ -47,14 +47,19 @@ void BezierSurface::draw()
 	ofDisableAlphaBlending();
 	ofEnableDepthTest();
 
-	shader.begin();
-	shader.setUniform1f("u_time", ofGetElapsedTimef()/10);
+	ofSetColor(ofColor::red);
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
-			ofDrawSphere(ctrPoints[i][j], 1);
+
+			if (i != selectedCurve || j != selectedPoint) {
+				shader.begin();
+				shader.setUniform1f("u_time", ofGetElapsedTimef() / 10);
+				ofDrawSphere(ctrPoints[i][j], 3);
+				shader.end();
+			}
+			else ofDrawSphere(ctrPoints[i][j], 3);
 		}
 	}
-	shader.end();
 
 	ofSetColor(ofColor::white);
 	evalBezierSurface();

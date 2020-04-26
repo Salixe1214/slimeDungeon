@@ -104,6 +104,9 @@ public:
 	void nextCatRomSpline();
 	void deleteActiveCatRomSpline();
 
+	// Bezier Bicubique
+	void communiquerBS(bool, int c, int p, int d, bool m);
+
 
 
 private:

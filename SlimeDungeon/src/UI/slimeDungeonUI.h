@@ -199,12 +199,20 @@ public:
 	//Panel
 	ofxPanel gui;
 	ofxPanel scene;
+	ofxPanel bezSurface;
 
 
 	ofShader mapTon;
 	ofImage screen;
 	bool screenB;
 
+
+	// Surface de Bézier
+	ofParameter<bool> drawSurface;
+	ofParameter<int> curve;
+	ofParameter<int> point;
+	ofParameter<int> direction;
+	ofxButton move;
 
 
 private:

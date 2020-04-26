@@ -188,6 +188,22 @@ void SlimeDungeonUI::setup(){
 	plainMaterialBtn.addListener(this, &SlimeDungeonUI::plainMaterialBtnPressed);
 
 	mapTon.load("mapage_tonale_330_vs.glsl", "mapage_tonale_330_fs.glsl");
+
+	// Surface de Bézier bicubique
+	bezSurface.setup("Surface de Bezier");
+	bezSurface.setPosition(gui.getWidth() + 15, 150);
+	
+	// Parametre pour dessiner ou non la surface
+	bezSurface.add(drawSurface.set(false));
+	drawSurface.setName("Dessiner la surface");
+
+	// Parametres de modiffication de la courbe
+	bezSurface.add(curve.set("Courbe", 0, 0, 3));
+	bezSurface.add(point.set("Point", 0, 0, 3));
+
+	bezSurface.add(direction.set("Direction", 0, 0, 5));
+	bezSurface.add(move.setup("Bouger"));
+
 }
 
 
@@ -553,6 +569,8 @@ void SlimeDungeonUI::update() {
 		}
 	}
 
+	sdCtrl.communiquerBS(drawSurface, curve, point, direction, move);
+
 }
 
 void SlimeDungeonUI::updateBallTexture() {
@@ -640,6 +658,7 @@ void SlimeDungeonUI::draw(){
 	if( !bHide ){
 		gui.draw();
 		scene.draw();
+		bezSurface.draw();
 
 		// Writing instructions
 		for (unsigned int i = 0; i < instructions.size() ; i++) {

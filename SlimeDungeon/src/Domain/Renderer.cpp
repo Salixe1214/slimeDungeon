@@ -197,7 +197,7 @@ void Renderer::draw()
 	highlightSelectedShape();
 
 	drawShapes();
-	bs.draw();
+	if(dessinerBS) bs.draw();
 	if (catmullRomShow) drawCatmullRomSplines();
 
 	ofDisableDepthTest();
