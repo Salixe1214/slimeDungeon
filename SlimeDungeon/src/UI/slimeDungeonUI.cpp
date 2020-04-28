@@ -129,6 +129,8 @@ void SlimeDungeonUI::setup(){
 	//Import Tool
 	importToolsGroup.setup("Import tools");
 	importToolsGroup.add(importImageBtn.setup("Import images"));
+	importToolsGroup.add(BlurImage.setup("Blur Image", false));
+
 	//Capture Tool
 	captureToolsGroup.setup("Capture tools");
 	captureToolsGroup.add(screenshotBtn.setup("Screenshot"));
@@ -163,6 +165,7 @@ void SlimeDungeonUI::setup(){
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
+	BlurImage.addListener(this, &SlimeDungeonUI::BlurBtnPressed);
 
 
 	//catRom
@@ -278,6 +281,10 @@ void SlimeDungeonUI::exit(){
 	plainMaterialBtn.removeListener(this, &SlimeDungeonUI::plainMaterialBtnPressed);
 
 	sdCtrl.publishExitEvent();
+}
+
+void SlimeDungeonUI::BlurBtnPressed(bool &isBlurBtnPressed) {
+	sdCtrl.BlurOn(isBlurBtnPressed);
 }
 
 void SlimeDungeonUI::catRomEditBtnPressed(bool &isCatRomEditBtnPressed) {
@@ -441,6 +448,8 @@ void SlimeDungeonUI::exportScreenshot() {
 
 //--------------------------------------------------------------
 void SlimeDungeonUI::update() {
+
+	
 
 	if (recordMode) { //Timer to force exit of recordMode
 		if (recordModeEntryTime + recordModeTimeLimit <= (size_t)ofGetSeconds()) {

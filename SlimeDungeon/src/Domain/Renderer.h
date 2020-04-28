@@ -6,6 +6,7 @@
 #pragma once
 #include "ofMain.h"
 #include "Domain/LightManager.h"
+#include "ofxOpenCv.h"
 
 #include "Domain/Shapes/TileShape.h"
 #include "Domain/Shapes/SlimeShape.h"
@@ -92,6 +93,7 @@ public:
 	int stride;
 	bool partialScreenPressed;
 	bool mouseOverGUI;
+	bool isBlurOn;
 
 	int index;
 	float strokeWidthDefault;
@@ -132,6 +134,8 @@ public:
 	ofPoint mousePress;
 	ofParameter<ofColor> fillColor, strokeColor;
 	bool mouseIsPressed, isDrawing, fillShape;
+
+
 	
 	void setFill(bool fill);
 	void setDrawMode(bool drawMode);
@@ -139,6 +143,7 @@ public:
 
 	void addVectorShape(VectorPrimitiveType type);
 	void addImageShape(ofImage image, ofPoint imgPoint);
+	void isTheBlurOn(bool isBlur);
 
 	void drawZone(float x1, float y1, float x2, float y2) const;
 	void drawCursor(float x, float y) const;

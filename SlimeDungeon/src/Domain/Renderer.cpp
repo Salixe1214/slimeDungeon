@@ -266,6 +266,7 @@ void Renderer::drawShapes() {
 			ofPopMatrix();
 		}
 		else vecShapes.at(i)->draw();
+		
 	}
 }
 
@@ -579,7 +580,7 @@ void Renderer::drawCursor(float x, float y) const
 	else if (mouseIsPressed) {
 		cursor3.draw(x - 20, y - 20, 40, 40);
 	}else{
-		if ( /*mouseOverGUI*/(curMouse.x > 0 && curMouse.x < 230 && curMouse.y > 0 && curMouse.y < 500) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 650)) {
+		if ( /*mouseOverGUI*/(curMouse.x > 0 && curMouse.x < 420 && curMouse.y > 0 && curMouse.y < 800) || (curMouse.x > ofGetWidth() - 250 && curMouse.x < ofGetWidth() && curMouse.y > 0 && curMouse.y < 850)) {
 			ofShowCursor();
 		}
 		else if(partialScreenPressed){
@@ -633,6 +634,10 @@ void Renderer::deleteSelectedShape() {
 			pastVecShapes.pop();
 		}
 	}
+}
+
+void Renderer::isTheBlurOn(bool isBlur) {
+	isBlurOn = true;
 }
 
 void Renderer::setFill(bool fill) {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Domain/Shapes/Shape.h"
+#include "ofxOpenCv.h"
 
 namespace shape {
 
@@ -10,7 +11,7 @@ namespace shape {
 			float p_strokeWidth, glm::vec3 p_rotation = { 0,0,0 });
 		
 		//shader d'image
-		ofShader gaussianBlur;
+		
 		ofShader shader;
 		ofShader tonalMapping;
 		ofImage image;

@@ -73,6 +73,9 @@ public:
 	//ImportTools--------------------------------------------
 	ofxGuiGroup importToolsGroup;
 	ofxButton importImageBtn;
+	ofxButton BlurImage;
+	bool isBlur;
+	void BlurBtnPressed(bool& isBlurBtnPressed);
 
 	vector <std::pair<ofImage, ofPoint>> draggedImages;
 	ofPoint dragPt;
