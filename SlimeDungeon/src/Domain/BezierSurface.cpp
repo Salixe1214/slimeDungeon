@@ -3,10 +3,10 @@
 BezierSurface::BezierSurface()
 {
 	// Pour la texture
-	pix.allocate(256, 256, OF_PIXELS_RGBA);
-	tex.allocate(pix);
-	ofLoadImage(tex, "texture/ballTexture/scaleBall.jpg");
-	shader.load("noise_330_vs.glsl", "noise_330_fs.glsl");
+	ofLoadImage(tex, "texture/normalMap/planks_diff.jpg");
+	ofLoadImage(normalMap, "texture/normalMap/planks_nm.jpg");
+	texShader.load("noise_330_vs.glsl", "noise_330_fs.glsl");
+	nmShade.load("nm_330_vs.glsl", "nm_330_fs.glsl");
 
 	// Resolution de la courbe
 	resolution = 16;
@@ -52,23 +52,34 @@ void BezierSurface::draw()
 		for (int j = 0; j < 4; ++j) {
 
 			if (i != selectedCurve || j != selectedPoint) {
-				shader.begin();
-				shader.setUniform1f("u_time", ofGetElapsedTimef() / 10);
+				texShader.begin();
+				texShader.setUniform1f("u_time", ofGetElapsedTimef() / 10);
 				ofDrawSphere(ctrPoints[i][j], 3);
-				shader.end();
+				texShader.end();
 			}
 			else ofDrawSphere(ctrPoints[i][j], 3);
 		}
 	}
+
+
 
 	ofSetColor(ofColor::white);
 	evalBezierSurface();
 	tex.generateMipmap();
 
 	// Dessin de la courbe
-	tex.bind();
+	nmShade.begin();
+	nmShade.setUniformTexture("brick", normalMap, 1);
+	nmShade.setUniformTexture("nmTex", normalMap, 1);
+	nmShade.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
+	nmShade.setUniform3f("color_diffuse", 0.0f, 0.6f, 0.6f);
+	nmShade.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
+	nmShade.setUniform1f("brightness", bright);
+	nmShade.setUniform3f("light_position", position);
+
 	curveMesh.draw();
-	tex.unbind();
+
+	nmShade.end();
 
 	ofEnableArbTex();
 	ofEnableAlphaBlending();

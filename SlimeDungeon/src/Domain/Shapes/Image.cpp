@@ -2,9 +2,11 @@
 namespace shape {
 
 	Image::Image(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofImage p_image,
-		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, glm::vec3 p_rotation)
+		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool bl, bool tn, glm::vec3 p_rotation)
 		:Shape(p_shapeType, x1, y1, x2, y2, p_fillColor, p_strokeColor, p_strokeWidth)
 	{
+		blurOn = bl;
+		tonalOn = tn;
 		image = p_image;
 		static int numImage;
 		numImage++;
@@ -21,21 +23,25 @@ namespace shape {
 	{
 		
 
-		
-		tonalMapping.begin();
-		tonalMapping.setUniformTexture("image", image.getTexture(), 1);
-		ofNoFill();
-		ofSetColor(ofColor::white);
-		ofSetLineWidth(0);
-		
-		
-		image.draw(position1.x, position1.y);
-		tonalMapping.end();
+		if (tonalOn) {
+			tonalMapping.begin();
+			tonalMapping.setUniformTexture("image", image.getTexture(), 1);
+			ofNoFill();
+			ofSetColor(ofColor::white);
+			ofSetLineWidth(0);
+
+
+			image.draw(position1.x, position1.y);
+			tonalMapping.end();
+		}
 		
 		//test
 		image.draw(position1.x, position1.y + 500);
-		CV_BLUR;
-		image.draw(position1.x + 500, position1.y);
+
+		if (blurOn) {
+			CV_BLUR;
+			image.draw(position1.x + 500, position1.y);
+		}
 		
 		int numPix = image.getWidth() * image.getHeight();
 		for (size_t i = 0; i < numPix; i++)

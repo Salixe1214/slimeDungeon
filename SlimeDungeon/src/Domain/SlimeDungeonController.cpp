@@ -118,9 +118,10 @@ void SlimeDungeonController::addImage(ofImage image, ofPoint imgPoint) {
 	ctrlRenderer.addImageShape(image, imgPoint);
 }
 
-void SlimeDungeonController::BlurOn(bool isBlurOn)
+void SlimeDungeonController::BlurOn(bool isBlurOn, bool isTonOn)
 {
-	ctrlRenderer.isTheBlurOn(isBlurOn);
+	ctrlRenderer.blOn = isBlurOn;
+	ctrlRenderer.tnOn = isTonOn;
 }
 
 void SlimeDungeonController::setFill(bool fill)

@@ -133,6 +133,12 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 	// Update des couleurs en temps réel (pour le sample)
 	fillColor = p_fillColor;
 	strokeColor = p_strokeColor;
+
+	bs.ambient = lightManager->getAmbiant();
+	bs.diffuse = lightManager->getDiffuse();
+	bs.specular = lightManager->getSpecular();
+	bs.bright = 32.0f;
+	bs.position = lightManager->getPosition();
 }
 
 void Renderer::initMaterialList()
@@ -549,7 +555,10 @@ void Renderer::addImageShape(ofImage image, ofPoint imgPoint) {
 	posY1 = imgPoint.y;
 	posX2 = posX1 + image.getWidth();
 	posY2 = posY1 + image.getHeight();
-	vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1 - 500, posY1 - 500, posX2 - 500, posY2 - 500, image, fillingColor, ofColor(strokeColor), strokeWidth));
+	vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1 - 500, posY1 - 500, posX2 - 500,
+																			posY2 - 500, image, 
+																			fillingColor, ofColor(strokeColor), 
+																			strokeWidth, blOn, tnOn));
 }
 
 void Renderer::drawZone(float x1, float y1, float x2, float y2) const

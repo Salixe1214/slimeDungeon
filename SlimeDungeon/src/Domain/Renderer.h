@@ -206,7 +206,9 @@ public:
 	BezierSurface bs;
 	bool dessinerBS;
 	
-
+	// images
+	bool blOn;
+	bool tnOn;
 
 
 private:

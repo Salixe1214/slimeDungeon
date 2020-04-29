@@ -33,7 +33,16 @@ public:
 	ofMesh curveMesh;
 	ofPixels pix;
 	ofTexture tex;
-	ofShader shader;
+	ofTexture normalMap;
+	ofShader texShader;
+	ofShader nmShade;
+
+	// Lumière
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float bright;
+	glm::vec3 position;
 
 	int factorial(int n) {
 		if (n > 1) return n*factorial(n - 1);
