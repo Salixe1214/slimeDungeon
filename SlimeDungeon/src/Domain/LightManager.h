@@ -52,6 +52,13 @@ public:
 	void translateActiveLightPosY(float dy);
 	void translateActiveLightPosZ(float dz);
 
+	// getter
+	glm::vec3 getAmbiant() const;
+	glm::vec3 getDiffuse() const;
+	glm::vec3 getSpecular() const;
+	glm::vec3 getPosition() const;
+	//float getBright() const;
+
 
 	LightManager(const LightManager&) = delete;
 	LightManager& operator=(const LightManager&) = delete;

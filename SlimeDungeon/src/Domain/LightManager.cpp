@@ -480,3 +480,92 @@ void LightManager::translateActiveLightPosZ(float dz)
 	}
 	ofPopMatrix();
 }
+
+glm::vec3 LightManager::getAmbiant() const
+{
+	glm::vec3 ambientC = glm::vec3(ambientColorLight.r, ambientColorLight.g, ambientColorLight.b);
+	return ambientC;
+}
+
+glm::vec3 LightManager::getDiffuse() const
+{
+	ofColor color = ofColor(1.0);
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+			color += light.ponctLight.getDiffuseColor();
+		}
+		color /= ponctLightVec.size();
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+			color += light.dirLight.getDiffuseColor();
+		}
+		color /= dirLightVec.size();
+	}
+
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+			color += light.spotlight.getDiffuseColor();
+		}
+		color /= spotLightVec.size();
+	}
+	glm::vec3 diffuseC = glm::vec3(color.r, color.g, color.b);
+	return diffuseC;
+}
+
+glm::vec3 LightManager::getSpecular() const
+{
+	ofColor color = ofColor(1.0);
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+			color += light.ponctLight.getSpecularColor();
+		}
+		color /= ponctLightVec.size();
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+			color += light.dirLight.getSpecularColor();
+		}
+		color /= dirLightVec.size();
+	}
+
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+			color += light.spotlight.getSpecularColor();
+		}
+		color /= spotLightVec.size();
+	}
+	glm::vec3 diffuseC = glm::vec3(color.r, color.g, color.b);
+	return diffuseC;
+}
+
+glm::vec3 LightManager::getPosition() const
+{
+	glm::vec3 position = glm::vec3(0.0);
+	if (isPonctLightActive) {
+		for (auto light : ponctLightVec) {
+			position += light.ponctLight.getGlobalPosition();
+		}
+		position /= ponctLightVec.size();
+	}
+	if (isDirLightActive) {
+		for (auto light : dirLightVec) {
+			position += light.dirLight.getGlobalPosition();
+		}
+		position /= dirLightVec.size();
+	}
+
+	if (isSpotLightActive) {
+		for (auto light : spotLightVec) {
+			position += light.spotlight.getGlobalPosition();
+		}
+		position /= spotLightVec.size();
+	}
+	position = (glm::vec4(position, 0.0f)* ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+	return position;
+}
+
+/*float LightManager::getBright() const
+{
+	return 32.0f;
+}*/
