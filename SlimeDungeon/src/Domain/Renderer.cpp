@@ -637,7 +637,11 @@ void Renderer::deleteSelectedShape() {
 }
 
 void Renderer::isTheBlurOn(bool isBlur) {
-	isBlurOn = true;
+	if (isBlur) {
+		isBlurOn = true;
+	}
+	else { isBlurOn = false;
+	}
 }
 
 void Renderer::setFill(bool fill) {

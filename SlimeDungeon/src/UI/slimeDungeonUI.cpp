@@ -165,7 +165,7 @@ void SlimeDungeonUI::setup(){
 	screenshotBtn.addListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
-	BlurImage.addListener(this, &SlimeDungeonUI::BlurBtnPressed);
+	//BlurImage.addListener(this, &SlimeDungeonUI::BlurBtnPressed);
 
 
 	//catRom
@@ -263,6 +263,8 @@ void SlimeDungeonUI::exit(){
 	screenshotBtn.removeListener(this, &SlimeDungeonUI::screenshotBtnPressed);
 	deleteShapeBtn.removeListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.removeListener(this, &SlimeDungeonUI::importImageBtnPressed);
+	BlurImage.removeListener(this, &SlimeDungeonUI::BlurBtnPressed);
+
 
 	catRomEditBtn.removeListener(this, &SlimeDungeonUI::catRomEditBtnPressed);
 	catRomShowBtn.removeListener(this, &SlimeDungeonUI::catRomShowBtnPressed);

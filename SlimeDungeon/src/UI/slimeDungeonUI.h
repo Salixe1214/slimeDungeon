@@ -73,7 +73,7 @@ public:
 	//ImportTools--------------------------------------------
 	ofxGuiGroup importToolsGroup;
 	ofxButton importImageBtn;
-	ofxButton BlurImage;
+	ofxToggle BlurImage;
 	bool isBlur;
 	void BlurBtnPressed(bool& isBlurBtnPressed);
 
