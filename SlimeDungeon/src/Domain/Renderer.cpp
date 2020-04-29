@@ -139,6 +139,8 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 	bs.specular = lightManager->getSpecular();
 	bs.bright = 32.0f;
 	bs.position = lightManager->getPosition();
+
+	bs.cmvm = camFront.getModelViewMatrix();
 }
 
 void Renderer::initMaterialList()

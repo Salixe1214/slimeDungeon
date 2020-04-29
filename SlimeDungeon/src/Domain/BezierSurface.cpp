@@ -9,7 +9,7 @@ BezierSurface::BezierSurface()
 	nmShade.load("nm_330_vs.glsl", "nm_330_fs.glsl");
 
 	// Resolution de la courbe
-	resolution = 16;
+	resolution = 32;
 
 	// Initialisation des points de controle
 	controlPointsInitialized();
@@ -69,14 +69,15 @@ void BezierSurface::draw()
 
 	// Dessin de la courbe
 	nmShade.begin();
-	nmShade.setUniformTexture("brick", normalMap, 1);
+	nmShade.setUniformTexture("brick", tex, 0);
 	nmShade.setUniformTexture("nmTex", normalMap, 1);
-	nmShade.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-	nmShade.setUniform3f("color_diffuse", 0.0f, 0.6f, 0.6f);
-	nmShade.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
-	nmShade.setUniform1f("brightness", bright);
-	nmShade.setUniform3f("light_position", position);
+	nmShade.setUniform3f("color_ambient", 0.5f, 0.5f, 0.5f);
+	nmShade.setUniform3f("color_diffuse", 0.5f, 0.5f, 0.5f);
+	nmShade.setUniform3f("color_specular", 0.5f, 0.5f, 0.5f);
+	nmShade.setUniform1f("brightness", 15.0f);
+	nmShade.setUniform3f("light_position", glm::vec4(1000.0f) * cmvm);
 
+	//ofDrawSphere(250);
 	curveMesh.draw();
 
 	nmShade.end();

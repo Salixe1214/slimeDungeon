@@ -43,6 +43,7 @@ public:
 	glm::vec3 specular;
 	float bright;
 	glm::vec3 position;
+	glm::mat4 cmvm; //> cam modelviewmatrix
 
 	int factorial(int n) {
 		if (n > 1) return n*factorial(n - 1);
