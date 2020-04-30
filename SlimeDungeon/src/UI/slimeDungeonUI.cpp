@@ -130,6 +130,9 @@ void SlimeDungeonUI::setup(){
 	importToolsGroup.setup("Import tools");
 	importToolsGroup.add(importImageBtn.setup("Import images"));
 	importToolsGroup.add(BlurImage.setup("Blur Image", false));
+	importToolsGroup.add(mapTonalImage.setup("Mappage Tonnal", false));
+	importToolsGroup.add(gaussImage.setup("Gaussian Blur", false));
+	importToolsGroup.add(bilatImage.setup("Bilateral Smooth", false));
 
 	//Capture Tool
 	captureToolsGroup.setup("Capture tools");
@@ -166,6 +169,9 @@ void SlimeDungeonUI::setup(){
 	deleteShapeBtn.addListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.addListener(this, &SlimeDungeonUI::importImageBtnPressed);
 	BlurImage.addListener(this, &SlimeDungeonUI::BlurBtnPressed);
+	mapTonalImage.addListener(this, &SlimeDungeonUI::mapBtnPressed);
+	gaussImage.addListener(this, &SlimeDungeonUI::gaussBtnPressed);
+	bilatImage.addListener(this, &SlimeDungeonUI::bilatBtnPressed);
 
 
 	//catRom
@@ -264,6 +270,9 @@ void SlimeDungeonUI::exit(){
 	deleteShapeBtn.removeListener(this, &SlimeDungeonUI::deleteShapeBtnPressed);
 	importImageBtn.removeListener(this, &SlimeDungeonUI::importImageBtnPressed);
 	BlurImage.removeListener(this, &SlimeDungeonUI::BlurBtnPressed);
+	mapTonalImage.removeListener(this, &SlimeDungeonUI::mapBtnPressed);
+	gaussImage.removeListener(this, &SlimeDungeonUI::gaussBtnPressed);
+	bilatImage.removeListener(this, &SlimeDungeonUI::bilatBtnPressed);
 
 
 	catRomEditBtn.removeListener(this, &SlimeDungeonUI::catRomEditBtnPressed);
@@ -286,8 +295,21 @@ void SlimeDungeonUI::exit(){
 }
 
 void SlimeDungeonUI::BlurBtnPressed(bool &isBlurBtnPressed) {
-	sdCtrl.BlurOn(isBlurBtnPressed, isBlurBtnPressed);
+	sdCtrl.BlurOn(isBlurBtnPressed);
 }
+
+void SlimeDungeonUI::mapBtnPressed(bool& isMapBtnPressed) {
+	sdCtrl.mapTonOn(isMapBtnPressed);
+}
+
+void SlimeDungeonUI::gaussBtnPressed(bool& isGaussBtnPressed) {
+	sdCtrl.gaussOn(isGaussBtnPressed);
+}
+
+void SlimeDungeonUI::bilatBtnPressed(bool& isBilatBtnPressed) {
+	sdCtrl.bilatOn(isBilatBtnPressed);
+}
+
 
 void SlimeDungeonUI::catRomEditBtnPressed(bool &isCatRomEditBtnPressed) {
 	if (isCatRomEditBtnPressed) {

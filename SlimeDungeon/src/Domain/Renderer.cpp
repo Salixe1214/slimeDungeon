@@ -560,7 +560,7 @@ void Renderer::addImageShape(ofImage image, ofPoint imgPoint) {
 	vecShapes.push_back(new shape::Image(shape::VectorPrimitiveType::image, posX1 - 500, posY1 - 500, posX2 - 500,
 																			posY2 - 500, image, 
 																			fillingColor, ofColor(strokeColor), 
-																			strokeWidth, blOn, tnOn));
+																			strokeWidth, blOn, tnOn, gaOn, biOn));
 }
 
 void Renderer::drawZone(float x1, float y1, float x2, float y2) const

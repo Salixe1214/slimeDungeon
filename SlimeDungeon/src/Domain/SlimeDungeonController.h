@@ -74,7 +74,10 @@ public:
 	void addShape();
 	void addImage(ofImage image, ofPoint imgPoint);
 	void setFill(bool fill);
-	void BlurOn(bool isBlurOn, bool isTonOn);
+	void BlurOn(bool isBlurOn);
+	void mapTonOn(bool isMapOn);
+	void gaussOn(bool isGaussOn);
+	void bilatOn(bool isBilatOn);
 
 	void exportImg(ofImage imgToExport, string filename) const;
 

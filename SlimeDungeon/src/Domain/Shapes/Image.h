@@ -8,7 +8,7 @@ namespace shape {
 	{
 	public:
 		Image(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2, ofImage p_image, ofColor p_fillColor, ofColor p_strokeColor,
-			float p_strokeWidth, bool bl, bool tn, glm::vec3 p_rotation = { 0,0,0 });
+			float p_strokeWidth, bool bl, bool tn, bool ga, bool bi, glm::vec3 p_rotation = { 0,0,0 });
 		
 		//shader d'image
 		
@@ -21,6 +21,8 @@ namespace shape {
 
 		bool blurOn;
 		bool tonalOn;
+		bool gaussOn;
+		bool bilatOn;
 
 	private:
 
