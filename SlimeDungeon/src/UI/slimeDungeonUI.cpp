@@ -80,6 +80,7 @@ void SlimeDungeonUI::setup(){
 
 	scene.add(&lightingGroup);
 	scene.add(&editLightingGroup);
+	
 
 	//gui
 	gui.setup("Toolbox"); 
@@ -88,6 +89,16 @@ void SlimeDungeonUI::setup(){
     gui.add(backColor2.set("Fond interieur",ofColor::black,ofColor(0,0),ofColor(255,255)));
 
 	gui.add(screenSize.set("Screen size", ""));
+
+	//PBR sphere
+	group_material_factor.setup("PBR sphere");
+	
+	gui.add(&group_material_factor);
+	group_material_factor.add(drawSphere.setup("Draw shpere PBR", false));
+	group_material_factor.add(slider_metallic);
+	group_material_factor.add(slider_roughness);
+	group_material_factor.add(slider_occlusion);
+	group_material_factor.add(slider_brightness);
 
 	//Draw tools
 	drawToolsGroup.setup("Draw tools");	
@@ -172,6 +183,7 @@ void SlimeDungeonUI::setup(){
 	mapTonalImage.addListener(this, &SlimeDungeonUI::mapBtnPressed);
 	gaussImage.addListener(this, &SlimeDungeonUI::gaussBtnPressed);
 	bilatImage.addListener(this, &SlimeDungeonUI::bilatBtnPressed);
+	drawSphere.addListener(this, &SlimeDungeonUI::drawSpherePressed);
 
 
 	//catRom
@@ -412,6 +424,10 @@ void SlimeDungeonUI::activeSpotLightBtnPressed(bool &activeSpotLightPressed) {
 	sdCtrl.setSpotLightActive(activeSpotLightPressed);
 }
 
+void SlimeDungeonUI::drawSpherePressed(bool& drawSpherePressed) {
+	sdCtrl.drawSphereOn(drawSpherePressed);
+}
+
 
 void SlimeDungeonUI::deleteShapeBtnPressed() {
 	if (sdCtrl.isSelectedShapeEmpty()) ofSystemAlertDialog("Select at least one shape");
@@ -605,6 +621,11 @@ void SlimeDungeonUI::update() {
 	}
 
 	sdCtrl.communiquerBS(drawSurface, curve, point, direction, move);
+
+	sdCtrl.setMetallic(slider_metallic);
+	sdCtrl.setRoughness(slider_roughness);
+	sdCtrl.setOcclusion(slider_occlusion);
+	sdCtrl.setBrightness(slider_brightness);
 
 }
 

@@ -109,6 +109,27 @@ void SlimeDungeonController::setDrawType(int drawType)
 	}
 }
 
+void SlimeDungeonController::setMetallic(float p_metallic) {
+	ctrlRenderer.material_metallic = p_metallic;
+}
+
+void SlimeDungeonController::setRoughness(float p_roughness) {
+	ctrlRenderer.material_roughness = p_roughness;
+}
+
+void SlimeDungeonController::setOcclusion(float p_occlusion) {
+	ctrlRenderer.material_occlusion = p_occlusion;
+}
+
+void SlimeDungeonController::setBrightness(float p_brightness) {
+	ctrlRenderer.material_brightness = p_brightness;
+}
+
+void SlimeDungeonController::drawSphereOn(bool p_sphereOn) {
+	ctrlRenderer.drawSphereOn = p_sphereOn;
+}
+
+
 void SlimeDungeonController::addShape()
 {
 	ctrlRenderer.addVectorShape(ctrlRenderer.shapeType);

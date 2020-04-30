@@ -35,6 +35,8 @@ namespace shape {
 		shade = p_shade;
 	}
 
+
+
 	//Constructeur pour les formes temporaires
 	Ball::Ball(VectorPrimitiveType p_shapeType, float x1, float y1, float x2, float y2,
 		ofColor p_fillColor, ofColor p_strokeColor, float p_strokeWidth, bool p_shade, bool sampleShape,
@@ -63,6 +65,8 @@ namespace shape {
 		ofFill();
 		ofSetLineWidth(0);
 		ofSetColor(fillColor);
+
+		
 
 		if (shade) {
 			mapage_tonale.begin();
@@ -97,6 +101,8 @@ namespace shape {
 		mapage_tonale.end();
 
 		shapeMaterial.end();
+
+		
 
 	}
 

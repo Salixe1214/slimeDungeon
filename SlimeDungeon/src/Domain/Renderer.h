@@ -212,6 +212,22 @@ public:
 	bool gaOn;
 	bool biOn;
 
+	//PBR sphere
+	float material_metallic;
+	float material_roughness;
+	float material_occlusion;
+	float material_brightness;
+	bool drawSphereOn;
+	ofVec3f position_sphere;
+
+	ofImage texture_diffuse;
+	ofImage texture_metallic;
+	ofImage texture_roughness;
+	ofImage texture_occlusion;
+
+	ofShader shader_pbr;
+	ofShader* shader;
+
 
 private:
 	void drawShapes();
