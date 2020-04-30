@@ -207,6 +207,8 @@ void SlimeDungeonUI::setup(){
 	bezSurface.add(direction.set("Direction", 0, 0, 5));
 	bezSurface.add(move.setup("Bouger"));
 
+
+
 }
 
 
@@ -675,6 +677,31 @@ void SlimeDungeonUI::draw(){
 		for (unsigned int i = 0; i < instructions.size() ; i++) {
 			ofDrawBitmapString(instructions[i], 10, gui.getHeight() + 30 + ( i * 12));
 		}
+
+		ofDrawBitmapString("- Pour afficher la surface \n"
+						   "  de Bézier bicubique,\n"
+						   "  appuyer sur \"Dessiner \n"
+						   "  la surface\"\n"
+						   "- Vous pouvez choisir la\n"
+						   "  courbe a modiffier avec\n"
+						   "  le slider \"Courbe\"\n"
+						   "- Vous pouvez choisir le\n"
+						   "  point de controle a\n"
+						   "  modiffier avec le slider\n"
+						   "  \"Point\"\n"
+						   "- Pour deplacer un point de\n"
+						   "  controle, vous devez choisir\n"
+						   "  une direction avec le slider\n"
+						   "  \"Direction\" et appuyer sur\n"
+						   "  \"Bouger\"\n"
+						   "- Directions:\n"
+						   "   0 = x positifs\n"
+						   "   1 = x negatifs\n"
+						   "   2 = y positifs\n"
+						   "   3 = y negatifs\n"
+						   "   4 = z positifs\n"
+						   "   5 = z negatifs",
+			bezSurface.getPosition().x, bezSurface.getPosition().y + bezSurface.getHeight() + 12);
 	}
 	mapTon.end();
 }

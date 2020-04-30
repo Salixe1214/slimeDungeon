@@ -78,7 +78,6 @@ void BezierSurface::draw()
 	nmShade.setUniform1f("brightness", 15.0f);
 	nmShade.setUniform3f("light_position", glm::vec4(position, 0.0f) * cmvm);
 
-	//ofDrawSphere(250);
 	curveMesh.draw();
 
 	nmShade.end();
