@@ -58,5 +58,5 @@ void main() {
     // Truchet (2 triangles)
     // color = step(tile.x,tile.y);
 
-    fragment_color = vec4(vec3(color),1.0);
+    fragment_color = vec4(vec3(color*0.5f, color*0.3f, color*0.8f), 1.0);
 }

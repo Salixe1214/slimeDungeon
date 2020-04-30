@@ -3,8 +3,8 @@
 BezierSurface::BezierSurface()
 {
 	// Pour la texture
-	ofLoadImage(tex, "texture/normalMap/planks_diff.jpg");
-	ofLoadImage(normalMap, "texture/normalMap/planks_nm.jpg");
+	ofLoadImage(tex, "texture/normalMap/green_rough_planks_diff.jpg");
+	ofLoadImage(normalMap, "texture/normalMap/green_rough_planks_nm.jpg");
 	texShader.load("noise_330_vs.glsl", "noise_330_fs.glsl");
 	nmShade.load("nm_330_vs.glsl", "nm_330_fs.glsl");
 
