@@ -92,8 +92,8 @@ void BezierSurface::evalBezierSurface()
 	int k = 0;
 	for (int a = 0; a < resolution; ++a) {
 		for (int b = 0; b < resolution; ++b) {
-			u = a / (float)resolution;
-			v = b / (float)resolution;
+			u = a / (float)(resolution-1);
+			v = b / (float)(resolution-1);
 
 			allPoints[k] = ofPoint(0, 0, 0);
 			for (int i = 0; i <= 3; ++i) {
