@@ -74,8 +74,14 @@ public:
 	ofxGuiGroup importToolsGroup;
 	ofxButton importImageBtn;
 	ofxToggle BlurImage;
+	ofxToggle mapTonalImage;
+	ofxToggle gaussImage;
+	ofxToggle bilatImage;
 	bool isBlur;
 	void BlurBtnPressed(bool& isBlurBtnPressed);
+	void mapBtnPressed(bool& isMapBtnPressed);
+	void gaussBtnPressed(bool& isGaussBtnPressed);
+	void bilatBtnPressed(bool& isBilatBtnPressed);
 
 	vector <std::pair<ofImage, ofPoint>> draggedImages;
 	ofPoint dragPt;

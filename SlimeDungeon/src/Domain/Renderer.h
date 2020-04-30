@@ -209,6 +209,8 @@ public:
 	// images
 	bool blOn;
 	bool tnOn;
+	bool gaOn;
+	bool biOn;
 
 
 private:
