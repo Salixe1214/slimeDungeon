@@ -72,7 +72,6 @@ void BezierSurface::draw()
 	nmShade.setUniformTexture("brick", tex, 0);
 	nmShade.setUniformTexture("nmTex", normalMap, 1);
 	nmShade.setUniform3f("color_ambient", ambient/255.0f);
-	cout << ambient.x << endl << ambient.y << endl << ambient.z << endl << endl;
 	nmShade.setUniform3f("color_diffuse", diffuse / 255.0f);
 	nmShade.setUniform3f("color_specular", specular / 255.0f);
 	nmShade.setUniform1f("brightness", 15.0f);
