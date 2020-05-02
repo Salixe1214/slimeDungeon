@@ -9,6 +9,10 @@ Renderer::Renderer()
 
 void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 {
+
+	
+
+
 	shade = true;
 	offsetAngle = 0;
 	ofSetFrameRate(60);
@@ -77,6 +81,17 @@ void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 	//Catmull-rom
 	catmullRomShow = true;
 	activeCatRomSplineId = "";
+
+	//PBR sphere
+	texture_diffuse.load("texture/brown_mud_leaves_01_diff_1k.jpg");
+	texture_metallic.load("texture/brown_mud_leaves_01_spec_1k.jpg");
+	texture_roughness.load("texture/brown_mud_leaves_01_rough_1k.jpg");
+	texture_occlusion.load("texture/brown_mud_leaves_01_AO_1k.jpg");
+
+	texture_diffuse.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_metallic.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_occlusion.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -141,6 +156,22 @@ void Renderer::update(ofParameter<ofColor> p_fillColor,
 	bs.position = lightManager->getPosition();
 
 	bs.cmvm = camFront.getModelViewMatrix();
+
+	shader = &shader_pbr;
+	shader->begin();
+
+	shader->setUniform1f("material_brightness", material_brightness);
+	shader->setUniform1f("material_metallic", material_metallic);
+	shader->setUniform1f("material_roughness", material_roughness);
+	shader->setUniform1f("material_occlusion", material_occlusion);
+
+	shader->setUniformTexture("texture_diffuse", texture_diffuse.getTexture(), 1);
+	shader->setUniformTexture("texture_metallic", texture_metallic.getTexture(), 2);
+	shader->setUniformTexture("texture_roughness", texture_roughness.getTexture(), 3);
+	shader->setUniformTexture("texture_occlusion", texture_occlusion.getTexture(), 4);
+	shader->end();
+
+	
 }
 
 void Renderer::initMaterialList()
@@ -192,6 +223,17 @@ void Renderer::exit() {
 
 void Renderer::draw()
 {
+	if (drawSphereOn) {
+		ofEnableDepthTest();
+		shader->begin();
+		
+		ofDrawSphere(0.0f, 0.0f, 0.0f, 90.0f);
+
+		shader->end();
+
+
+	}
+
 
 	ofEnableDepthTest();
 	camFront.begin();

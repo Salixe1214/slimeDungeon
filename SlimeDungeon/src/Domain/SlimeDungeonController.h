@@ -87,6 +87,13 @@ public:
 	// -- texture
 	void setBallTextureFile(string p_ballTextureFile);
 
+	//PBR sphere
+	void setMetallic(float p_metallic);
+	void setRoughness(float p_roughness);
+	void setOcclusion(float p_occlusion);
+	void setBrightness(float p_brightness);
+	void drawSphereOn(bool p_sphereOn);
+
 
 	//Record Mode
 	void publishExitRecordModeEvent();

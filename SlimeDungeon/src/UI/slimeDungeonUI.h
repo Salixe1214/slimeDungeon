@@ -130,6 +130,15 @@ public:
 	ofxButton deleteShapeBtn;
 	void deleteShapeBtnPressed();
 
+	//PBR sphere
+	ofxGuiGroup group_material_factor;
+	ofParameter<float> slider_metallic;
+	ofParameter<float> slider_roughness;
+	ofParameter<float> slider_occlusion;
+	ofParameter<float> slider_brightness;
+	ofxToggle drawSphere;
+	void drawSpherePressed(bool& drawSpherePressed);
+
 
 
 	//Transform selectedShape 
