@@ -92,6 +92,8 @@ void Renderer::setup(ofxPanel *gui, glm::vec3 p_camInitialPos)
 	texture_metallic.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	texture_roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	texture_occlusion.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+
+	shader_pbr.load("pbr_330_vs.glsl", "pbr_330_fs.glsl");
 }
 
 void Renderer::update(ofParameter<ofColor> p_fillColor, 
@@ -223,16 +225,6 @@ void Renderer::exit() {
 
 void Renderer::draw()
 {
-	if (drawSphereOn) {
-		ofEnableDepthTest();
-		shader->begin();
-		
-		ofDrawSphere(0.0f, 0.0f, 0.0f, 90.0f);
-
-		shader->end();
-
-
-	}
 
 
 	ofEnableDepthTest();
@@ -243,6 +235,18 @@ void Renderer::draw()
 
 	// Cubemap
 	paysage.draw();
+
+
+	if (drawSphereOn) {
+		ofEnableDepthTest();
+		shader->begin();
+
+		ofDrawSphere(0.0f, 0.0f, 0.0f, 90.0f);
+
+		shader->end();
+
+
+	}
 
 	highlightSelectedShape();
 
